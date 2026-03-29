@@ -53,12 +53,19 @@ public class TutorialIntro : MonoBehaviour
     [SerializeField] private GameObject btnOptionB;
 
     [Header("Phone Dialogue")]
-    [SerializeField] private DialogueData phoneDialogue; // short notification-like lines shown while phone is visible
-    [SerializeField] private DialogueData nextDialogueAfterPhone; // short notification-like lines shown while phone is visible
+    [SerializeField] private DialogueData phoneDialogue;
+    [SerializeField] private DialogueData afterPhoneDialogue;
+
+    public DialogueData AfterPhoneDialogue => afterPhoneDialogue;
+
+    // TutorialFlow
+    [Header("System Screen")]
+    [SerializeField] private CanvasGroup systemScreenGroup;
+    [SerializeField] private float systemScreenFadeDuration = 0.4f;
 
     [Header("Lola/Mom Spotlight")]
     [SerializeField] private CanvasGroup spotlightGroup;
-    [SerializeField] private DialogueData lolaMomDialogue;
+    [SerializeField] private DialogueData lolaMomIntroDialogue;
 
     private Vector3 phoneOriginalPos;
 
@@ -116,6 +123,12 @@ public class TutorialIntro : MonoBehaviour
         {
             phoneGroup.alpha = 0f;
             phoneGroup.gameObject.SetActive(false);
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.alpha = 0f;
+            systemScreenGroup.gameObject.SetActive(false);
         }
 
         SetCanvasGroupVisible(imgSearching, false);
@@ -420,21 +433,27 @@ public class TutorialIntro : MonoBehaviour
         });
     }
 
-    public void OnPhoneChoiceA()
+    public void OnPhoneChoice7030()
     {
         if (currentPhase != Phase.WaitingForPhoneChoice) return;
 
         phoneChoiceMade = true;
-        // TODO: store choice in a GameManager if needed (70/30)
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetBudgetType(BudgetType.SeventyThirty);
+
         StartPhoneDialogue();
     }
 
-    public void OnPhoneChoiceB()
+    public void OnPhoneChoice503020()
     {
         if (currentPhase != Phase.WaitingForPhoneChoice) return;
 
         phoneChoiceMade = true;
-        // TODO: store choice in a GameManager if needed (50/30/20)
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetBudgetType(BudgetType.FiftyThirtyTwenty);
+
         StartPhoneDialogue();
     }
 
@@ -468,52 +487,98 @@ public class TutorialIntro : MonoBehaviour
 
     private void OnPhoneDialogueFinished()
     {
-        if (dialogueController != null && phoneDialogue != null)
+        // PhoneDialogue done → fade in system screen, then play afterPhoneDialogue
+        ShowSystemScreenThenAfterPhone();
+    }
+
+    private void ShowSystemScreenThenAfterPhone()
+    {
+        if (systemScreenGroup != null)
         {
-            // Show the dialogue UI again, but phone stays on screen
+            systemScreenGroup.gameObject.SetActive(true);
+            systemScreenGroup.alpha = 0f;
+            systemScreenGroup
+                .DOFade(1f, systemScreenFadeDuration)
+                .SetEase(Ease.OutCubic)
+                .OnComplete(() =>
+                {
+                    if (dialogueController != null && afterPhoneDialogue != null)
+                    {
+                        dialogueController.SetDialogueActive(true);
+                        dialogueController.inputEnabled = true;
+                        dialogueController.BeginDialogue(afterPhoneDialogue, OnAfterPhoneDialogueFinished);
+                    }
+                });
+        }
+        else
+        {
+            if (dialogueController != null && afterPhoneDialogue != null)
+            {
+                dialogueController.SetDialogueActive(true);
+                dialogueController.inputEnabled = true;
+                dialogueController.BeginDialogue(afterPhoneDialogue, OnAfterPhoneDialogueFinished);
+            }
+        }
+    }
+
+    private void OnAfterPhoneDialogueFinished()
+    {
+        // Turn phone + system screen ON here
+        if (phoneGroup != null)
+        {
+            phoneGroup.gameObject.SetActive(true);
+            phoneGroup.alpha = 1f;          // or DOFade if you want
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(true);
+            systemScreenGroup.alpha = 1f;
+        }
+
+        // Now start Lola intro dialogue
+        StartLolaIntroDialogue();
+    }
+
+    private void StartLolaIntroDialogue()
+    {
+        if (dialogueController != null && lolaMomIntroDialogue != null)
+        {
             dialogueController.SetDialogueActive(true);
             dialogueController.inputEnabled = true;
-            dialogueController.BeginDialogue(nextDialogueAfterPhone, StartLolaMomDialogue);
-        }
-
-        StartLolaMomDialogue();
-    }
-
-    private void StartLolaMomDialogue()
-    {
-        currentPhase = Phase.LolaMomDialogue;
-
-        // Fade in spotlight overlay
-        if (spotlightGroup != null)
-        {
-            spotlightGroup.gameObject.SetActive(true);
-            spotlightGroup.alpha = 0f;
-            spotlightGroup.DOFade(1f, 0.4f).SetEase(Ease.OutCubic);
-        }
-
-        // Start the Lola/Mom dialogue; Space/left click behavior is the same
-        if (dialogueController != null && lolaMomDialogue != null)
-        {
-            dialogueController.SetDialogueActive(true);   // show your dialogue bubbles
-            dialogueController.inputEnabled = true;       // Space/left click works
-
-            dialogueController.BeginDialogue(lolaMomDialogue, OnLolaMomDialogueFinished);
+            dialogueController.BeginDialogue(lolaMomIntroDialogue, OnLolaIntroFinished);
         }
     }
 
-    private void OnLolaMomDialogueFinished()
+    private void OnLolaIntroFinished()
     {
-        // Hide spotlight
-        if (spotlightGroup != null)
+        if (dialogueController != null)
         {
-            spotlightGroup.DOFade(0f, 0.3f).OnComplete(() =>
+            dialogueController.SetLolaMomActive(false); // hide all bubbles/portraits
+            dialogueController.inputEnabled = false;     // disable Space/click for dialogue
+            if (readIndicator != null) readIndicator.SetActive(false);
+            if (spotlightGroup != null)
             {
+                spotlightGroup.alpha = 0f;
                 spotlightGroup.gameObject.SetActive(false);
-            });
+            }
         }
 
+        // Ensure phone + system screen stay visible for gameplay UI
+        if (phoneGroup != null)
+        {
+            phoneGroup.gameObject.SetActive(true);
+            phoneGroup.alpha = 1f;
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(true);
+            systemScreenGroup.alpha = 1f;
+        }
+
+        // At this point, you can switch phase to gameplay / allocation
         currentPhase = Phase.Done;
-        // TODO: start main gameplay, next scene, or next dialogue block here
     }
     private void OnFinalDialogueFinished()
     {

@@ -36,6 +36,21 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private float notifSlideDuration = 0.35f;
     [SerializeField] private float notifSlideOffset = -400f;
 
+    [Header("Lola Mom UI")]
+    [SerializeField] private RectTransform lolaMomRect;      // NEW: character image
+    [SerializeField] private CanvasGroup lolaMomBubbleGroup;
+    [SerializeField] private TextMeshProUGUI lolaMomText;
+    [SerializeField] private float lolaMomPopDuration = 0.3f;
+    [SerializeField] private float lolaMomSlideDuration = 0.4f;   // NEW
+    [SerializeField] private float lolaMomSlideOffset = -300f;    // NEW
+
+    private Tween lolaMomMoveTween;                               // NEW
+    private Vector2 lolaMomOriginalPos;                           // NEW
+
+    [Header("Spotlight")]
+    [SerializeField] private CanvasGroup spotlightBgGroup;
+    [SerializeField] private CanvasGroup[] spotlightHoles; // one per position
+
     [Header("Typewriter")]
     [SerializeField] private float charDelay = 0.03f;
 
@@ -92,6 +107,35 @@ public class DialogueController : MonoBehaviour
             notifRect.anchoredPosition = notifOriginalPos + new Vector2(notifSlideOffset, 0f);
         }
 
+        if (lolaMomRect != null)
+        {
+            lolaMomRect.gameObject.SetActive(false);
+            lolaMomOriginalPos = lolaMomRect.anchoredPosition;
+            lolaMomRect.anchoredPosition = lolaMomOriginalPos + new Vector2(lolaMomSlideOffset, 0f);
+        }
+
+        if (lolaMomBubbleGroup != null)
+        {
+            lolaMomBubbleGroup.alpha = 0f;
+            lolaMomBubbleGroup.gameObject.SetActive(false);
+        }
+
+        if (spotlightBgGroup != null)
+        {
+            spotlightBgGroup.alpha = 0f;
+            spotlightBgGroup.gameObject.SetActive(false);
+        }
+
+        if (spotlightHoles != null)
+        {
+            foreach (var cg in spotlightHoles)
+            {
+                if (cg == null) continue;
+                cg.alpha = 0f;
+                cg.gameObject.SetActive(false);
+            }
+        }
+
         if (nextIndicator != null)
             nextIndicator.SetActive(false);
     }
@@ -111,6 +155,22 @@ public class DialogueController : MonoBehaviour
     {
         if (dialogueRoot != null)
             dialogueRoot.SetActive(value);
+    }
+    //for day 1
+    public void SetLolaMomActive(bool value)
+    {
+        if (lolaMomRect != null)
+        {
+            lolaMomRect.gameObject.SetActive(false);
+            lolaMomOriginalPos = lolaMomRect.anchoredPosition;
+            lolaMomRect.anchoredPosition = lolaMomOriginalPos + new Vector2(lolaMomSlideOffset, 0f);
+        }
+
+        if (lolaMomBubbleGroup != null)
+        {
+            lolaMomBubbleGroup.alpha = 0f;
+            lolaMomBubbleGroup.gameObject.SetActive(false);
+        }
     }
 
     public void BeginDialogue(DialogueData data, System.Action onFinished = null)
@@ -161,30 +221,57 @@ public class DialogueController : MonoBehaviour
             return;
         }
 
+        DialogueLine line = dialogueData.lines[currentIndex];
+
+        if (!IsLineValidForBudget(line))
+        {
+            AdvanceDialogue();
+            return;
+        }
+
         canAdvance = false;
         if (nextIndicator != null) nextIndicator.SetActive(false);
 
-        DialogueLine line = dialogueData.lines[currentIndex];
+        // Optional text replacement for index 3
+        if (line.speaker == DialogueLine.SpeakerType.LolaMom && !line.dependsOnBudget)
+        {
+            // If this is your “Moving on to your expenses…” line with [METHOD] placeholder
+            if (GameManager.Instance != null)
+            {
+                string methodLabel = GameManager.Instance.currentBudgetType == BudgetType.SeventyThirty
+                    ? "70/30"
+                    : GameManager.Instance.currentBudgetType == BudgetType.FiftyThirtyTwenty
+                        ? "50/30/20"
+                        : "your chosen method";
 
-        // Hide groups not in use for this line
+                line.text = line.text.Replace("[METHOD]", methodLabel);
+            }
+        }
+
+        UpdateSpotlightForLine(line);
+
+        // Hide all groups
         if (narratorGroup != null) narratorGroup.gameObject.SetActive(false);
         if (alexBubbleGroup != null) alexBubbleGroup.gameObject.SetActive(false);
         if (alexRect != null) alexRect.gameObject.SetActive(false);
         if (notifGroup != null) notifGroup.gameObject.SetActive(false);
-        // Alex image stays (for continuity), but text changes
+        if (lolaMomBubbleGroup != null) lolaMomBubbleGroup.gameObject.SetActive(false);
+        if (lolaMomRect != null) lolaMomRect.gameObject.SetActive(false);
 
+        // Then show per speaker
         switch (line.speaker)
         {
             case DialogueLine.SpeakerType.Narrator:
                 ShowNarratorLine(line.text);
                 break;
-
             case DialogueLine.SpeakerType.Alex:
                 ShowAlexLine(line.text);
                 break;
-
             case DialogueLine.SpeakerType.Notification:
                 ShowNotificationLine(line.text);
+                break;
+            case DialogueLine.SpeakerType.LolaMom:
+                ShowLolaMomLine(line.text);
                 break;
         }
     }
@@ -252,6 +339,91 @@ public class DialogueController : MonoBehaviour
 
         StartTypewriter(notifText, text);
     }
+    private void ShowLolaMomLine(string text)
+    {
+        // Character slide-in
+        if (lolaMomRect != null)
+        {
+            lolaMomMoveTween?.Kill();
+
+            lolaMomRect.gameObject.SetActive(true);
+            lolaMomRect.anchoredPosition = lolaMomOriginalPos + new Vector2(lolaMomSlideOffset, 0f);
+            lolaMomMoveTween = lolaMomRect.DOAnchorPos(lolaMomOriginalPos, lolaMomSlideDuration)
+                                          .SetEase(Ease.OutCubic);
+        }
+
+        if (lolaMomBubbleGroup == null || lolaMomText == null) return;
+
+        lolaMomBubbleGroup.gameObject.SetActive(true);
+        lolaMomBubbleGroup.alpha = 0f;
+        lolaMomText.text = "";
+
+        lolaMomBubbleGroup.transform.localScale = Vector3.zero;
+        lolaMomBubbleGroup.transform
+            .DOScale(1f, lolaMomPopDuration)
+            .SetEase(Ease.OutBack);
+        lolaMomBubbleGroup
+            .DOFade(1f, lolaMomPopDuration);
+
+        StartTypewriter(lolaMomText, text);
+    }
+
+    private void UpdateSpotlightForLine(DialogueLine line)
+    {
+        // If you only use spotlight for Lola/Mom dialogue, you can also
+        // restrict this by checking which DialogueData is active, but
+        // using the line flags is enough.
+
+        if (!line.useSpotlight || spotlightBgGroup == null || spotlightHoles == null)
+        {
+            // Turn everything off
+            if (spotlightBgGroup != null)
+            {
+                spotlightBgGroup.DOFade(0f, 0.25f).OnComplete(() =>
+                {
+                    spotlightBgGroup.gameObject.SetActive(false);
+                });
+            }
+
+            foreach (var cg in spotlightHoles)
+            {
+                if (cg == null) continue;
+                cg.DOFade(0f, 0.2f).OnComplete(() => cg.gameObject.SetActive(false));
+            }
+
+            return;
+        }
+
+        // Enable background
+        spotlightBgGroup.gameObject.SetActive(true);
+        spotlightBgGroup.DOFade(1f, 0.3f);
+
+        // Disable all holes first
+        foreach (var cg in spotlightHoles)
+        {
+            if (cg == null) continue;
+            cg.gameObject.SetActive(false);
+            cg.alpha = 0f;
+        }
+
+        // Enable the requested hole
+        int idx = Mathf.Clamp(line.spotlightIndex, 0, spotlightHoles.Length - 1);
+        var targetHole = spotlightHoles[idx];
+        if (targetHole != null)
+        {
+            targetHole.gameObject.SetActive(true);
+            targetHole.DOFade(1f, 0.3f);
+        }
+    }
+
+    private bool IsLineValidForBudget(DialogueLine line)
+    {
+        if (!line.dependsOnBudget) return true;
+
+        if (GameManager.Instance == null) return false;
+
+        return GameManager.Instance.currentBudgetType == line.requiredBudget;
+    }
 
     private void StartTypewriter(TextMeshProUGUI targetText, string fullText)
     {
@@ -300,6 +472,9 @@ public class DialogueController : MonoBehaviour
             case DialogueLine.SpeakerType.Notification:
                 target = notifText;
                 break;
+            case DialogueLine.SpeakerType.LolaMom:
+                target = lolaMomText;
+                break;
         }
 
         if (target != null)
@@ -314,7 +489,14 @@ public class DialogueController : MonoBehaviour
 
     private void AdvanceDialogue()
     {
-        currentIndex++;
+        do
+        {
+            currentIndex++;
+            if (dialogueData == null || dialogueData.lines == null) break;
+            if (currentIndex >= dialogueData.lines.Length) break;
+        }
+        while (!IsLineValidForBudget(dialogueData.lines[currentIndex]));
+
         ShowCurrentLine();
     }
 

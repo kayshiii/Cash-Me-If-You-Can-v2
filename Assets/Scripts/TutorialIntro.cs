@@ -56,6 +56,10 @@ public class TutorialIntro : MonoBehaviour
     [SerializeField] private DialogueData phoneDialogue; // short notification-like lines shown while phone is visible
     [SerializeField] private DialogueData nextDialogueAfterPhone; // short notification-like lines shown while phone is visible
 
+    [Header("Lola/Mom Spotlight")]
+    [SerializeField] private CanvasGroup spotlightGroup;
+    [SerializeField] private DialogueData lolaMomDialogue;
+
     private Vector3 phoneOriginalPos;
 
     [Header("Read Indicator")]
@@ -68,7 +72,7 @@ public class TutorialIntro : MonoBehaviour
     private bool canContinueFromLaptop = false;
     private bool phoneChoiceMade = false;
 
-    private enum Phase { IntroAnim, IntroDialogue, LaptopScene, MidDialogue, PhoneScene, WaitingForPhoneChoice, AfterPhoneDialogue, /*AfterPhoneDialogue,*/ Done }
+    private enum Phase { IntroAnim, IntroDialogue, LaptopScene, MidDialogue, PhoneScene, WaitingForPhoneChoice, AfterPhoneDialogue, LolaMomDialogue, Done }
     private Phase currentPhase = Phase.IntroAnim;
 
 
@@ -469,12 +473,47 @@ public class TutorialIntro : MonoBehaviour
             // Show the dialogue UI again, but phone stays on screen
             dialogueController.SetDialogueActive(true);
             dialogueController.inputEnabled = true;
-            dialogueController.BeginDialogue(nextDialogueAfterPhone, OnFinalDialogueFinished);
+            dialogueController.BeginDialogue(nextDialogueAfterPhone, StartLolaMomDialogue);
         }
-        // Then you can start the next main dialogue block or gameplay
-        // Example: Start another DialogueData if you have one:
-        //dialogueController.BeginDialogue(nextDialogueAfterPhone, OnFinalDialogueFinished);
-        
+
+        StartLolaMomDialogue();
+    }
+
+    private void StartLolaMomDialogue()
+    {
+        currentPhase = Phase.LolaMomDialogue;
+
+        // Fade in spotlight overlay
+        if (spotlightGroup != null)
+        {
+            spotlightGroup.gameObject.SetActive(true);
+            spotlightGroup.alpha = 0f;
+            spotlightGroup.DOFade(1f, 0.4f).SetEase(Ease.OutCubic);
+        }
+
+        // Start the Lola/Mom dialogue; Space/left click behavior is the same
+        if (dialogueController != null && lolaMomDialogue != null)
+        {
+            dialogueController.SetDialogueActive(true);   // show your dialogue bubbles
+            dialogueController.inputEnabled = true;       // Space/left click works
+
+            dialogueController.BeginDialogue(lolaMomDialogue, OnLolaMomDialogueFinished);
+        }
+    }
+
+    private void OnLolaMomDialogueFinished()
+    {
+        // Hide spotlight
+        if (spotlightGroup != null)
+        {
+            spotlightGroup.DOFade(0f, 0.3f).OnComplete(() =>
+            {
+                spotlightGroup.gameObject.SetActive(false);
+            });
+        }
+
+        currentPhase = Phase.Done;
+        // TODO: start main gameplay, next scene, or next dialogue block here
     }
     private void OnFinalDialogueFinished()
     {

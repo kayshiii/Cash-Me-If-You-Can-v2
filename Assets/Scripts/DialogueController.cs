@@ -13,6 +13,9 @@ public class DialogueController : MonoBehaviour
     [Header("Dialogue Proper")]
     [SerializeField] private GameObject dialogueRoot;
 
+    [Header("Chat Log")]
+    [SerializeField] private ChatLogManager chatLogManager;
+
     [Header("Narrator UI")]
     [SerializeField] private CanvasGroup narratorGroup;
     [SerializeField] private TextMeshProUGUI narratorText;
@@ -230,6 +233,12 @@ public class DialogueController : MonoBehaviour
         lolaMomBubbleHideTween?.Kill();
 
         DialogueLine line = dialogueData.lines[currentIndex];
+
+        if (chatLogManager != null)
+        {
+            chatLogManager.AddLogEntry(line.speaker.ToString(), line.text);
+            chatLogManager.gameObject.SetActive(false);
+        }
 
         if (!IsLineValidForBudget(line))
         {

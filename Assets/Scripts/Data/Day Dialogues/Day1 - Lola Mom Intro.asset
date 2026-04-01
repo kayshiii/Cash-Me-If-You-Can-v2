@@ -24,7 +24,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - speaker: 3
     text: "I am Lola mom, and I am here to guide you through the Cash Me If You Can
-      app\r !\n"
+      app\r!\n"
     useSpotlight: 1
     spotlightIndex: 0
     dependsOnBudget: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - speaker: 3
     text: This is where you log down your expenses. To start, go ahead and click
-      the 'Log Expenses'
+      the 'Log Expenses'.
     useSpotlight: 1
     spotlightIndex: 1
     dependsOnBudget: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
     lolaStep: 3
     requiresValidAllocation: 0
   - speaker: 3
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 70/30'
     useSpotlight: 1
     spotlightIndex: 4
     dependsOnBudget: 0

@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - speaker: 2
-    text: daily budget of P800 is inputted !
+    text: daily budget of P800 is inputted!
     useSpotlight: 0
     spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

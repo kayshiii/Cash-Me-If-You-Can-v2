@@ -8,6 +8,7 @@ public class DialogueController : MonoBehaviour
 {
     [Header("Dialogue Data")]
     [SerializeField] private DialogueData dialogueData;
+    [SerializeField] private SystemScreenController systemScreenController;
 
     [Header("Dialogue Proper")]
     [SerializeField] private GameObject dialogueRoot;
@@ -37,18 +38,21 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private float notifSlideOffset = -400f;
 
     [Header("Lola Mom UI")]
-    [SerializeField] private RectTransform lolaMomRect;      // NEW: character image
+    [SerializeField] private RectTransform lolaMomRect;
     [SerializeField] private CanvasGroup lolaMomBubbleGroup;
     [SerializeField] private TextMeshProUGUI lolaMomText;
     [SerializeField] private float lolaMomPopDuration = 0.3f;
-    [SerializeField] private float lolaMomSlideDuration = 0.4f;   // NEW
-    [SerializeField] private float lolaMomSlideOffset = -300f;    // NEW
+    [SerializeField] private float lolaMomSlideDuration = 0.4f;
+    [SerializeField] private float lolaMomSlideOffset = -300f;
+    private Coroutine hideBubbleCoroutine;
+    private Tween lolaMomBubbleHideTween;
 
-    private Tween lolaMomMoveTween;                               // NEW
-    private Vector2 lolaMomOriginalPos;                           // NEW
+    private Tween lolaMomMoveTween;
+    private Vector2 lolaMomOriginalPos;
+    private bool waitingForButton = false;
 
     [Header("Spotlight")]
-    [SerializeField] private CanvasGroup spotlightBgGroup;
+    //[SerializeField] private CanvasGroup spotlightBgGroup;
     [SerializeField] private CanvasGroup[] spotlightHoles; // one per position
 
     [Header("Typewriter")]
@@ -118,12 +122,6 @@ public class DialogueController : MonoBehaviour
         {
             lolaMomBubbleGroup.alpha = 0f;
             lolaMomBubbleGroup.gameObject.SetActive(false);
-        }
-
-        if (spotlightBgGroup != null)
-        {
-            spotlightBgGroup.alpha = 0f;
-            spotlightBgGroup.gameObject.SetActive(false);
         }
 
         if (spotlightHoles != null)
@@ -200,6 +198,8 @@ public class DialogueController : MonoBehaviour
         // Space or left click
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
+            if (waitingForButton) return;
+
             if (isTyping)
             {
                 CompleteCurrentTyping();
@@ -220,6 +220,14 @@ public class DialogueController : MonoBehaviour
             onFinishedCallback?.Invoke();
             return;
         }
+
+        if (hideBubbleCoroutine != null)
+        {
+            StopCoroutine(hideBubbleCoroutine);
+            hideBubbleCoroutine = null;
+        }
+
+        lolaMomBubbleHideTween?.Kill();
 
         DialogueLine line = dialogueData.lines[currentIndex];
 
@@ -247,6 +255,15 @@ public class DialogueController : MonoBehaviour
                 line.text = line.text.Replace("[METHOD]", methodLabel);
             }
         }
+        if (line.speaker == DialogueLine.SpeakerType.LolaMom && tutorialIntro != null)
+        {
+            tutorialIntro.OnLolaStepStarted(line);
+        }
+        // If this line requires button to continue, block normal advance
+        waitingForButton = line.waitForButton;
+
+        canAdvance = !waitingForButton; // only allow Space/click when false
+        if (nextIndicator != null) nextIndicator.SetActive(!waitingForButton);
 
         UpdateSpotlightForLine(line);
 
@@ -370,33 +387,16 @@ public class DialogueController : MonoBehaviour
 
     private void UpdateSpotlightForLine(DialogueLine line)
     {
-        // If you only use spotlight for Lola/Mom dialogue, you can also
-        // restrict this by checking which DialogueData is active, but
-        // using the line flags is enough.
-
-        if (!line.useSpotlight || spotlightBgGroup == null || spotlightHoles == null)
+        if (!line.useSpotlight || spotlightHoles == null)
         {
-            // Turn everything off
-            if (spotlightBgGroup != null)
-            {
-                spotlightBgGroup.DOFade(0f, 0.25f).OnComplete(() =>
-                {
-                    spotlightBgGroup.gameObject.SetActive(false);
-                });
-            }
-
+            // Turn all holes off
             foreach (var cg in spotlightHoles)
             {
                 if (cg == null) continue;
                 cg.DOFade(0f, 0.2f).OnComplete(() => cg.gameObject.SetActive(false));
             }
-
             return;
         }
-
-        // Enable background
-        spotlightBgGroup.gameObject.SetActive(true);
-        spotlightBgGroup.DOFade(1f, 0.3f);
 
         // Disable all holes first
         foreach (var cg in spotlightHoles)
@@ -447,8 +447,39 @@ public class DialogueController : MonoBehaviour
         }
 
         isTyping = false;
-        canAdvance = true;
-        if (nextIndicator != null) nextIndicator.SetActive(true);
+
+        if (waitingForButton)
+        {
+            canAdvance = false;
+            if (nextIndicator != null) nextIndicator.SetActive(false);
+
+            if (hideBubbleCoroutine != null)
+                StopCoroutine(hideBubbleCoroutine);
+
+            hideBubbleCoroutine = StartCoroutine(HideCurrentBubbleAfterDelay(1.5f));
+        }
+        else
+        {
+            canAdvance = true;
+            if (nextIndicator != null) nextIndicator.SetActive(true);
+        }
+    }
+
+    private IEnumerator HideCurrentBubbleAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (lolaMomBubbleGroup != null)
+        {
+            lolaMomBubbleHideTween?.Kill();
+            lolaMomBubbleHideTween = lolaMomBubbleGroup.DOFade(0f, 0.25f)
+                .OnComplete(() =>
+                {
+                    lolaMomBubbleGroup.gameObject.SetActive(false);
+                });
+        }
+
+        hideBubbleCoroutine = null;
     }
 
     private void CompleteCurrentTyping()
@@ -483,8 +514,22 @@ public class DialogueController : MonoBehaviour
         }
 
         isTyping = false;
-        canAdvance = true;
-        if (nextIndicator != null) nextIndicator.SetActive(true);
+
+        if (waitingForButton)
+        {
+            canAdvance = false;
+            if (nextIndicator != null) nextIndicator.SetActive(false);
+
+            if (hideBubbleCoroutine != null)
+                StopCoroutine(hideBubbleCoroutine);
+
+            hideBubbleCoroutine = StartCoroutine(HideCurrentBubbleAfterDelay(1.5f));
+        }
+        else
+        {
+            canAdvance = true;
+            if (nextIndicator != null) nextIndicator.SetActive(true);
+        }
     }
 
     private void AdvanceDialogue()
@@ -507,5 +552,26 @@ public class DialogueController : MonoBehaviour
         currentIndex = 0;
         alexHasEntered = false;
         ShowCurrentLine();
+    }
+
+    public void ContinueFromButton()
+    {
+        if (!waitingForButton) return;
+
+        DialogueLine line = dialogueData.lines[currentIndex];
+
+        if (line.lolaStep == DialogueLine.LolaStep.ExplainChoices)
+        {
+            if (systemScreenController == null || !systemScreenController.HasRequiredTutorialSelections())
+            {
+                Debug.Log("Player must select both lunch and commute first.");
+                return;
+            }
+        }
+
+        waitingForButton = false;
+        canAdvance = false;
+
+        AdvanceDialogue();
     }
 }

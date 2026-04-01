@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static DialogueLine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TutorialIntro : MonoBehaviour
 {
@@ -58,14 +61,40 @@ public class TutorialIntro : MonoBehaviour
 
     public DialogueData AfterPhoneDialogue => afterPhoneDialogue;
 
-    // TutorialFlow
-    [Header("System Screen")]
+    [Header("App Screen")]
+    [SerializeField] private CanvasGroup startScreenGroup;
     [SerializeField] private CanvasGroup systemScreenGroup;
+    [SerializeField] private CanvasGroup trackScreenGroup;
     [SerializeField] private float systemScreenFadeDuration = 0.4f;
+    [SerializeField] private float startScreenFadeDuration = 0.4f;
 
     [Header("Lola/Mom Spotlight")]
     [SerializeField] private CanvasGroup spotlightGroup;
     [SerializeField] private DialogueData lolaMomIntroDialogue;
+
+    [Header("Tutorial Controlled Buttons")]
+    [SerializeField] private Button logExpenseButton;
+    [SerializeField] private Button trackTabButton;
+    [SerializeField] private Button needsTabButton;
+    [SerializeField] private Button wantsTabButton;
+    [SerializeField] private Button BackButton;
+    [SerializeField] private Button confirmAllocationButton;
+    [SerializeField] private Button[] lunchChoiceButtons;
+    [SerializeField] private Button[] commuteChoiceButtons;
+    [SerializeField] private Button[] wantChoiceButtons;
+
+    [Header("Ending")]
+    [SerializeField] private DialogueData finalDialogue;
+    [SerializeField] private CanvasGroup endReportLevelGroup;
+    [SerializeField] private float endReportFadeDuration = 0.4f;
+
+    [Header("Script")]
+    [SerializeField] private EODReport endOfDayReportUI;
+
+    [Header("Next Day Button")]
+    [SerializeField] private Button nextDayButton;
+    [SerializeField] private float nextDayButtonDelay = 3f;
+    [SerializeField] private string nextSceneName = "Day 2";
 
     private Vector3 phoneOriginalPos;
 
@@ -78,10 +107,10 @@ public class TutorialIntro : MonoBehaviour
     // fields
     private bool canContinueFromLaptop = false;
     private bool phoneChoiceMade = false;
+    private bool shouldClosePhoneAfterLolaDialogue = false;
 
     private enum Phase { IntroAnim, IntroDialogue, LaptopScene, MidDialogue, PhoneScene, WaitingForPhoneChoice, AfterPhoneDialogue, LolaMomDialogue, Done }
     private Phase currentPhase = Phase.IntroAnim;
-
 
     private void Awake()
     {
@@ -125,10 +154,33 @@ public class TutorialIntro : MonoBehaviour
             phoneGroup.gameObject.SetActive(false);
         }
 
+        if (startScreenGroup != null)
+        {
+            startScreenGroup.alpha = 0f;
+            startScreenGroup.gameObject.SetActive(false);
+        }
+
         if (systemScreenGroup != null)
         {
             systemScreenGroup.alpha = 0f;
             systemScreenGroup.gameObject.SetActive(false);
+        }
+
+        if (trackScreenGroup != null)
+        {
+            trackScreenGroup.alpha = 0f;
+            trackScreenGroup.gameObject.SetActive(false);
+        }
+
+        if (endReportLevelGroup != null)
+        {
+            endReportLevelGroup.alpha = 0f;
+            endReportLevelGroup.gameObject.SetActive(false);
+        }
+
+        if (nextDayButton != null)
+        {
+            nextDayButton.gameObject.SetActive(false);
         }
 
         SetCanvasGroupVisible(imgSearching, false);
@@ -140,6 +192,8 @@ public class TutorialIntro : MonoBehaviour
 
         if (btnOptionA != null) btnOptionA.SetActive(false);
         if (btnOptionB != null) btnOptionB.SetActive(false);
+
+        DisableAllTutorialButtons();
 
         if (readIndicator != null) readIndicator.SetActive(false);
     }
@@ -554,9 +608,11 @@ public class TutorialIntro : MonoBehaviour
     {
         if (dialogueController != null)
         {
-            dialogueController.SetLolaMomActive(false); // hide all bubbles/portraits
-            dialogueController.inputEnabled = false;     // disable Space/click for dialogue
+            dialogueController.SetLolaMomActive(false);
+            dialogueController.inputEnabled = false;
+
             if (readIndicator != null) readIndicator.SetActive(false);
+
             if (spotlightGroup != null)
             {
                 spotlightGroup.alpha = 0f;
@@ -564,7 +620,6 @@ public class TutorialIntro : MonoBehaviour
             }
         }
 
-        // Ensure phone + system screen stay visible for gameplay UI
         if (phoneGroup != null)
         {
             phoneGroup.gameObject.SetActive(true);
@@ -577,14 +632,320 @@ public class TutorialIntro : MonoBehaviour
             systemScreenGroup.alpha = 1f;
         }
 
-        // At this point, you can switch phase to gameplay / allocation
+        if (shouldClosePhoneAfterLolaDialogue)
+        {
+            shouldClosePhoneAfterLolaDialogue = false;
+            ClosePhoneAndEndTutorial();
+            return;
+        }
+
         currentPhase = Phase.Done;
     }
+    private void SetButtonState(Button button, bool enabled)
+    {
+        if (button == null) return;
+        button.interactable = enabled;
+    }
+
+    private void SetButtonState(Button[] buttons, bool enabled)
+    {
+        if (buttons == null) return;
+
+        foreach (Button button in buttons)
+        {
+            if (button == null) continue;
+            button.interactable = enabled;
+        }
+    }
+
+    private void DisableAllTutorialButtons()
+    {
+        SetButtonState(logExpenseButton, false);
+        SetButtonState(trackTabButton, false);
+        SetButtonState(needsTabButton, false);
+        SetButtonState(wantsTabButton, false);
+        SetButtonState(confirmAllocationButton, false);
+
+        SetButtonState(lunchChoiceButtons, false);
+        SetButtonState(commuteChoiceButtons, false);
+        SetButtonState(wantChoiceButtons, false);
+    }
+
+    private void EnableOnly(params Button[] buttons)
+    {
+        DisableAllTutorialButtons();
+
+        if (buttons == null) return;
+
+        foreach (Button btn in buttons)
+        {
+            SetButtonState(btn, true);
+        }
+    }
+    public void OnLolaStepStarted(DialogueLine line)
+    {
+        switch (line.lolaStep)
+        {
+            case LolaStep.ShowStartIntro:
+                ShowStartScreen();
+                break;
+
+            case LolaStep.ExplainLogExpense:
+                ShowStartScreen();
+                EnableOnly(logExpenseButton);
+                break;
+
+            case LolaStep.SystemScreen:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                break;
+
+            /*case LolaStep.ExplainDayCounter:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                break;*/
+
+            /*case LolaStep.ExplainBudgetTab:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                break;*/
+
+            case LolaStep.ExplainChoices:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                SetButtonState(lunchChoiceButtons, true);
+                SetButtonState(commuteChoiceButtons, true);
+                break;
+
+            case LolaStep.WantsSelection:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                SetButtonState(wantsTabButton, true);
+                break;
+
+            case LolaStep.WantsChoices:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                SetButtonState(wantChoiceButtons, true);
+                break;
+
+            case LolaStep.Confirm:
+                ShowSystemScreen();
+                DisableAllTutorialButtons();
+                SetButtonState(confirmAllocationButton, true);
+                break;
+
+            case LolaStep.BackToStart:
+                ShowStartScreen();
+                EnableOnly(trackTabButton);
+                //EnableOnly(BackButton);
+                break;
+
+            case LolaStep.ExplainTrack:
+                ShowTrackScreen();
+                EnableOnly(trackTabButton);
+                EnableOnly(BackButton);
+                break;
+
+            case LolaStep.ExitApp:
+                DisableAllTutorialButtons();
+                shouldClosePhoneAfterLolaDialogue = true;
+                break;
+        }
+    }
+
+    private void ShowStartScreen()
+    {
+        if (phoneGroup != null)
+        {
+            phoneGroup.gameObject.SetActive(true);
+            phoneGroup.alpha = 1f;
+        }
+
+        if (startScreenGroup != null)
+        {
+            startScreenGroup.gameObject.SetActive(true);
+            startScreenGroup.alpha = 1f;
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(false);
+            systemScreenGroup.alpha = 0f;
+        }
+
+        if (trackScreenGroup != null)
+        {
+            trackScreenGroup.gameObject.SetActive(false);
+            trackScreenGroup.alpha = 0f;
+        }
+    }
+
+    private void ShowSystemScreen()
+    {
+        if (phoneGroup != null)
+        {
+            phoneGroup.gameObject.SetActive(true);
+            phoneGroup.alpha = 1f;
+        }
+
+        if (startScreenGroup != null)
+        {
+            startScreenGroup.gameObject.SetActive(false);
+            startScreenGroup.alpha = 0f;
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(true);
+            systemScreenGroup.alpha = 1f;
+        }
+
+        if (trackScreenGroup != null)
+        {
+            trackScreenGroup.gameObject.SetActive(false);
+            trackScreenGroup.alpha = 0f;
+        }
+    }
+
+    private void ShowTrackScreen()
+    {
+        if (phoneGroup != null)
+        {
+            phoneGroup.gameObject.SetActive(true);
+            phoneGroup.alpha = 1f;
+        }
+
+        if (startScreenGroup != null)
+        {
+            startScreenGroup.gameObject.SetActive(false);
+            startScreenGroup.alpha = 0f;
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(false);
+            systemScreenGroup.alpha = 0f;
+        }
+
+        if (trackScreenGroup != null)
+        {
+            trackScreenGroup.gameObject.SetActive(true);
+            trackScreenGroup.alpha = 1f;
+        }
+    }
+
+    private void ClosePhoneAndEndTutorial()
+    {
+        if (phoneGroup != null)
+        {
+            phoneGroup.DOFade(0f, 0.3f).OnComplete(() =>
+            {
+                phoneGroup.gameObject.SetActive(false);
+                StartFinalDialogue();
+            });
+        }
+        else
+        {
+            StartFinalDialogue();
+        }
+
+        if (startScreenGroup != null)
+        {
+            startScreenGroup.gameObject.SetActive(false);
+            startScreenGroup.alpha = 0f;
+        }
+
+        if (systemScreenGroup != null)
+        {
+            systemScreenGroup.gameObject.SetActive(false);
+            systemScreenGroup.alpha = 0f;
+        }
+
+        if (trackScreenGroup != null)
+        {
+            trackScreenGroup.gameObject.SetActive(false);
+            trackScreenGroup.alpha = 0f;
+        }
+
+        if (dialogueController != null)
+        {
+            dialogueController.SetLolaMomActive(false);
+            dialogueController.inputEnabled = true;
+        }
+
+        if (readIndicator != null) readIndicator.SetActive(false);
+
+        if (spotlightGroup != null)
+        {
+            spotlightGroup.alpha = 0f;
+            spotlightGroup.gameObject.SetActive(false);
+        }
+    }
+
+    private void StartFinalDialogue()
+    {
+        if (dialogueController != null && finalDialogue != null)
+        {
+            dialogueController.SetDialogueActive(true);
+            dialogueController.inputEnabled = true;
+            dialogueController.BeginDialogue(finalDialogue, OnFinalDialogueFinished);
+        }
+        else
+        {
+            OnFinalDialogueFinished();
+        }
+    }
+
     private void OnFinalDialogueFinished()
     {
         currentPhase = Phase.Done;
-        // Then you can start the next main dialogue block or gameplay
-        // Example: Start another DialogueData if you have one:
-        //dialogueController.BeginDialogue(nextDialogueAfterPhone, OnFinalDialogueFinished);
+
+        if (dialogueController != null)
+        {
+            dialogueController.SetDialogueActive(false);
+            dialogueController.SetLolaMomActive(false);
+            dialogueController.inputEnabled = false;
+        }
+
+        ShowEndReportLevelScreen();
+    }
+
+    private void ShowEndReportLevelScreen()
+    {
+        if (endReportLevelGroup == null) return;
+
+        endReportLevelGroup.gameObject.SetActive(true);
+        endReportLevelGroup.alpha = 0f;
+        endReportLevelGroup.DOFade(1f, endReportFadeDuration).SetEase(Ease.OutCubic);
+
+        if (endOfDayReportUI != null)
+            endOfDayReportUI.RefreshUI();
+
+        StartCoroutine(ShowNextDayButtonAfterDelay());
+    }
+
+    private IEnumerator ShowNextDayButtonAfterDelay()
+    {
+        if (nextDayButton != null)
+            nextDayButton.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(nextDayButtonDelay);
+
+        if (nextDayButton != null)
+        {
+            nextDayButton.gameObject.SetActive(true);
+            nextDayButton.interactable = true;
+        }
+    }
+
+    public void LoadNextDayScene()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.AdvanceDay();
+        }
+
+        SceneManager.LoadScene(nextSceneName);
     }
 }

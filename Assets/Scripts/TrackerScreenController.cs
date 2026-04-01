@@ -30,33 +30,18 @@ public class TrackerScreenController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        int allowance = GameManager.Instance.dailyAllowance;
-        BudgetType type = GameManager.Instance.currentBudgetType;
+        int allowance = Mathf.Max(1, GameManager.Instance.dailyAllowance);
 
-        int needsBudget = 0;
-        int wantsBudget = 0;
-        int savingsBudget = 0;
+        int needsSpent = Mathf.Max(0, GameManager.Instance.todayNeedsSpent);
+        int wantsSpent = Mathf.Max(0, GameManager.Instance.todayWantsSpent);
 
-        int needsSpent = GameManager.Instance.todayNeedsSpent;
-        int wantsSpent = GameManager.Instance.todayWantsSpent;
-        int savingsSaved = GameManager.Instance.GetTodaySaved();
+        int savingsSaved = allowance - needsSpent - wantsSpent;
+        if (savingsSaved < 0)
+            savingsSaved = 0;
 
-        if (type == BudgetType.SeventyThirty)
-        {
-            needsBudget = Mathf.RoundToInt(allowance * 0.7f);
-            wantsBudget = Mathf.RoundToInt(allowance * 0.3f);
-            savingsBudget = Mathf.RoundToInt(allowance * 0.3f);
-        }
-        else if (type == BudgetType.FiftyThirtyTwenty)
-        {
-            needsBudget = Mathf.RoundToInt(allowance * 0.5f);
-            wantsBudget = Mathf.RoundToInt(allowance * 0.3f);
-            savingsBudget = Mathf.RoundToInt(allowance * 0.2f);
-        }
-
-        float needsRatio = needsBudget > 0 ? Mathf.Clamp01((float)needsSpent / needsBudget) : 0f;
-        float wantsRatio = wantsBudget > 0 ? Mathf.Clamp01((float)wantsSpent / wantsBudget) : 0f;
-        float savingsRatio = savingsBudget > 0 ? Mathf.Clamp01((float)savingsSaved / savingsBudget) : 0f;
+        float needsRatio = Mathf.Clamp01((float)needsSpent / allowance);
+        float wantsRatio = Mathf.Clamp01((float)wantsSpent / allowance);
+        float savingsRatio = Mathf.Clamp01((float)savingsSaved / allowance);
 
         float needsPercent = needsRatio * 100f;
         float wantsPercent = wantsRatio * 100f;
@@ -70,8 +55,8 @@ public class TrackerScreenController : MonoBehaviour
         if (wantsPercentText != null) wantsPercentText.text = wantsPercent.ToString("F1") + "%";
         if (savingsPercentText != null) savingsPercentText.text = savingsPercent.ToString("F1") + "%";
 
-        if (needsAmountText != null) needsAmountText.text = "₱" + needsSpent + " / ₱" + needsBudget;
-        if (wantsAmountText != null) wantsAmountText.text = "₱" + wantsSpent + " / ₱" + wantsBudget;
-        if (savingsAmountText != null) savingsAmountText.text = "₱" + savingsSaved + " / ₱" + savingsBudget;
+        if (needsAmountText != null) needsAmountText.text = "₱" + needsSpent;
+        if (wantsAmountText != null) wantsAmountText.text = "₱" + wantsSpent;
+        if (savingsAmountText != null) savingsAmountText.text = "₱" + savingsSaved;
     }
 }

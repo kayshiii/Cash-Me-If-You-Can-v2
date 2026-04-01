@@ -42,6 +42,20 @@ public class SystemScreenController : MonoBehaviour
     [Header("Choices")]
     [SerializeField] private AllocationChoiceButton[] choiceButtons;
 
+    [Header("Exit Popup")]
+    [SerializeField] private CanvasGroup exitConfirmPopup;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private Button exitYesButton;
+    [SerializeField] private Button exitNoButton;
+
+    [Header("Warning Popup")]
+    [SerializeField] private CanvasGroup allocateWarningPopup;
+    [SerializeField] private GameObject allocateWarningPopupGO;
+    //[SerializeField] private Button warningOkButton;
+
+    [Header("Day 2 Intro")]
+    [SerializeField] private Day2Intro day2Intro;
+
     private bool isConfirmed = false;
 
     private void Start()
@@ -50,6 +64,21 @@ public class SystemScreenController : MonoBehaviour
         {
             if (btn != null) btn.Setup(this);
         }
+
+        SetPopupState(exitConfirmPopup, false);
+        SetPopupState(allocateWarningPopup, false);
+
+        if (exitButton != null)
+            exitButton.onClick.AddListener(OnExitPressed);
+
+        if (exitYesButton != null)
+            exitYesButton.onClick.AddListener(OnExitYesPressed);
+
+        if (exitNoButton != null)
+            exitNoButton.onClick.AddListener(OnExitNoPressed);
+
+        /*if (warningOkButton != null)
+            warningOkButton.onClick.AddListener(CloseWarningPopup);*/
 
         OpenNeedsTab();
         RefreshAllChoices();
@@ -395,5 +424,57 @@ public class SystemScreenController : MonoBehaviour
         bool hasLunch = lunchSlot != null && lunchSlot.HasItem;
         bool hasCommute = commuteSlot != null && commuteSlot.HasItem;
         return hasLunch && hasCommute;
+    }
+
+    private void SetPopupState(CanvasGroup popup, bool visible)
+    {
+        if (popup == null) return;
+
+        popup.alpha = visible ? 1f : 0f;
+        popup.interactable = visible;
+        popup.blocksRaycasts = visible;
+        popup.gameObject.SetActive(visible);
+    }
+
+    public void OnExitPressed()
+    {
+        SetPopupState(exitConfirmPopup, true);
+        SetPopupState(allocateWarningPopup, false);
+    }
+
+    public void OnExitYesPressed()
+    {
+        bool isConfirmed = GameManager.Instance != null && GameManager.Instance.IsTodayConfirmed();
+
+        if (!isConfirmed)
+        {
+            //SetPopupState(exitConfirmPopup, false);
+            allocateWarningPopup.alpha = 1f;
+            allocateWarningPopupGO.SetActive(true);
+            return;
+        }
+
+        SetPopupState(exitConfirmPopup, false);
+        ProceedExitFlow();
+    }
+
+    public void OnExitNoPressed()
+    {
+        SetPopupState(exitConfirmPopup, false);
+    }
+
+    public void CloseWarningPopup()
+    {
+        SetPopupState(allocateWarningPopup, false);
+    }
+
+    private void ProceedExitFlow()
+    {
+
+        if (day2Intro != null)
+        {
+            day2Intro.CloseFromSystemScreen();
+            return;
+        }
     }
 }

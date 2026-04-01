@@ -9,9 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/ONGOING.unity
+    guid: c2fd8bf3052474a42a156860ae663d0d
+  - enabled: 1
     path: Assets/Scenes/Day 1.unity
     guid: 2c064ae7db5300842b2d11ce13f76218
   - enabled: 1
-    path: Assets/Scenes/ONGOING.unity
-    guid: c2fd8bf3052474a42a156860ae663d0d
+    path: Assets/Scenes/Day 2.unity
+    guid: 58bd8a21d6692cf4b8e02533a95b6da7
   m_configObjects: {}

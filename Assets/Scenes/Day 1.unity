@@ -10437,7 +10437,7 @@ MonoBehaviour:
   endOfDayReportUI: {fileID: 253029932}
   nextDayButton: {fileID: 394647199}
   nextDayButtonDelay: 3
-  nextSceneName: ONGOING
+  nextSceneName: Day 2
   readIndicator: {fileID: 964755261}
 --- !u!1 &958761721
 GameObject:

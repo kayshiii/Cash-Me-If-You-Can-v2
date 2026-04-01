@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
+  m_Name: Day1 - Intro
+  m_EditorClassIdentifier: 
+  lines:
+  - speaker: 0
+    text: "There\u2019s 15 days left until Valentine\u2019s Day but Alex suddenly
+      decides that she wants to make this year\u2019s FEBIBIG extra special by giving
+      her boyfriend the \u201Cperfect\u201D gift."
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - speaker: 1
+    text: "Hmmm\u2026 I really want to get him the perfect gift this year. I wonder
+      if I can do it with my P800 allowance? "
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - speaker: 2
+    text: Allowance Received!
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - speaker: 1
+    text: If I really want to make this work then I have to be smart with how I spend
+      my money. I should probably look up some ways to better manage it then. Maybe
+      a budget system?
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

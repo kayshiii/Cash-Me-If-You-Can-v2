@@ -692,7 +692,7 @@ public class TutorialIntro : MonoBehaviour
 
             case LolaStep.ExplainLogExpense:
                 ShowStartScreen();
-                EnableOnly(logExpenseButton);
+                DisableAllTutorialButtons();
                 break;
 
             case LolaStep.SystemScreen:
@@ -700,21 +700,11 @@ public class TutorialIntro : MonoBehaviour
                 DisableAllTutorialButtons();
                 break;
 
-            /*case LolaStep.ExplainDayCounter:
-                ShowSystemScreen();
-                DisableAllTutorialButtons();
-                break;*/
-
-            /*case LolaStep.ExplainBudgetTab:
-                ShowSystemScreen();
-                DisableAllTutorialButtons();
-                break;*/
-
             case LolaStep.ExplainChoices:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                SetButtonState(lunchChoiceButtons, true);
-                SetButtonState(commuteChoiceButtons, true);
+                /*SetButtonState(lunchChoiceButtons, true);
+                SetButtonState(commuteChoiceButtons, true);*/
                 break;
 
             case LolaStep.WantsSelection:
@@ -726,7 +716,7 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.WantsChoices:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                SetButtonState(wantChoiceButtons, true);
+                //SetButtonState(wantChoiceButtons, true);
                 break;
 
             case LolaStep.Confirm:
@@ -737,19 +727,61 @@ public class TutorialIntro : MonoBehaviour
 
             case LolaStep.BackToStart:
                 ShowStartScreen();
-                EnableOnly(trackTabButton);
-                //EnableOnly(BackButton);
+                DisableAllTutorialButtons();
                 break;
 
             case LolaStep.ExplainTrack:
                 ShowTrackScreen();
-                EnableOnly(trackTabButton);
+                DisableAllTutorialButtons();
                 EnableOnly(BackButton);
                 break;
 
             case LolaStep.ExitApp:
                 DisableAllTutorialButtons();
                 shouldClosePhoneAfterLolaDialogue = true;
+                break;
+        }
+    }
+
+    public void EnableButtonForLolaStep(DialogueLine.LolaStep step)
+    {
+        switch (step)
+        {
+            case DialogueLine.LolaStep.SystemScreen:
+                DisableAllTutorialButtons();
+                break;
+
+            case DialogueLine.LolaStep.ExplainLogExpense:
+                EnableOnly(logExpenseButton);
+                break;
+
+            case DialogueLine.LolaStep.ExplainChoices:
+                DisableAllTutorialButtons();
+                SetButtonState(lunchChoiceButtons, true);
+                SetButtonState(commuteChoiceButtons, true);
+                break;
+
+            case DialogueLine.LolaStep.WantsSelection:
+                EnableOnly(wantsTabButton);
+                break;
+
+            case DialogueLine.LolaStep.WantsChoices:
+                DisableAllTutorialButtons();
+                SetButtonState(wantChoiceButtons, true);
+                break;
+
+            case DialogueLine.LolaStep.Confirm:
+                EnableOnly(confirmAllocationButton);
+                break;
+
+            case DialogueLine.LolaStep.BackToStart:
+                EnableOnly(trackTabButton);
+                break;
+
+            case DialogueLine.LolaStep.ExplainTrack:
+                DisableAllTutorialButtons();
+                SetButtonState(trackTabButton, true);
+                SetButtonState(BackButton, true);
                 break;
         }
     }

@@ -62,7 +62,7 @@ MonoBehaviour:
     lolaStep: 3
     requiresValidAllocation: 0
   - speaker: 3
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 50/30/20'
     useSpotlight: 1
     spotlightIndex: 4
     dependsOnBudget: 0
@@ -176,6 +176,15 @@ MonoBehaviour:
     text: "Watch out for Alex\u2019s Happiness Meter so stress doesn't take over
       Alex\u2019s decision making, make sure it doesn't drop below 30%!"
     useSpotlight: 1
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 10
+    requiresValidAllocation: 0
+  - speaker: 3
+    text: Go ahead and click the back button for now.
+    useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0

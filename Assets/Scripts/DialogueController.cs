@@ -485,6 +485,11 @@ public class DialogueController : MonoBehaviour
                 .OnComplete(() =>
                 {
                     lolaMomBubbleGroup.gameObject.SetActive(false);
+
+                    if (waitingForButton)
+                    {
+                        EnableTutorialButtonForCurrentLine();
+                    }
                 });
         }
 
@@ -552,6 +557,14 @@ public class DialogueController : MonoBehaviour
         while (!IsLineValidForBudget(dialogueData.lines[currentIndex]));
 
         ShowCurrentLine();
+    }
+    private void EnableTutorialButtonForCurrentLine()
+    {
+        if (tutorialIntro == null || dialogueData == null || dialogueData.lines == null) return;
+        if (currentIndex < 0 || currentIndex >= dialogueData.lines.Length) return;
+
+        DialogueLine line = dialogueData.lines[currentIndex];
+        tutorialIntro.EnableButtonForLolaStep(line.lolaStep);
     }
 
     // Optional: public method so other scripts (like your intro sequence) can start dialogue later

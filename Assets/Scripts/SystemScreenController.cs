@@ -53,6 +53,12 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private GameObject allocateWarningPopupGO;
     //[SerializeField] private Button warningOkButton;
 
+    [Header("Negative Budget Warning")]
+    [SerializeField] private CanvasGroup negativeBudgetPopup;
+    [SerializeField] private Button negativeOkButton;
+
+    private bool isBudgetNegative = false;
+
     [Header("Day 2 Intro")]
     [SerializeField] private Day2Intro day2Intro;
 
@@ -80,12 +86,24 @@ public class SystemScreenController : MonoBehaviour
         /*if (warningOkButton != null)
             warningOkButton.onClick.AddListener(CloseWarningPopup);*/
 
+        SetPopupState(negativeBudgetPopup, false);
+
+        if (negativeOkButton != null)
+        {
+            negativeOkButton.onClick.RemoveAllListeners();
+            negativeOkButton.onClick.AddListener(CloseNegativeWarning);
+        }
+
         OpenNeedsTab();
         RefreshAllChoices();
         RefreshBudgetUI();
         LoadTodayAllocation();
     }
 
+    private void CloseNegativeWarning()
+    {
+        SetPopupState(negativeBudgetPopup, false);
+    }
     public void OpenNeedsTab()
     {
         if (needsSubTab != null) needsSubTab.SetActive(true);
@@ -163,6 +181,13 @@ public class SystemScreenController : MonoBehaviour
         if (isConfirmed) return;
 
         RefreshBudgetUI();
+
+        if (isBudgetNegative)
+        {
+            // Show “negative” warning and do NOT proceed
+            SetPopupState(negativeBudgetPopup, true);
+            return;
+        }
 
         isConfirmed = true;
 
@@ -308,35 +333,50 @@ public class SystemScreenController : MonoBehaviour
 
         todaySavings = 0;
 
-        if (type == BudgetType.FiftyThirtyTwenty)
+        if (type == BudgetType.FiftyThirtyTwenty) // 50/30/20
         {
             int needsMax = Mathf.RoundToInt(allowance * 0.5f);
             int wantsMax = Mathf.RoundToInt(allowance * 0.3f);
 
-            int needsRemaining = Mathf.Max(0, needsMax - needsSpent);
-            int wantsRemaining = Mathf.Max(0, wantsMax - wantsSpent);
+            int needsRemainingRaw = needsMax - needsSpent;
+            int wantsRemainingRaw = wantsMax - wantsSpent;
 
             if (budgetMethodText != null)
                 budgetMethodText.text = "Budget Method: 50/30/20";
 
             if (budgetBudgetText != null)
-                budgetBudgetText.text = "Needs Budget: ₱" + needsRemaining;
+            {
+                string sign = needsRemainingRaw < 0 ? "-" : "";
+                int absValue = Mathf.Abs(needsRemainingRaw);
+                budgetBudgetText.text = $"Needs Budget: {sign}₱{absValue}";
+            }
 
-            todaySavings = needsRemaining + wantsRemaining;
+            // negative if either category is overspent
+            isBudgetNegative = (needsRemainingRaw < 0 || wantsRemainingRaw < 0);
+
+            // savings only from positive leftover
+            todaySavings = Mathf.Max(0, needsRemainingRaw) + Mathf.Max(0, wantsRemainingRaw);
         }
-        else if (type == BudgetType.SeventyThirty)
+        else if (type == BudgetType.SeventyThirty) // 70/30
         {
             int sharedMax = Mathf.RoundToInt(allowance * 0.7f);
             int sharedSpent = needsSpent + wantsSpent;
-            int sharedRemaining = Mathf.Max(0, sharedMax - sharedSpent);
+            int sharedRemainingRaw = sharedMax - sharedSpent;
 
             if (budgetMethodText != null)
                 budgetMethodText.text = "Budget Method: 70/30";
 
             if (budgetBudgetText != null)
-                budgetBudgetText.text = "Needs + Wants Budget: ₱" + sharedRemaining;
+            {
+                string sign = sharedRemainingRaw < 0 ? "-" : "";
+                int absValue = Mathf.Abs(sharedRemainingRaw);
+                budgetBudgetText.text = $"Needs + Wants Budget: {sign}₱{absValue}";
+            }
 
-            todaySavings = sharedRemaining;
+            isBudgetNegative = (sharedRemainingRaw < 0);
+
+            // savings only from positive leftover
+            todaySavings = Mathf.Max(0, sharedRemainingRaw);
         }
         else
         {
@@ -345,6 +385,8 @@ public class SystemScreenController : MonoBehaviour
 
             if (budgetBudgetText != null)
                 budgetBudgetText.text = "Budget: --";
+
+            isBudgetNegative = false;
         }
 
         if (todaySavings < 0)

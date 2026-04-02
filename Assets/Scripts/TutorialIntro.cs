@@ -309,10 +309,10 @@ public class TutorialIntro : MonoBehaviour
             seq.Append(screenGroup.DOFade(1f, screenFadeDuration).SetEase(Ease.OutCubic));
         }
 
-        // After laptop + screen fully visible, wait 2s, then show indicator
+        // After laptop + screen fully visible, wait 9s, then show indicator
         seq.OnComplete(() =>
         {
-            StartCoroutine(EnableLaptopContinueAfterDelay(2f));
+            StartCoroutine(EnableLaptopContinueAfterDelay(9f));
         });
     }
 

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -42,6 +43,12 @@ public class SystemScreenController : MonoBehaviour
     [Header("Choices")]
     [SerializeField] private AllocationChoiceButton[] choiceButtons;
 
+    [Header("Popup Panels")]
+    [SerializeField] private RectTransform exitConfirmPanel;
+    [SerializeField] private RectTransform allocateWarningPanel;
+    [SerializeField] private RectTransform negativeBudgetPanel;
+    [SerializeField] private RectTransform confirmAllocationPanel;
+
     [Header("Exit Popup")]
     [SerializeField] private CanvasGroup exitConfirmPopup;
     [SerializeField] private Button exitButton;
@@ -50,8 +57,11 @@ public class SystemScreenController : MonoBehaviour
 
     [Header("Warning Popup")]
     [SerializeField] private CanvasGroup allocateWarningPopup;
-    [SerializeField] private GameObject allocateWarningPopupGO;
-    //[SerializeField] private Button warningOkButton;
+
+    [Header("Confirm Allocation Popup")]
+    [SerializeField] private CanvasGroup confirmAllocationPopup;
+    [SerializeField] private Button confirmYesButton;
+    [SerializeField] private Button confirmNoButton;
 
     [Header("Negative Budget Warning")]
     [SerializeField] private CanvasGroup negativeBudgetPopup;
@@ -71,8 +81,8 @@ public class SystemScreenController : MonoBehaviour
             if (btn != null) btn.Setup(this);
         }
 
-        SetPopupState(exitConfirmPopup, false);
-        SetPopupState(allocateWarningPopup, false);
+        SetPopupStateInstant(exitConfirmPopup, false);
+        SetPopupStateInstant(allocateWarningPopup, false);
 
         if (exitButton != null)
             exitButton.onClick.AddListener(OnExitPressed);
@@ -83,15 +93,26 @@ public class SystemScreenController : MonoBehaviour
         if (exitNoButton != null)
             exitNoButton.onClick.AddListener(OnExitNoPressed);
 
-        /*if (warningOkButton != null)
-            warningOkButton.onClick.AddListener(CloseWarningPopup);*/
-
-        SetPopupState(negativeBudgetPopup, false);
+        SetPopupStateInstant(negativeBudgetPopup, false);
 
         if (negativeOkButton != null)
         {
             negativeOkButton.onClick.RemoveAllListeners();
             negativeOkButton.onClick.AddListener(CloseNegativeWarning);
+        }
+
+        SetPopupStateInstant(confirmAllocationPopup, false);
+
+        if (confirmYesButton != null)
+        {
+            confirmYesButton.onClick.RemoveAllListeners();
+            confirmYesButton.onClick.AddListener(OnConfirmYesPressed);
+        }
+
+        if (confirmNoButton != null)
+        {
+            confirmNoButton.onClick.RemoveAllListeners();
+            confirmNoButton.onClick.AddListener(OnConfirmNoPressed);
         }
 
         OpenNeedsTab();
@@ -102,7 +123,7 @@ public class SystemScreenController : MonoBehaviour
 
     private void CloseNegativeWarning()
     {
-        SetPopupState(negativeBudgetPopup, false);
+        HidePopup(negativeBudgetPopup, negativeBudgetPanel);
     }
     public void OpenNeedsTab()
     {
@@ -182,12 +203,35 @@ public class SystemScreenController : MonoBehaviour
 
         RefreshBudgetUI();
 
-        if (isBudgetNegative)
+        if (HasEmptyRequiredSlots())
         {
-            // Show “negative” warning and do NOT proceed
-            SetPopupState(negativeBudgetPopup, true);
+            ShowPopup(allocateWarningPopup, allocateWarningPanel);
             return;
         }
+
+        if (isBudgetNegative)
+        {
+            ShowPopup(negativeBudgetPopup, negativeBudgetPanel);
+            return;
+        }
+
+        ShowPopup(confirmAllocationPopup, confirmAllocationPanel);
+    }
+
+    public void OnConfirmYesPressed()
+    {
+        HidePopup(confirmAllocationPopup, confirmAllocationPanel);
+        ConfirmAllocationNow();
+    }
+
+    public void OnConfirmNoPressed()
+    {
+        HidePopup(confirmAllocationPopup, confirmAllocationPanel);
+    }
+
+    private void ConfirmAllocationNow()
+    {
+        if (isConfirmed) return;
 
         isConfirmed = true;
 
@@ -219,8 +263,8 @@ public class SystemScreenController : MonoBehaviour
         }
 
         if (confirmButton != null) confirmButton.interactable = false;
-        if (needsButton != null) needsButton.interactable = false;
-        if (wantsButton != null) wantsButton.interactable = false;
+/*        if (needsButton != null) needsButton.interactable = false;
+        if (wantsButton != null) wantsButton.interactable = false;*/
 
         foreach (var btn in choiceButtons)
         {
@@ -468,20 +512,64 @@ public class SystemScreenController : MonoBehaviour
         return hasLunch && hasCommute;
     }
 
-    private void SetPopupState(CanvasGroup popup, bool visible)
+    private bool HasEmptyRequiredSlots()
+    {
+        bool lunchEmpty = (lunchSlot == null || !lunchSlot.HasItem);
+        bool commuteEmpty = (commuteSlot == null || !commuteSlot.HasItem);
+
+        return lunchEmpty || commuteEmpty;
+    }
+    private void SetPopupStateInstant(CanvasGroup popup, bool visible)
     {
         if (popup == null) return;
 
+        popup.DOKill();
         popup.alpha = visible ? 1f : 0f;
         popup.interactable = visible;
         popup.blocksRaycasts = visible;
         popup.gameObject.SetActive(visible);
     }
 
+    private void ShowPopup(CanvasGroup popup, RectTransform panel)
+    {
+        if (popup == null || panel == null) return;
+
+        popup.DOKill();
+        panel.DOKill();
+
+        popup.gameObject.SetActive(true);
+        popup.alpha = 0f;
+        popup.interactable = true;
+        popup.blocksRaycasts = true;
+
+        panel.localScale = Vector3.one * 0.8f;
+
+        popup.DOFade(1f, 0.2f).SetEase(Ease.OutCubic);
+        panel.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+    }
+
+    private void HidePopup(CanvasGroup popup, RectTransform panel)
+    {
+        if (popup == null || panel == null) return;
+
+        popup.DOKill();
+        panel.DOKill();
+
+        popup.interactable = false;
+        popup.blocksRaycasts = false;
+
+        popup.DOFade(0f, 0.18f).SetEase(Ease.InCubic);
+        panel.DOScale(0.85f, 0.18f).SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                popup.gameObject.SetActive(false);
+            });
+    }
+
     public void OnExitPressed()
     {
-        SetPopupState(exitConfirmPopup, true);
-        SetPopupState(allocateWarningPopup, false);
+        HidePopup(allocateWarningPopup, allocateWarningPanel);
+        ShowPopup(exitConfirmPopup, exitConfirmPanel);
     }
 
     public void OnExitYesPressed()
@@ -490,24 +578,24 @@ public class SystemScreenController : MonoBehaviour
 
         if (!isConfirmed)
         {
-            //SetPopupState(exitConfirmPopup, false);
-            allocateWarningPopup.alpha = 1f;
-            allocateWarningPopupGO.SetActive(true);
+            HidePopup(exitConfirmPopup, exitConfirmPanel);
+            ShowPopup(allocateWarningPopup, allocateWarningPanel);
             return;
         }
 
-        SetPopupState(exitConfirmPopup, false);
+        HidePopup(exitConfirmPopup, exitConfirmPanel);
         ProceedExitFlow();
     }
 
     public void OnExitNoPressed()
     {
-        SetPopupState(exitConfirmPopup, false);
+        HidePopup(exitConfirmPopup, exitConfirmPanel);
     }
+
 
     public void CloseWarningPopup()
     {
-        SetPopupState(allocateWarningPopup, false);
+        HidePopup(allocateWarningPopup, allocateWarningPanel);
     }
 
     private void ProceedExitFlow()

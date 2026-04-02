@@ -2897,6 +2897,7 @@ MonoBehaviour:
   negativeBudgetPopup: {fileID: 615413001}
   negativeOkButton: {fileID: 0}
   day2Intro: {fileID: 0}
+  dialogueController: {fileID: 1422873601}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0

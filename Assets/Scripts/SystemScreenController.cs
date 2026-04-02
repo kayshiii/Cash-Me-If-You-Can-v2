@@ -72,6 +72,8 @@ public class SystemScreenController : MonoBehaviour
     [Header("Day 2 Intro")]
     [SerializeField] private Day2Intro day2Intro;
 
+    [SerializeField] private DialogueController dialogueController;
+
     private bool isConfirmed = false;
 
     private void Start()
@@ -185,6 +187,11 @@ public class SystemScreenController : MonoBehaviour
         RefreshBudgetUI();
         RefreshAllChoices();
         SaveTodayAllocation();
+
+        if (HasRequiredTutorialSelections() && dialogueController != null)
+        {
+            dialogueController.ContinueFromButton();
+        }
     }
 
     public void OnPlacedItemClicked(string itemId)

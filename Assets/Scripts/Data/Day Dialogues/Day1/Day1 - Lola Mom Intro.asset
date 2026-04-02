@@ -145,7 +145,7 @@ MonoBehaviour:
     lolaStep: 6
     requiresValidAllocation: 1
   - speaker: 3
-    text: Great! Now, hit confirm and move on with your day iha!
+    text: Great! Now, hit confirm and move on with your day, iha!
     useSpotlight: 1
     spotlightIndex: 7
     dependsOnBudget: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - speaker: 3
     text: Go ahead and click the back button for now.
-    useSpotlight: 0
+    useSpotlight: 1
     spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0

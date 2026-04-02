@@ -497,6 +497,16 @@ public class SystemScreenController : MonoBehaviour
         }
     }
 
+    public bool HasAnyWantSelected()
+    {
+        foreach (var slot in wantSlots)
+        {
+            if (slot != null && slot.HasItem)
+                return true;
+        }
+        return false;
+    }
+
     private void RefreshAllChoices()
     {
         foreach (var btn in choiceButtons)

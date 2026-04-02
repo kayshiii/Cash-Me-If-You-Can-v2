@@ -585,15 +585,17 @@ public class DialogueController : MonoBehaviour
         if (line.lolaStep == DialogueLine.LolaStep.ExplainChoices)
         {
             if (systemScreenController == null || !systemScreenController.HasRequiredTutorialSelections())
-            {
-                Debug.Log("Player must select both lunch and commute first.");
                 return;
-            }
+        }
+
+        if (line.lolaStep == DialogueLine.LolaStep.WantsChoices)
+        {
+            if (systemScreenController == null || !systemScreenController.HasAnyWantSelected())
+                return;
         }
 
         waitingForButton = false;
         canAdvance = false;
-
         AdvanceDialogue();
     }
 }

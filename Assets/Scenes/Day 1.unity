@@ -1123,6 +1123,10 @@ MonoBehaviour:
   todayWantsSpent: 0
   draftSelectedItemIds: []
   confirmedSelectedItemIds: []
+  day3DecisionMade: 0
+  day3PaidNow: 0
+  day3DebtAmount: 500
+  day3DebtApplied: 0
 --- !u!224 &104155230
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2456,6 +2460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   savedTodayText: {fileID: 1894532130}
+  specialText: {fileID: 0}
 --- !u!4 &253029933
 Transform:
   m_ObjectHideFlags: 0

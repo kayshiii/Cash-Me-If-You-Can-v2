@@ -703,20 +703,17 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.ExplainChoices:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                /*SetButtonState(lunchChoiceButtons, true);
-                SetButtonState(commuteChoiceButtons, true);*/
                 break;
 
             case LolaStep.WantsSelection:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                SetButtonState(wantsTabButton, true);
+                //SetButtonState(wantsTabButton, true);
                 break;
 
             case LolaStep.WantsChoices:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                //SetButtonState(wantChoiceButtons, true);
                 break;
 
             case LolaStep.Confirm:
@@ -733,7 +730,7 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.ExplainTrack:
                 ShowTrackScreen();
                 DisableAllTutorialButtons();
-                EnableOnly(BackButton);
+                //EnableOnly(BackButton);
                 break;
 
             case LolaStep.ExitApp:

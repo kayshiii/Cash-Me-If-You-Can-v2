@@ -62,7 +62,7 @@ MonoBehaviour:
     lolaStep: 3
     requiresValidAllocation: 0
   - speaker: 3
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 50/30/20'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
     useSpotlight: 1
     spotlightIndex: 4
     dependsOnBudget: 0

@@ -263,8 +263,6 @@ public class SystemScreenController : MonoBehaviour
         }
 
         if (confirmButton != null) confirmButton.interactable = false;
-/*        if (needsButton != null) needsButton.interactable = false;
-        if (wantsButton != null) wantsButton.interactable = false;*/
 
         foreach (var btn in choiceButtons)
         {
@@ -381,6 +379,7 @@ public class SystemScreenController : MonoBehaviour
         {
             int needsMax = Mathf.RoundToInt(allowance * 0.5f);
             int wantsMax = Mathf.RoundToInt(allowance * 0.3f);
+            int fixedSavings = allowance - needsMax - wantsMax;
 
             int needsRemainingRaw = needsMax - needsSpent;
             int wantsRemainingRaw = wantsMax - wantsSpent;
@@ -395,15 +394,36 @@ public class SystemScreenController : MonoBehaviour
                 budgetBudgetText.text = $"Needs Budget: {sign}₱{absValue}";
             }
 
-            // negative if either category is overspent
             isBudgetNegative = (needsRemainingRaw < 0 || wantsRemainingRaw < 0);
 
-            // savings only from positive leftover
-            todaySavings = Mathf.Max(0, needsRemainingRaw) + Mathf.Max(0, wantsRemainingRaw);
+            int extraSavings = 0;
+
+            bool hasAnySelection =
+                (lunchSlot != null && lunchSlot.HasItem) ||
+                (commuteSlot != null && commuteSlot.HasItem);
+
+            foreach (var slot in wantSlots)
+            {
+                if (slot != null && slot.HasItem)
+                {
+                    hasAnySelection = true;
+                    break;
+                }
+            }
+
+            if (hasAnySelection)
+            {
+                extraSavings = Mathf.Max(0, needsRemainingRaw) + Mathf.Max(0, wantsRemainingRaw);
+            }
+
+            todaySavings = fixedSavings + extraSavings;
         }
+
         else if (type == BudgetType.SeventyThirty) // 70/30
         {
             int sharedMax = Mathf.RoundToInt(allowance * 0.7f);
+            int fixedSavings = allowance - sharedMax;
+
             int sharedSpent = needsSpent + wantsSpent;
             int sharedRemainingRaw = sharedMax - sharedSpent;
 
@@ -419,8 +439,26 @@ public class SystemScreenController : MonoBehaviour
 
             isBudgetNegative = (sharedRemainingRaw < 0);
 
-            // savings only from positive leftover
-            todaySavings = Mathf.Max(0, sharedRemainingRaw);
+            int extraSavings = 0;
+            bool hasAnySelection =
+                (lunchSlot != null && lunchSlot.HasItem) ||
+                (commuteSlot != null && commuteSlot.HasItem);
+
+            foreach (var slot in wantSlots)
+            {
+                if (slot != null && slot.HasItem)
+                {
+                    hasAnySelection = true;
+                    break;
+                }
+            }
+
+            if (hasAnySelection)
+            {
+                extraSavings = Mathf.Max(0, sharedRemainingRaw);
+            }
+
+            todaySavings = fixedSavings + extraSavings;
         }
         else
         {

@@ -37,6 +37,56 @@ public class GameManager : MonoBehaviour
     public List<string> draftSelectedItemIds = new List<string>();
     public List<string> confirmedSelectedItemIds = new List<string>();
 
+    [Header("Day 3 Choice")]
+    public bool day3DecisionMade = false;
+    public bool day3PaidNow = false;
+    public int day3DebtAmount = 500;
+    public bool day3DebtApplied = false;
+
+    public void SetDay3Decision(bool paidNow)
+    {
+        day3DecisionMade = true;
+        day3PaidNow = paidNow;
+
+        Debug.Log($"[Day3] Decision stored. Paid now = {paidNow}", this);
+    }
+
+    public bool HasDay3Decision()
+    {
+        return day3DecisionMade;
+    }
+
+    public bool DidPayDay3DebtNow()
+    {
+        return day3PaidNow;
+    }
+
+    public void ApplyDay3DebtNow(int amount)
+    {
+        if (day3DebtApplied)
+        {
+            Debug.Log("[Day3] Debt already applied once. Skipping duplicate apply.", this);
+            return;
+        }
+
+        day3DebtAmount = amount;
+        day3DebtApplied = true;
+
+        int beforeSavings = totalSavings;   // replace with your actual accumulated savings variable if named differently
+
+        totalSavings -= amount;
+
+        if (totalSavings < 0)
+            totalSavings = 0;
+
+        Debug.Log(
+            $"[Day3] Debt paid from savings. " +
+            $"Debt = ₱{amount}, " +
+            $"Savings: ₱{beforeSavings} -> ₱{totalSavings}",
+            this
+        );
+    }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

@@ -69,9 +69,9 @@ public class SystemScreenController : MonoBehaviour
 
     private bool isBudgetNegative = false;
 
-    [Header("Day 2 Intro")]
+    [Header("Scripts")]
     [SerializeField] private Day2Intro day2Intro;
-
+    [SerializeField] private Day3Manager day3Manager;
     [SerializeField] private DialogueController dialogueController;
 
     private bool isConfirmed = false;
@@ -647,7 +647,6 @@ public class SystemScreenController : MonoBehaviour
         HidePopup(exitConfirmPopup, exitConfirmPanel);
     }
 
-
     public void CloseWarningPopup()
     {
         HidePopup(allocateWarningPopup, allocateWarningPanel);
@@ -659,6 +658,12 @@ public class SystemScreenController : MonoBehaviour
         if (day2Intro != null)
         {
             day2Intro.CloseFromSystemScreen();
+            return;
+        }
+
+        if (day3Manager != null)
+        {
+            day3Manager.CloseFromSystemScreen();
             return;
         }
     }

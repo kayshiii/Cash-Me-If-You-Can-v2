@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,22 +14,40 @@ public class Day3Manager : MonoBehaviour
     [SerializeField] private float titleDelayAfterBg = 0.2f;
     [SerializeField] private float titleFadeOutDuration = 0.3f;
     [SerializeField] private float bgFadeOutDuration = 0.5f;
-    [SerializeField] private CanvasGroup campusBg;
-    [SerializeField] private float campusFadeInDuration = 0.6f;
-    [SerializeField] private float delayBeforeCampus = 0.1f;
+
+    [Header("Backgrounds")]
+    [SerializeField] private CanvasGroup homeBg;
+    [SerializeField] private float homeFadeInDuration = 0.6f;
+    [SerializeField] private float delayBeforeHome = 0.1f;
+    [SerializeField] private CanvasGroup schoolBg;
+    [SerializeField] private float schoolFadeDuration = 0.5f;
 
     [Header("Dialogue")]
     [SerializeField] private DialogueController dialogueController;
     [SerializeField] private DialogueData introDialogue;
-    [SerializeField] private DialogueData midDialogue;
+    [SerializeField] private DialogueData postBudgetDialogue;
+    [SerializeField] private DialogueData campusIntroDialogue;
+    [SerializeField] private DialogueData debtPromptDialogue;
     [SerializeField] private DialogueData finalDialoguePayNow;
     [SerializeField] private DialogueData finalDialoguePayLater;
+    [SerializeField] private DialogueData endingDialogue;
 
     [Header("Phone UI")]
     [SerializeField] private CanvasGroup phoneGroup;
     [SerializeField] private RectTransform phoneRect;
     [SerializeField] private float phoneEaseDuration = 0.5f;
     [SerializeField] private float phoneEaseOffsetY = -300f;
+
+    [Header("App Screens")]
+    [SerializeField] private CanvasGroup startScreenGroup;
+    [SerializeField] private CanvasGroup systemScreenGroup;
+    [SerializeField] private CanvasGroup trackScreenGroup;
+
+    [Header("Gameplay Buttons")]
+    [SerializeField] private Button logExpenseButton;
+    [SerializeField] private Button trackTabButton;
+    [SerializeField] private Button backButton;
+    [SerializeField] private Button finishDayButton;
 
     [Header("Notification UI")]
     [SerializeField] private CanvasGroup notificationGroup;
@@ -56,20 +75,26 @@ public class Day3Manager : MonoBehaviour
 
     private Vector3 titleOriginalScale;
     private Vector2 phoneOriginalPos;
+    private bool hasOpenedPhoneForGameplay = false;
+    private bool isOpeningPhone = false;
     private bool chosePayNow = false;
     private bool decisionMade = false;
 
     private enum Phase
     {
         IntroAnim,
-        IntroDialogue,
-        PhoneReveal,
-        Notification,
-        MidDialogue,
-        PhoneReturn,
+        HomeIntroDialogue,
+        BudgetGameplay,
+        PostBudgetDialogue,
+        SwitchToCampus,
+        CampusDialogue,
+        NotificationPhone,
+        DebtPromptDialogue,
         DecisionPopup,
-        FinalDialogue,
-        EndOfDay
+        FinalChoiceDialogue,
+        EndingDialogue,
+        EndOfDay,
+        Done
     }
 
     private Phase currentPhase = Phase.IntroAnim;
@@ -85,8 +110,11 @@ public class Day3Manager : MonoBehaviour
             dayTitle.localScale = Vector3.zero;
         }
 
-        if (campusBg != null)
-            campusBg.alpha = 0f;
+        if (homeBg != null)
+            homeBg.alpha = 0f;
+
+        if (schoolBg != null)
+            schoolBg.alpha = 0f;
 
         if (phoneRect != null)
         {
@@ -99,6 +127,10 @@ public class Day3Manager : MonoBehaviour
             phoneGroup.alpha = 0f;
             phoneGroup.gameObject.SetActive(false);
         }
+
+        SetCanvasGroupState(startScreenGroup, false);
+        SetCanvasGroupState(systemScreenGroup, false);
+        SetCanvasGroupState(trackScreenGroup, false);
 
         if (notificationGroup != null)
         {
@@ -113,6 +145,14 @@ public class Day3Manager : MonoBehaviour
             endReportLevelGroup.alpha = 0f;
             endReportLevelGroup.gameObject.SetActive(false);
         }
+
+        if (nextDayButton != null)
+            nextDayButton.gameObject.SetActive(false);
+
+        SetButtonState(logExpenseButton, false);
+        SetButtonState(trackTabButton, false);
+        SetButtonState(backButton, false);
+        SetButtonState(finishDayButton, false);
     }
 
     private void Start()
@@ -127,6 +167,12 @@ public class Day3Manager : MonoBehaviour
         {
             payLaterButton.onClick.RemoveAllListeners();
             payLaterButton.onClick.AddListener(OnPayLaterPressed);
+        }
+
+        if (finishDayButton != null)
+        {
+            finishDayButton.onClick.RemoveAllListeners();
+            finishDayButton.onClick.AddListener(FinishBudgetingPhase);
         }
 
         PlayIntroAnim();
@@ -156,35 +202,164 @@ public class Day3Manager : MonoBehaviour
         if (introBg != null)
             seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
 
-        if (campusBg != null)
+        if (homeBg != null)
         {
-            seq.AppendInterval(delayBeforeCampus);
-            seq.Append(campusBg.DOFade(1f, campusFadeInDuration).SetEase(Ease.OutCubic));
+            seq.AppendInterval(delayBeforeHome);
+            seq.Append(homeBg.DOFade(1f, homeFadeInDuration).SetEase(Ease.OutCubic));
         }
 
-        seq.OnComplete(StartIntroDialogue);
+        seq.OnComplete(StartHomeIntroDialogue);
     }
 
-    private void StartIntroDialogue()
+    private void StartHomeIntroDialogue()
     {
-        currentPhase = Phase.IntroDialogue;
+        currentPhase = Phase.HomeIntroDialogue;
 
         if (dialogueController != null && introDialogue != null)
         {
             dialogueController.SetDialogueActive(true);
             dialogueController.inputEnabled = true;
-            dialogueController.BeginDialogue(introDialogue, OnIntroDialogueFinished);
+            dialogueController.BeginDialogue(introDialogue, OnHomeIntroDialogueFinished);
         }
     }
 
-    private void OnIntroDialogueFinished()
+    private void OnHomeIntroDialogueFinished()
     {
-        ShowPhoneFirstTime();
+        OpenPhoneForGameplay();
     }
 
-    private void ShowPhoneFirstTime()
+    private void OpenPhoneForGameplay()
     {
-        currentPhase = Phase.PhoneReveal;
+        if (hasOpenedPhoneForGameplay || isOpeningPhone) return;
+
+        currentPhase = Phase.BudgetGameplay;
+        isOpeningPhone = true;
+
+        if (dialogueController != null)
+        {
+            dialogueController.SetDialogueActive(false);
+            dialogueController.inputEnabled = false;
+        }
+
+        AnimatePhoneIn(() =>
+        {
+            hasOpenedPhoneForGameplay = true;
+            isOpeningPhone = false;
+            ShowStartScreen();
+
+            SetButtonState(logExpenseButton, true);
+            SetButtonState(trackTabButton, true);
+            SetButtonState(backButton, true);
+            SetButtonState(finishDayButton, true);
+        });
+    }
+
+    public void ShowStartScreen()
+    {
+        SetCanvasGroupState(startScreenGroup, true);
+        SetCanvasGroupState(systemScreenGroup, false);
+        SetCanvasGroupState(trackScreenGroup, false);
+    }
+
+    public void ShowSystemScreen()
+    {
+        SetCanvasGroupState(startScreenGroup, false);
+        SetCanvasGroupState(systemScreenGroup, true);
+        SetCanvasGroupState(trackScreenGroup, false);
+    }
+
+    public void ShowTrackScreen()
+    {
+        SetCanvasGroupState(startScreenGroup, false);
+        SetCanvasGroupState(systemScreenGroup, false);
+        SetCanvasGroupState(trackScreenGroup, true);
+    }
+
+    public void FinishBudgetingPhase()
+    {
+        if (currentPhase != Phase.BudgetGameplay) return;
+
+        SetButtonState(logExpenseButton, false);
+        SetButtonState(trackTabButton, false);
+        SetButtonState(backButton, false);
+        SetButtonState(finishDayButton, false);
+
+        SetCanvasGroupState(startScreenGroup, false);
+        SetCanvasGroupState(systemScreenGroup, false);
+        SetCanvasGroupState(trackScreenGroup, false);
+
+        HidePhone(() =>
+        {
+            StartPostBudgetDialogue();
+        });
+    }
+
+    private void StartPostBudgetDialogue()
+    {
+        currentPhase = Phase.PostBudgetDialogue;
+
+        if (dialogueController != null && postBudgetDialogue != null)
+        {
+            dialogueController.SetDialogueActive(true);
+            dialogueController.inputEnabled = true;
+            dialogueController.BeginDialogue(postBudgetDialogue, OnPostBudgetDialogueFinished);
+        }
+        else
+        {
+            OnPostBudgetDialogueFinished();
+        }
+    }
+
+    private void OnPostBudgetDialogueFinished()
+    {
+        SwitchToCampus();
+    }
+    public void CloseFromSystemScreen()
+    {
+        if (currentPhase != Phase.BudgetGameplay) return;
+
+        Debug.Log("[Day3] CloseFromSystemScreen called. Proceeding to post-budget flow.", this);
+        FinishBudgetingPhase();
+    }
+    private void SwitchToCampus()
+    {
+        currentPhase = Phase.SwitchToCampus;
+
+        Sequence seq = DOTween.Sequence();
+
+        if (homeBg != null)
+            seq.Append(homeBg.DOFade(0f, schoolFadeDuration).SetEase(Ease.InOutCubic));
+
+        if (schoolBg != null)
+            seq.Join(schoolBg.DOFade(1f, schoolFadeDuration).SetEase(Ease.InOutCubic));
+
+        seq.OnComplete(StartCampusDialogue);
+    }
+
+    private void StartCampusDialogue()
+    {
+        currentPhase = Phase.CampusDialogue;
+
+        if (dialogueController != null && campusIntroDialogue != null)
+        {
+            dialogueController.SetDialogueActive(true);
+            dialogueController.inputEnabled = true;
+            dialogueController.BeginDialogue(campusIntroDialogue, OnCampusDialogueFinished);
+        }
+        else
+        {
+            OnCampusDialogueFinished();
+        }
+    }
+
+    private void OnCampusDialogueFinished()
+    {
+        ShowPhoneForNotification();
+    }
+
+    private void ShowPhoneForNotification()
+    {
+        currentPhase = Phase.NotificationPhone;
 
         if (dialogueController != null)
         {
@@ -197,11 +372,9 @@ public class Day3Manager : MonoBehaviour
 
     private void ShowNotification()
     {
-        currentPhase = Phase.Notification;
-
         if (notificationGroup == null)
         {
-            HidePhoneAndStartMidDialogue();
+            HidePhone(StartDebtPromptDialogue);
             return;
         }
 
@@ -212,71 +385,36 @@ public class Day3Manager : MonoBehaviour
         Sequence seq = DOTween.Sequence();
         seq.Append(notificationGroup.DOFade(1f, notificationFadeDuration).SetEase(Ease.OutCubic));
         seq.AppendInterval(notificationHoldDuration);
-        seq.OnComplete(HidePhoneAndStartMidDialogue);
-    }
-
-    private void HidePhoneAndStartMidDialogue()
-    {
-        if (notificationGroup != null)
-        {
-            notificationGroup.DOKill();
-        }
-
-        Sequence seq = DOTween.Sequence();
-
-        if (notificationGroup != null && notificationGroup.gameObject.activeSelf)
-        {
-            seq.Join(notificationGroup.DOFade(0f, notificationFadeDuration).SetEase(Ease.InCubic));
-        }
-
-        if (phoneGroup != null)
-        {
-            phoneGroup.DOKill();
-            seq.Join(phoneGroup.DOFade(0f, phoneEaseDuration).SetEase(Ease.InCubic));
-        }
-
-        if (phoneRect != null)
-        {
-            phoneRect.DOKill();
-            seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY), phoneEaseDuration).SetEase(Ease.InBack));
-        }
-
         seq.OnComplete(() =>
         {
-            if (notificationGroup != null)
-            {
-                notificationGroup.gameObject.SetActive(false);
-            }
-
-            if (phoneGroup != null)
-            {
-                phoneGroup.gameObject.SetActive(false);
-            }
-
-            StartMidDialogue();
+            HidePhoneAndNotification(StartDebtPromptDialogue);
         });
     }
 
-    private void StartMidDialogue()
+    private void StartDebtPromptDialogue()
     {
-        currentPhase = Phase.MidDialogue;
+        currentPhase = Phase.DebtPromptDialogue;
 
-        if (dialogueController != null && midDialogue != null)
+        if (dialogueController != null && debtPromptDialogue != null)
         {
             dialogueController.SetDialogueActive(true);
             dialogueController.inputEnabled = true;
-            dialogueController.BeginDialogue(midDialogue, OnMidDialogueFinished);
+            dialogueController.BeginDialogue(debtPromptDialogue, OnDebtPromptDialogueFinished);
+        }
+        else
+        {
+            OnDebtPromptDialogueFinished();
         }
     }
 
-    private void OnMidDialogueFinished()
+    private void OnDebtPromptDialogueFinished()
     {
         ShowPhoneForDecision();
     }
 
     private void ShowPhoneForDecision()
     {
-        currentPhase = Phase.PhoneReturn;
+        currentPhase = Phase.DecisionPopup;
 
         if (dialogueController != null)
         {
@@ -286,37 +424,9 @@ public class Day3Manager : MonoBehaviour
 
         AnimatePhoneIn(() =>
         {
-            ShowDecisionPopup();
+            ShowPopup(decisionPopup, decisionPanel);
+            decisionMade = false;
         });
-    }
-
-    private void AnimatePhoneIn(TweenCallback onComplete = null)
-    {
-        if (phoneGroup == null || phoneRect == null)
-        {
-            onComplete?.Invoke();
-            return;
-        }
-
-        phoneGroup.DOKill();
-        phoneRect.DOKill();
-
-        phoneGroup.gameObject.SetActive(true);
-        phoneGroup.alpha = 0f;
-        phoneRect.anchoredPosition = phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY);
-
-        Sequence seq = DOTween.Sequence();
-        seq.Append(phoneGroup.DOFade(1f, phoneEaseDuration).SetEase(Ease.OutCubic));
-        seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos, phoneEaseDuration).SetEase(Ease.OutBack));
-        seq.OnComplete(() => onComplete?.Invoke());
-    }
-
-    private void ShowDecisionPopup()
-    {
-        currentPhase = Phase.DecisionPopup;
-        decisionMade = false;
-
-        ShowPopup(decisionPopup, decisionPanel);
     }
 
     public void OnPayNowPressed()
@@ -326,11 +436,12 @@ public class Day3Manager : MonoBehaviour
         chosePayNow = true;
 
         if (GameManager.Instance != null)
-        {
             GameManager.Instance.SetDay3Decision(true);
-        }
 
-        HidePopup(decisionPopup, decisionPanel, HidePhoneThenStartFinalDialogue);
+        HidePopup(decisionPopup, decisionPanel, () =>
+        {
+            HidePhone(StartFinalChoiceDialogue);
+        });
     }
 
     public void OnPayLaterPressed()
@@ -340,65 +451,60 @@ public class Day3Manager : MonoBehaviour
         chosePayNow = false;
 
         if (GameManager.Instance != null)
-        {
             GameManager.Instance.SetDay3Decision(false);
-        }
 
-        HidePopup(decisionPopup, decisionPanel, HidePhoneThenStartFinalDialogue);
-    }
-
-    private void HidePhoneThenStartFinalDialogue()
-    {
-        Sequence seq = DOTween.Sequence();
-
-        if (phoneGroup != null)
+        HidePopup(decisionPopup, decisionPanel, () =>
         {
-            phoneGroup.DOKill();
-            seq.Join(phoneGroup.DOFade(0f, phoneEaseDuration).SetEase(Ease.InCubic));
-        }
-
-        if (phoneRect != null)
-        {
-            phoneRect.DOKill();
-            seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY), phoneEaseDuration).SetEase(Ease.InBack));
-        }
-
-        seq.OnComplete(() =>
-        {
-            if (phoneGroup != null)
-                phoneGroup.gameObject.SetActive(false);
-
-            StartFinalDialogue();
+            HidePhone(StartFinalChoiceDialogue);
         });
     }
 
-    private void StartFinalDialogue()
+    private void StartFinalChoiceDialogue()
     {
-        currentPhase = Phase.FinalDialogue;
-
-        if (dialogueController == null) return;
+        currentPhase = Phase.FinalChoiceDialogue;
 
         DialogueData chosenDialogue = chosePayNow ? finalDialoguePayNow : finalDialoguePayLater;
 
-        if (chosenDialogue != null)
+        if (dialogueController != null && chosenDialogue != null)
         {
             dialogueController.SetDialogueActive(true);
             dialogueController.inputEnabled = true;
-            dialogueController.BeginDialogue(chosenDialogue, OnFinalDialogueFinished);
+            dialogueController.BeginDialogue(chosenDialogue, OnFinalChoiceDialogueFinished);
         }
         else
         {
-            OnFinalDialogueFinished();
+            OnFinalChoiceDialogueFinished();
         }
     }
 
-    private void OnFinalDialogueFinished()
+    private void OnFinalChoiceDialogueFinished()
     {
         if (GameManager.Instance != null && chosePayNow)
         {
             GameManager.Instance.ApplyDay3DebtNow(debtAmount);
         }
 
+        StartEndingDialogue();
+    }
+
+    private void StartEndingDialogue()
+    {
+        currentPhase = Phase.EndingDialogue;
+
+        if (dialogueController != null && endingDialogue != null)
+        {
+            dialogueController.SetDialogueActive(true);
+            dialogueController.inputEnabled = true;
+            dialogueController.BeginDialogue(endingDialogue, OnEndingDialogueFinished);
+        }
+        else
+        {
+            OnEndingDialogueFinished();
+        }
+    }
+
+    private void OnEndingDialogueFinished()
+    {
         if (endOfDayReportUI != null)
         {
             if (chosePayNow)
@@ -438,7 +544,117 @@ public class Day3Manager : MonoBehaviour
         if (endOfDayReportUI != null)
         {
             endOfDayReportUI.gameObject.SetActive(true);
+            endOfDayReportUI.RefreshUI();
         }
+
+        StartCoroutine(ShowNextDayButtonAfterDelay());
+    }
+
+    private IEnumerator ShowNextDayButtonAfterDelay()
+    {
+        if (nextDayButton != null)
+            nextDayButton.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(nextDayButtonDelay);
+
+        if (nextDayButton != null)
+        {
+            nextDayButton.gameObject.SetActive(true);
+            nextDayButton.interactable = true;
+        }
+    }
+
+    private void AnimatePhoneIn(TweenCallback onComplete = null)
+    {
+        if (phoneGroup == null || phoneRect == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        phoneGroup.DOKill();
+        phoneRect.DOKill();
+
+        phoneGroup.gameObject.SetActive(true);
+        phoneGroup.alpha = 0f;
+        phoneRect.anchoredPosition = phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY);
+
+        Sequence seq = DOTween.Sequence();
+        seq.Append(phoneGroup.DOFade(1f, phoneEaseDuration).SetEase(Ease.OutCubic));
+        seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos, phoneEaseDuration).SetEase(Ease.OutBack));
+        seq.OnComplete(() => onComplete?.Invoke());
+    }
+
+    private void HidePhone(TweenCallback onComplete = null)
+    {
+        Sequence seq = DOTween.Sequence();
+
+        if (phoneGroup != null)
+        {
+            phoneGroup.DOKill();
+            seq.Join(phoneGroup.DOFade(0f, phoneEaseDuration).SetEase(Ease.InCubic));
+        }
+
+        if (phoneRect != null)
+        {
+            phoneRect.DOKill();
+            seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY), phoneEaseDuration).SetEase(Ease.InBack));
+        }
+
+        seq.OnComplete(() =>
+        {
+            if (phoneGroup != null)
+                phoneGroup.gameObject.SetActive(false);
+
+            onComplete?.Invoke();
+        });
+    }
+
+    private void HidePhoneAndNotification(TweenCallback onComplete = null)
+    {
+        Sequence seq = DOTween.Sequence();
+
+        if (notificationGroup != null && notificationGroup.gameObject.activeSelf)
+        {
+            notificationGroup.DOKill();
+            seq.Join(notificationGroup.DOFade(0f, notificationFadeDuration).SetEase(Ease.InCubic));
+        }
+
+        if (phoneGroup != null)
+        {
+            phoneGroup.DOKill();
+            seq.Join(phoneGroup.DOFade(0f, phoneEaseDuration).SetEase(Ease.InCubic));
+        }
+
+        if (phoneRect != null)
+        {
+            phoneRect.DOKill();
+            seq.Join(phoneRect.DOAnchorPos(phoneOriginalPos + new Vector2(0f, phoneEaseOffsetY), phoneEaseDuration).SetEase(Ease.InBack));
+        }
+
+        seq.OnComplete(() =>
+        {
+            if (notificationGroup != null)
+                notificationGroup.gameObject.SetActive(false);
+
+            if (phoneGroup != null)
+                phoneGroup.gameObject.SetActive(false);
+
+            onComplete?.Invoke();
+        });
+    }
+
+    private void SetCanvasGroupState(CanvasGroup cg, bool visible)
+    {
+        if (cg == null) return;
+        cg.gameObject.SetActive(visible);
+        cg.alpha = visible ? 1f : 0f;
+    }
+
+    private void SetButtonState(Button button, bool enabled)
+    {
+        if (button == null) return;
+        button.interactable = enabled;
     }
 
     private void SetPopupStateInstant(CanvasGroup popup, bool visible)
@@ -463,7 +679,6 @@ public class Day3Manager : MonoBehaviour
         popup.alpha = 0f;
         popup.interactable = true;
         popup.blocksRaycasts = true;
-
         panel.localScale = Vector3.one * 0.8f;
 
         popup.DOFade(1f, 0.2f).SetEase(Ease.OutCubic);

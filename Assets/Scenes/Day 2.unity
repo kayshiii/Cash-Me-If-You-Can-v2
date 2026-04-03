@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 390288}
   - component: {fileID: 390287}
   - component: {fileID: 390290}
+  - component: {fileID: 390291}
   m_Layer: 5
   m_Name: Skip
   m_TagString: Untagged
@@ -209,9 +210,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -281,6 +282,22 @@ MonoBehaviour:
   button: {fileID: 390287}
   iconImage: {fileID: 2053643635}
   placedMark: {fileID: 916932108}
+--- !u!114 &390291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &2459436
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +332,7 @@ RectTransform:
   - {fileID: 872722246}
   - {fileID: 1678558298}
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -571,7 +588,7 @@ RectTransform:
   - {fileID: 39244895}
   - {fileID: 1745768489}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -864,6 +881,7 @@ GameObject:
   - component: {fileID: 14208826}
   - component: {fileID: 14208825}
   - component: {fileID: 14208828}
+  - component: {fileID: 14208829}
   m_Layer: 5
   m_Name: Joykasit
   m_TagString: Untagged
@@ -938,9 +956,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1010,6 +1028,22 @@ MonoBehaviour:
   button: {fileID: 14208825}
   iconImage: {fileID: 983793006}
   placedMark: {fileID: 1846273732}
+--- !u!114 &14208829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14208823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &23222924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,7 +1422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 40903696}
   m_Layer: 0
-  m_Name: '-- MANAGERs -- '
+  m_Name: --------------- MANAGERs ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1575,6 +1609,7 @@ GameObject:
   - component: {fileID: 109579222}
   - component: {fileID: 109579221}
   - component: {fileID: 109579224}
+  - component: {fileID: 109579225}
   m_Layer: 5
   m_Name: Coffee
   m_TagString: Untagged
@@ -1649,9 +1684,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1721,6 +1756,22 @@ MonoBehaviour:
   button: {fileID: 109579221}
   iconImage: {fileID: 733294623}
   placedMark: {fileID: 1644064415}
+--- !u!114 &109579225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109579219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &126786241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2781,6 +2832,7 @@ GameObject:
   - component: {fileID: 208350262}
   - component: {fileID: 208350261}
   - component: {fileID: 208350264}
+  - component: {fileID: 208350265}
   m_Layer: 5
   m_Name: Siomai Rice
   m_TagString: Untagged
@@ -2855,9 +2907,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2927,6 +2979,22 @@ MonoBehaviour:
   button: {fileID: 208350261}
   iconImage: {fileID: 2076076896}
   placedMark: {fileID: 296656195}
+--- !u!114 &208350265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208350259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &213442177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,6 +3170,7 @@ GameObject:
   - component: {fileID: 215019057}
   - component: {fileID: 215019056}
   - component: {fileID: 215019059}
+  - component: {fileID: 215019060}
   m_Layer: 5
   m_Name: Dalawang Sakay
   m_TagString: Untagged
@@ -3176,9 +3245,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3248,6 +3317,22 @@ MonoBehaviour:
   button: {fileID: 215019056}
   iconImage: {fileID: 143651092}
   placedMark: {fileID: 1891241208}
+--- !u!114 &215019060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215019054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &215496683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3464,7 +3549,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1642298230}
   m_Direction: 2
   m_Value: 1.0000002
-  m_Size: 0.6550308
+  m_Size: 0.65503085
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3969,6 +4054,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 665176455}
   - {fileID: 1179172187}
   - {fileID: 1955401320}
   - {fileID: 10241290}
@@ -4059,6 +4145,7 @@ MonoBehaviour:
   negativeBudgetPopup: {fileID: 1334846265}
   negativeOkButton: {fileID: 1691200902}
   day2Intro: {fileID: 953021973}
+  day3Manager: {fileID: 0}
   dialogueController: {fileID: 1422873601}
 --- !u!225 &282602696
 CanvasGroup:
@@ -4583,7 +4670,7 @@ RectTransform:
   m_Children:
   - {fileID: 2005807450}
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4954,12 +5041,12 @@ RectTransform:
   m_Children:
   - {fileID: 1937013816}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 59.209713, y: -409}
-  m_SizeDelta: {x: 1068.3286, y: 185.8889}
+  m_AnchoredPosition: {x: 45, y: -410}
+  m_SizeDelta: {x: 1070, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &327632439
 MonoBehaviour:
@@ -5407,6 +5494,41 @@ MonoBehaviour:
   hoverDuration: 0.1
   clickScale: 0.9
   clickDuration: 0.08
+--- !u!1 &360057243
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 360057244}
+  m_Layer: 5
+  m_Name: '--------------- PHONE --------------- '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &360057244
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360057243}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1162882549}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &371445327
 GameObject:
   m_ObjectHideFlags: 0
@@ -5506,7 +5628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 375521898}
   m_Layer: 5
-  m_Name: -- mid side --
+  m_Name: --------------- mid side ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5524,7 +5646,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5727,7 +5849,7 @@ RectTransform:
   - {fileID: 1894532129}
   - {fileID: 394647198}
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6081,6 +6203,7 @@ GameObject:
   - component: {fileID: 438085188}
   - component: {fileID: 438085187}
   - component: {fileID: 438085190}
+  - component: {fileID: 438085191}
   m_Layer: 5
   m_Name: 23Chimken
   m_TagString: Untagged
@@ -6155,9 +6278,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6227,6 +6350,22 @@ MonoBehaviour:
   button: {fileID: 438085187}
   iconImage: {fileID: 2034591012}
   placedMark: {fileID: 450670713}
+--- !u!114 &438085191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438085185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &438663296
 GameObject:
   m_ObjectHideFlags: 0
@@ -6333,7 +6472,7 @@ RectTransform:
   m_Children:
   - {fileID: 1109206372}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6772,6 +6911,7 @@ GameObject:
   - component: {fileID: 478637353}
   - component: {fileID: 478637352}
   - component: {fileID: 478637355}
+  - component: {fileID: 478637356}
   m_Layer: 5
   m_Name: Skip Lunch
   m_TagString: Untagged
@@ -6846,9 +6986,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6918,6 +7058,22 @@ MonoBehaviour:
   button: {fileID: 478637352}
   iconImage: {fileID: 411732299}
   placedMark: {fileID: 1113340585}
+--- !u!114 &478637356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478637350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &516843628
 GameObject:
   m_ObjectHideFlags: 0
@@ -7970,7 +8126,7 @@ RectTransform:
   - {fileID: 1641108438}
   - {fileID: 543631147}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8453,7 +8609,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8939,6 +9095,81 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &665176454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 665176455}
+  - component: {fileID: 665176457}
+  - component: {fileID: 665176456}
+  m_Layer: 5
+  m_Name: WHITE BG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &665176455
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665176454}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 282602694}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -25, y: -15}
+  m_SizeDelta: {x: 1945, y: 1280}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &665176456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665176454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2fbdaa50531f8bf49810344ce81d6bad, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &665176457
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665176454}
+  m_CullTransparentMesh: 1
 --- !u!1 &673806426
 GameObject:
   m_ObjectHideFlags: 0
@@ -9406,8 +9637,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.8784008, y: 0.001876831}
-  m_SizeDelta: {x: 1894.7104, y: 1275}
+  m_AnchoredPosition: {x: 2, y: -2}
+  m_SizeDelta: {x: 1895, y: 1285}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &709478401
 MonoBehaviour:
@@ -9489,7 +9720,7 @@ RectTransform:
   - {fileID: 969520555}
   - {fileID: 1501642345}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9832,7 +10063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 737252425}
   m_Layer: 5
-  m_Name: -- Other Assets --
+  m_Name: --------------- Other Assets ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9850,7 +10081,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10328,7 +10559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 799116634}
   m_Layer: 0
-  m_Name: -- UI --
+  m_Name: --------------- UI ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10626,7 +10857,7 @@ GameObject:
   m_Component:
   - component: {fileID: 802648618}
   m_Layer: 5
-  m_Name: -- Dialogues --
+  m_Name: --------------- Dialogues ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10817,7 +11048,7 @@ RectTransform:
   m_Children:
   - {fileID: 283095846}
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -11419,8 +11650,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.6471, y: 183.0658}
-  m_SizeDelta: {x: 950.2386, y: 1195.3953}
+  m_AnchoredPosition: {x: 11.4271965, y: 177.73445}
+  m_SizeDelta: {x: 997.1609, y: 1217.552}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897285385
 MonoBehaviour:
@@ -11626,7 +11857,7 @@ RectTransform:
   m_Children:
   - {fileID: 1167343880}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12002,7 +12233,7 @@ GameObject:
   m_Component:
   - component: {fileID: 958761722}
   m_Layer: 5
-  m_Name: -- bg --
+  m_Name: --------------- bg ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12057,7 +12288,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -12375,6 +12606,7 @@ GameObject:
   - component: {fileID: 995874274}
   - component: {fileID: 995874273}
   - component: {fileID: 995874276}
+  - component: {fileID: 995874277}
   m_Layer: 5
   m_Name: BaksItlog
   m_TagString: Untagged
@@ -12449,9 +12681,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12521,6 +12753,22 @@ MonoBehaviour:
   button: {fileID: 995874273}
   iconImage: {fileID: 704466182}
   placedMark: {fileID: 1283802401}
+--- !u!114 &995874277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995874271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &1022788588
 GameObject:
   m_ObjectHideFlags: 0
@@ -13099,7 +13347,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13216,6 +13464,7 @@ GameObject:
   - component: {fileID: 1067188134}
   - component: {fileID: 1067188133}
   - component: {fileID: 1067188136}
+  - component: {fileID: 1067188137}
   m_Layer: 5
   m_Name: OOBER
   m_TagString: Untagged
@@ -13290,9 +13539,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13362,6 +13611,22 @@ MonoBehaviour:
   button: {fileID: 1067188133}
   iconImage: {fileID: 1227762364}
   placedMark: {fileID: 1238224248}
+--- !u!114 &1067188137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067188131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &1073883138
 GameObject:
   m_ObjectHideFlags: 0
@@ -13813,7 +14078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1141323852}
   m_Layer: 5
-  m_Name: -- TITLE --
+  m_Name: --------------- TITLE ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13851,6 +14116,7 @@ GameObject:
   - component: {fileID: 1153043999}
   - component: {fileID: 1153043998}
   - component: {fileID: 1153044001}
+  - component: {fileID: 1153044002}
   m_Layer: 5
   m_Name: Luto Baon
   m_TagString: Untagged
@@ -13925,9 +14191,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13997,6 +14263,22 @@ MonoBehaviour:
   button: {fileID: 1153043998}
   iconImage: {fileID: 1973036086}
   placedMark: {fileID: 1565672443}
+--- !u!114 &1153044002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153043996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &1162331501
 GameObject:
   m_ObjectHideFlags: 0
@@ -14204,8 +14486,9 @@ RectTransform:
   - {fileID: 2045926557}
   - {fileID: 802648618}
   - {fileID: 652900475}
-  - {fileID: 737252425}
+  - {fileID: 360057244}
   - {fileID: 1162331502}
+  - {fileID: 737252425}
   - {fileID: 835298389}
   - {fileID: 964755262}
   - {fileID: 395910071}
@@ -14308,7 +14591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1179172187}
   m_Layer: 5
-  m_Name: -- top side --
+  m_Name: --------------- top side ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14326,7 +14609,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14932,7 +15215,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15299,7 +15582,7 @@ RectTransform:
   m_Children:
   - {fileID: 202767249}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -15559,6 +15842,7 @@ GameObject:
   - component: {fileID: 1242511013}
   - component: {fileID: 1242511012}
   - component: {fileID: 1242511015}
+  - component: {fileID: 1242511016}
   m_Layer: 5
   m_Name: Milk tea
   m_TagString: Untagged
@@ -15633,9 +15917,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15705,6 +15989,22 @@ MonoBehaviour:
   button: {fileID: 1242511012}
   iconImage: {fileID: 206889859}
   placedMark: {fileID: 1219625868}
+--- !u!114 &1242511016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242511010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &1258049194
 GameObject:
   m_ObjectHideFlags: 0
@@ -16488,7 +16788,7 @@ RectTransform:
   m_Children:
   - {fileID: 1418507360}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16544,7 +16844,7 @@ RectTransform:
   - {fileID: 1960917585}
   - {fileID: 1691200903}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -16816,7 +17116,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17176,7 +17476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1357779837}
   m_Layer: 5
-  m_Name: -- bot side --
+  m_Name: --------------- bot side ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17194,7 +17494,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17629,8 +17929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31, y: 80}
-  m_SizeDelta: {x: 650.4185, y: 1518.0806}
+  m_AnchoredPosition: {x: 35, y: 80}
+  m_SizeDelta: {x: 650, y: 1520}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405354139
 MonoBehaviour:
@@ -18560,7 +18860,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19289,7 +19589,7 @@ RectTransform:
   m_Children:
   - {fileID: 1464177284}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21739,8 +22039,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000012516975, y: -0}
-  m_SizeDelta: {x: 1894.7104, y: 1275}
+  m_AnchoredPosition: {x: -15, y: -30}
+  m_SizeDelta: {x: 1920, y: 1290}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1701131768
 CanvasGroup:
@@ -24186,7 +24486,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24873,7 +25173,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282602694}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25460,12 +25760,12 @@ RectTransform:
   m_Children:
   - {fileID: 1612660979}
   m_Father: {fileID: 282602694}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -139, y: -415}
-  m_SizeDelta: {x: 1068.3286, y: 185.8889}
+  m_AnchoredPosition: {x: -160, y: -415}
+  m_SizeDelta: {x: 1070, y: 185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2004724093
 MonoBehaviour:
@@ -25812,7 +26112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2012120941}
   m_Layer: 0
-  m_Name: -- audio --
+  m_Name: --------------- audio ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25865,7 +26165,7 @@ RectTransform:
   - {fileID: 335630930}
   - {fileID: 213442178}
   m_Father: {fileID: 1162882549}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -26191,6 +26491,7 @@ GameObject:
   - component: {fileID: 2017829195}
   - component: {fileID: 2017829194}
   - component: {fileID: 2017829197}
+  - component: {fileID: 2017829198}
   m_Layer: 5
   m_Name: 'Pasabay '
   m_TagString: Untagged
@@ -26265,9 +26566,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26337,6 +26638,22 @@ MonoBehaviour:
   button: {fileID: 2017829194}
   iconImage: {fileID: 438663298}
   placedMark: {fileID: 1712284281}
+--- !u!114 &2017829198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017829192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &2021928749
 GameObject:
   m_ObjectHideFlags: 0
@@ -27036,6 +27353,7 @@ GameObject:
   - component: {fileID: 2063695067}
   - component: {fileID: 2063695066}
   - component: {fileID: 2063695069}
+  - component: {fileID: 2063695070}
   m_Layer: 5
   m_Name: Sorbetes
   m_TagString: Untagged
@@ -27110,9 +27428,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueController, Assembly-CSharp
-        m_MethodName: ContinueFromButton
+      - m_Target: {fileID: 1221418879}
+        m_TargetAssemblyTypeName: PlaySFX, Assembly-CSharp
+        m_MethodName: PlayButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27182,6 +27500,22 @@ MonoBehaviour:
   button: {fileID: 2063695066}
   iconImage: {fileID: 126786243}
   placedMark: {fileID: 1498403781}
+--- !u!114 &2063695070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063695064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81446b539d975144eba00112d9c36930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverScale: 1.1
+  hoverDuration: 0.1
+  clickScale: 0.9
+  clickDuration: 0.08
 --- !u!1 &2076076894
 GameObject:
   m_ObjectHideFlags: 0
@@ -27267,7 +27601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2111307315}
   m_Layer: 5
-  m_Name: -- spotlights -- (1)
+  m_Name: --------------- spotlights ---------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27824,8 +28158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.8784, y: 0.001874}
-  m_SizeDelta: {x: 1894.7104, y: 1275}
+  m_AnchoredPosition: {x: 16, y: 26}
+  m_SizeDelta: {x: 1925, y: 1275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &2139464285
 CanvasGroup:
@@ -27859,7 +28193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6f21e8b7ea751b4a8ffa57d43ed6a48, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f4fbcda150cc04d49a62c571e217ece1, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

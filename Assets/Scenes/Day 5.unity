@@ -4464,6 +4464,7 @@ MonoBehaviour:
   day3Manager: {fileID: 0}
   day4Manager: {fileID: 0}
   day5Manager: {fileID: 953021973}
+  day7Manager: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -13336,7 +13337,7 @@ MonoBehaviour:
   endOfDayReportUI: {fileID: 253029932}
   nextDayButton: {fileID: 394647199}
   nextDayButtonDelay: 3
-  nextSceneName: ONGOING
+  nextSceneName: Day 7
 --- !u!1 &953977856
 GameObject:
   m_ObjectHideFlags: 0

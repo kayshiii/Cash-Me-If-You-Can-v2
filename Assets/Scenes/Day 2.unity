@@ -3464,7 +3464,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1642298230}
   m_Direction: 2
   m_Value: 1.0000002
-  m_Size: 0.65503085
+  m_Size: 0.6550308
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15431,7 +15431,7 @@ GameObject:
   - component: {fileID: 1240380443}
   m_Layer: 0
   m_Name: slider sfx
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17441,7 +17441,7 @@ GameObject:
   - component: {fileID: 1385424431}
   m_Layer: 0
   m_Name: BGM
-  m_TagString: Untagged
+  m_TagString: Music
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17682,7 +17682,7 @@ GameObject:
   - component: {fileID: 1417397582}
   m_Layer: 0
   m_Name: button sfx
-  m_TagString: Untagged
+  m_TagString: SFX
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

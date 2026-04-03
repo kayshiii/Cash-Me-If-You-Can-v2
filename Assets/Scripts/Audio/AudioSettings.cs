@@ -1,75 +1,102 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class AudioSettings : MonoBehaviour
 {
-    [Header("Audio Sources")]
-    [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource[] sfxSources;
+    public static AudioSettings Instance { get; private set; }
 
-    [Header("Sliders")]
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
-
-    [Header("Texts")]
-    [SerializeField] private TextMeshProUGUI musicPercentText;
-    [SerializeField] private TextMeshProUGUI sfxPercentText;
-
+    private AudioSource musicSource;
     private const string MusicKey = "MusicVolume";
     private const string SfxKey = "SfxVolume";
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
-        float savedMusic = PlayerPrefs.GetFloat(MusicKey, 1f);
-        float savedSfx = PlayerPrefs.GetFloat(SfxKey, 1f);
-
-        if (musicSlider != null) musicSlider.value = savedMusic;
-        if (sfxSlider != null) sfxSlider.value = savedSfx;
-
-        if (musicSource != null) musicSource.volume = savedMusic;
-        SetSfxVolume(savedSfx);
-
-        if (musicSlider != null)
-            musicSlider.onValueChanged.AddListener(SetMusicVolume);
-        if (sfxSlider != null)
-            sfxSlider.onValueChanged.AddListener(SetSfxVolume);
-
-        UpdateMusicText(savedMusic);
-        UpdateSfxText(savedSfx);
+        RefreshAllReferences();
     }
 
-    public void SetMusicVolume(float value)
-    {
-        if (musicSource != null)
-            musicSource.volume = value;
+    private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+    private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        PlayerPrefs.SetFloat(MusicKey, value);
-        UpdateMusicText(value);
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshAllReferences();
     }
 
-    public void SetSfxVolume(float value)
+    public void RefreshAllReferences()
     {
-        if (sfxSources != null)
+        GameObject musicObj = GameObject.FindWithTag("Music");
+        if (musicObj != null) musicSource = musicObj.GetComponent<AudioSource>();
+
+        Slider[] allSliders = Resources.FindObjectsOfTypeAll<Slider>();
+        foreach (Slider s in allSliders)
         {
-            for (int i = 0; i < sfxSources.Length; i++)
-                if (sfxSources[i] != null)
-                    sfxSources[i].volume = value;
+            if (s.name == "MusicSlider")
+            {
+                s.onValueChanged.RemoveAllListeners();
+                s.value = PlayerPrefs.GetFloat(MusicKey, 0.75f);
+                s.onValueChanged.AddListener(SetMusicVolume);
+            }
+            else if (s.name == "SFXSlider")
+            {
+                s.onValueChanged.RemoveAllListeners();
+                s.value = PlayerPrefs.GetFloat(SfxKey, 0.75f);
+                s.onValueChanged.AddListener(SetSfxVolume);
+            }
         }
 
-        PlayerPrefs.SetFloat(SfxKey, value);
-        UpdateSfxText(value);
+        ApplyVolumes();
     }
 
-    private void UpdateMusicText(float value)
+    public void ApplyVolumes()
     {
-        if (musicPercentText != null)
-            musicPercentText.text = Mathf.RoundToInt(value * 100f).ToString() + "%";
+        float mVol = PlayerPrefs.GetFloat(MusicKey, 0.75f);
+        float sVol = PlayerPrefs.GetFloat(SfxKey, 0.75f);
+
+        if (musicSource != null) musicSource.volume = mVol;
+
+        GameObject[] sfxObjects = GameObject.FindGameObjectsWithTag("SFX");
+        foreach (GameObject obj in sfxObjects)
+        {
+            AudioSource source = obj.GetComponent<AudioSource>();
+            if (source != null) source.volume = sVol;
+        }
+
+        UpdateTextUI(mVol, sVol);
     }
 
-    private void UpdateSfxText(float value)
+    private void UpdateTextUI(float m, float s)
     {
-        if (sfxPercentText != null)
-            sfxPercentText.text = Mathf.RoundToInt(value * 100f).ToString() + "%";
+        TextMeshProUGUI[] allTexts = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>();
+        foreach (var t in allTexts)
+        {
+            if (t.name == "Music Text") t.text = Mathf.RoundToInt(m * 100) + "%";
+            if (t.name == "SFX Text") t.text = Mathf.RoundToInt(s * 100) + "%";
+        }
+    }
+
+    public void SetMusicVolume(float val)
+    {
+        PlayerPrefs.SetFloat(MusicKey, val);
+        if (musicSource != null) musicSource.volume = val;
+        UpdateTextUI(val, PlayerPrefs.GetFloat(SfxKey, 0.75f));
+    }
+
+    public void SetSfxVolume(float val)
+    {
+        PlayerPrefs.SetFloat(SfxKey, val);
+        ApplyVolumes();
     }
 }

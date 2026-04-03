@@ -9,7 +9,29 @@ public class DialogueData : ScriptableObject
 [System.Serializable]
 public class DialogueLine
 {
-    public enum SpeakerType { Narrator, Alex, Notification, LolaMom }
+    public enum SpeakerType
+    {
+        Narrator,
+        Alex,
+        AlexInternal,
+        Boyet,
+        Notification,
+        LolaMom
+    }
+
+    public enum ExpressionType
+    {
+        Default,
+        Happy,
+        Sad,
+        Shocked,
+        Angry,
+        Thinking,
+        Embarrassed
+    }
+
+    [Header("Optional expression")]
+    public ExpressionType expression = ExpressionType.Default;
 
     public SpeakerType speaker;
     [TextArea] public string text;

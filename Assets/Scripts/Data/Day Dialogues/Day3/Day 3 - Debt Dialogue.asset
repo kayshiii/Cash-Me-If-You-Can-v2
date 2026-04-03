@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Day 3 - Debt Dialogue
   m_EditorClassIdentifier: 
   lines:
-  - speaker: 1
+  - expression: 2
+    speaker: 2
     text: "Wait\u2026 no\u2026 I completely forgot. That\u2019s P500 as well. Ughh,
       not the best timing"
     useSpotlight: 0
@@ -23,7 +24,8 @@ MonoBehaviour:
     waitForButton: 0
     lolaStep: 0
     requiresValidAllocation: 0
-  - speaker: 1
+  - expression: 0
+    speaker: 1
     text: So do I pay it as it is now, or do I just pay later but sprinkle a little
       bit more cash?
     useSpotlight: 0

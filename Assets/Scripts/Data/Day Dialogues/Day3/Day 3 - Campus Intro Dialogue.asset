@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Day 3 - Campus Intro Dialogue
   m_EditorClassIdentifier: 
   lines:
-  - speaker: 1
+  - expression: 2
+    speaker: 1
     text: "So far so good. Feelin a lil tired though\u2026 Gotta keep pushing"
     useSpotlight: 0
     spotlightIndex: 0

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Day 3 - Final Dia Pay Now
   m_EditorClassIdentifier: 
   lines:
-  - speaker: 1
+  - expression: 2
+    speaker: 1
     text: "Might as well just pay it now so at least I won\u2019t have to worry about
       it anymore"
     useSpotlight: 0
@@ -23,7 +24,8 @@ MonoBehaviour:
     waitForButton: 0
     lolaStep: 0
     requiresValidAllocation: 0
-  - speaker: 1
+  - expression: 0
+    speaker: 1
     text: "I\u2019ll have to be more careful with the rest of my spending"
     useSpotlight: 0
     spotlightIndex: 0

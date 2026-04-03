@@ -70,9 +70,10 @@ public class SystemScreenController : MonoBehaviour
     private bool isBudgetNegative = false;
 
     [Header("Scripts")]
+    [SerializeField] private DialogueController dialogueController;
     [SerializeField] private Day2Intro day2Intro;
     [SerializeField] private Day3Manager day3Manager;
-    [SerializeField] private DialogueController dialogueController;
+    [SerializeField] private Day4Manager day4Manager;
 
     private bool isConfirmed = false;
 
@@ -664,6 +665,12 @@ public class SystemScreenController : MonoBehaviour
         if (day3Manager != null)
         {
             day3Manager.CloseFromSystemScreen();
+            return;
+        }
+
+        if (day4Manager != null)
+        {
+            day4Manager.CloseFromSystemScreen();
             return;
         }
     }

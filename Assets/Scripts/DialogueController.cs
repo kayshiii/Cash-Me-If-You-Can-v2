@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
@@ -33,6 +34,18 @@ public class DialogueController : MonoBehaviour
     private Tween alexMoveTween;
     private Tween alexBubbleTween;
 
+    [Header("Alex Internal UI")]
+    [SerializeField] private RectTransform alexInternalRect;
+    [SerializeField] private CanvasGroup alexInternalBubbleGroup;
+    [SerializeField] private TextMeshProUGUI alexInternalText;
+    [SerializeField] private float alexInternalSlideDuration = 0.4f;
+    [SerializeField] private float alexInternalSlideOffset = 300f;
+    [SerializeField] private float alexInternalBubblePopDuration = 0.25f;
+
+    private Tween alexInternalMoveTween;
+    private Tween alexInternalBubbleTween;
+    private Vector2 alexInternalOriginalPos;
+
     [Header("Notification UI")]
     [SerializeField] private CanvasGroup notifGroup;
     [SerializeField] private RectTransform notifRect;
@@ -53,6 +66,67 @@ public class DialogueController : MonoBehaviour
     private Tween lolaMomMoveTween;
     private Vector2 lolaMomOriginalPos;
     private bool waitingForButton = false;
+
+    [Header("Boyet UI")]
+    [SerializeField] private RectTransform boyetRect;
+    [SerializeField] private CanvasGroup boyetBubbleGroup;
+    [SerializeField] private TextMeshProUGUI boyetText;
+    [SerializeField] private float boyetSlideDuration = 0.4f;
+    [SerializeField] private float boyetSlideOffset = 300f;
+    [SerializeField] private float boyetBubblePopDuration = 0.25f;
+
+    private Tween boyetMoveTween;
+    private Tween boyetBubbleTween;
+    private Vector2 boyetOriginalPos;
+
+    [System.Serializable]
+    public class CharacterPortraitSet
+    {
+        public Sprite defaultSprite;
+        public Sprite happySprite;
+        public Sprite sadSprite;
+        public Sprite shockedSprite;
+        public Sprite angrySprite;
+        public Sprite thinkingSprite;
+        public Sprite embarrassedSprite;
+
+        public Sprite GetSprite(DialogueLine.ExpressionType expression)
+        {
+            switch (expression)
+            {
+                case DialogueLine.ExpressionType.Happy:
+                    return happySprite != null ? happySprite : defaultSprite;
+                case DialogueLine.ExpressionType.Sad:
+                    return sadSprite != null ? sadSprite : defaultSprite;
+                case DialogueLine.ExpressionType.Shocked:
+                    return shockedSprite != null ? shockedSprite : defaultSprite;
+                case DialogueLine.ExpressionType.Angry:
+                    return angrySprite != null ? angrySprite : defaultSprite;
+                case DialogueLine.ExpressionType.Thinking:
+                    return thinkingSprite != null ? thinkingSprite : defaultSprite;
+                case DialogueLine.ExpressionType.Embarrassed:
+                    return embarrassedSprite != null ? embarrassedSprite : defaultSprite;
+                default:
+                    return defaultSprite;
+            }
+        }
+    }
+
+    [Header("Alex Portrait")]
+    [SerializeField] private Image alexPortraitImage;
+    [SerializeField] private CharacterPortraitSet alexPortraits;
+
+    [Header("Alex Internal Portrait")]
+    [SerializeField] private Image alexInternalPortraitImage;
+    [SerializeField] private CharacterPortraitSet alexInternalPortraits;
+
+    [Header("Boyet Portrait")]
+    [SerializeField] private Image boyetPortraitImage;
+    [SerializeField] private CharacterPortraitSet boyetPortraits;
+
+    [Header("Lola Mom Portrait")]
+    [SerializeField] private Image lolaMomPortraitImage;
+    [SerializeField] private CharacterPortraitSet lolaMomPortraits;
 
     [Header("Spotlight")]
     //[SerializeField] private CanvasGroup spotlightBgGroup;
@@ -102,6 +176,32 @@ public class DialogueController : MonoBehaviour
             alexBubbleGroup.gameObject.SetActive(false);
         }
 
+        if (alexInternalRect != null)
+        {
+            alexInternalRect.gameObject.SetActive(false);
+            alexInternalOriginalPos = alexInternalRect.anchoredPosition;
+            alexInternalRect.anchoredPosition = alexInternalOriginalPos + new Vector2(alexInternalSlideOffset, 0f);
+        }
+
+        if (alexInternalBubbleGroup != null)
+        {
+            alexInternalBubbleGroup.alpha = 0f;
+            alexInternalBubbleGroup.gameObject.SetActive(false);
+        }
+
+        if (boyetRect != null)
+        {
+            boyetRect.gameObject.SetActive(false);
+            boyetOriginalPos = boyetRect.anchoredPosition;
+            boyetRect.anchoredPosition = boyetOriginalPos + new Vector2(boyetSlideOffset, 0f);
+        }
+
+        if (boyetBubbleGroup != null)
+        {
+            boyetBubbleGroup.alpha = 0f;
+            boyetBubbleGroup.gameObject.SetActive(false);
+        }
+
         if (notifGroup != null)
         {
             notifGroup.alpha = 0f;
@@ -143,13 +243,6 @@ public class DialogueController : MonoBehaviour
 
     private void Start()
     {
-        /*if (dialogueData == null || dialogueData.lines == null || dialogueData.lines.Length == 0)
-        {
-            Debug.LogWarning("DialogueController: No DialogueData assigned or it is empty.");
-            return;
-        }
-
-        ShowCurrentLine();*/
     }
 
     public void SetDialogueActive(bool value)
@@ -233,6 +326,7 @@ public class DialogueController : MonoBehaviour
         lolaMomBubbleHideTween?.Kill();
 
         DialogueLine line = dialogueData.lines[currentIndex];
+        ApplyExpression(line.speaker, line.expression);
 
         if (chatLogManager != null)
         {
@@ -249,7 +343,6 @@ public class DialogueController : MonoBehaviour
         canAdvance = false;
         if (nextIndicator != null) nextIndicator.SetActive(false);
 
-        // Optional text replacement for index 3
         if (line.speaker == DialogueLine.SpeakerType.LolaMom && !line.dependsOnBudget)
         {
             // If this is your “Moving on to your expenses…” line with [METHOD] placeholder
@@ -268,18 +361,20 @@ public class DialogueController : MonoBehaviour
         {
             tutorialIntro.OnLolaStepStarted(line);
         }
-        // If this line requires button to continue, block normal advance
         waitingForButton = line.waitForButton;
 
-        canAdvance = !waitingForButton; // only allow Space/click when false
+        canAdvance = !waitingForButton;
         if (nextIndicator != null) nextIndicator.SetActive(!waitingForButton);
 
         UpdateSpotlightForLine(line);
 
-        // Hide all groups
         if (narratorGroup != null) narratorGroup.gameObject.SetActive(false);
         if (alexBubbleGroup != null) alexBubbleGroup.gameObject.SetActive(false);
         if (alexRect != null) alexRect.gameObject.SetActive(false);
+        if (alexInternalBubbleGroup != null) alexInternalBubbleGroup.gameObject.SetActive(false);
+        if (alexInternalRect != null) alexInternalRect.gameObject.SetActive(false);
+        if (boyetBubbleGroup != null) boyetBubbleGroup.gameObject.SetActive(false);
+        if (boyetRect != null) boyetRect.gameObject.SetActive(false);
         if (notifGroup != null) notifGroup.gameObject.SetActive(false);
         if (lolaMomBubbleGroup != null) lolaMomBubbleGroup.gameObject.SetActive(false);
         if (lolaMomRect != null) lolaMomRect.gameObject.SetActive(false);
@@ -292,6 +387,12 @@ public class DialogueController : MonoBehaviour
                 break;
             case DialogueLine.SpeakerType.Alex:
                 ShowAlexLine(line.text);
+                break;
+            case DialogueLine.SpeakerType.AlexInternal:
+                ShowAlexInternalLine(line.text);
+                break;
+            case DialogueLine.SpeakerType.Boyet:
+                ShowBoyetLine(line.text);
                 break;
             case DialogueLine.SpeakerType.Notification:
                 ShowNotificationLine(line.text);
@@ -348,6 +449,66 @@ public class DialogueController : MonoBehaviour
         alexBubbleGroup.DOFade(1f, alexBubblePopDuration);
 
         StartTypewriter(alexText, text);
+    }
+
+    private void ShowAlexInternalLine(string text)
+    {
+        if (alexInternalRect != null)
+        {
+            alexInternalMoveTween?.Kill();
+
+            alexInternalRect.gameObject.SetActive(true);
+            alexInternalRect.anchoredPosition = alexInternalOriginalPos + new Vector2(alexInternalSlideOffset, 0f);
+            alexInternalMoveTween = alexInternalRect.DOAnchorPos(alexInternalOriginalPos, alexInternalSlideDuration)
+                                                    .SetEase(Ease.OutCubic);
+        }
+
+        if (alexInternalBubbleGroup == null || alexInternalText == null) return;
+
+        alexInternalBubbleTween?.Kill();
+
+        alexInternalBubbleGroup.gameObject.SetActive(true);
+        alexInternalBubbleGroup.alpha = 0f;
+        alexInternalText.text = "";
+
+        alexInternalBubbleGroup.transform.localScale = Vector3.zero;
+        alexInternalBubbleGroup.transform.localRotation = Quaternion.identity;
+
+        alexInternalBubbleTween = alexInternalBubbleGroup.transform.DOScale(1f, alexInternalBubblePopDuration)
+                                             .SetEase(Ease.OutBack);
+        alexInternalBubbleGroup.DOFade(1f, alexInternalBubblePopDuration);
+
+        StartTypewriter(alexInternalText, text);
+    }
+
+    private void ShowBoyetLine(string text)
+    {
+        if (boyetRect != null)
+        {
+            boyetMoveTween?.Kill();
+
+            boyetRect.gameObject.SetActive(true);
+            boyetRect.anchoredPosition = boyetOriginalPos + new Vector2(boyetSlideOffset, 0f);
+            boyetMoveTween = boyetRect.DOAnchorPos(boyetOriginalPos, boyetSlideDuration)
+                                      .SetEase(Ease.OutCubic);
+        }
+
+        if (boyetBubbleGroup == null || boyetText == null) return;
+
+        boyetBubbleTween?.Kill();
+
+        boyetBubbleGroup.gameObject.SetActive(true);
+        boyetBubbleGroup.alpha = 0f;
+        boyetText.text = "";
+
+        boyetBubbleGroup.transform.localScale = Vector3.zero;
+        boyetBubbleGroup.transform.localRotation = Quaternion.identity;
+
+        boyetBubbleTween = boyetBubbleGroup.transform.DOScale(1f, boyetBubblePopDuration)
+                                   .SetEase(Ease.OutBack);
+        boyetBubbleGroup.DOFade(1f, boyetBubblePopDuration);
+
+        StartTypewriter(boyetText, text);
     }
 
     private void ShowNotificationLine(string text)
@@ -514,6 +675,12 @@ public class DialogueController : MonoBehaviour
             case DialogueLine.SpeakerType.Alex:
                 target = alexText;
                 break;
+            case DialogueLine.SpeakerType.AlexInternal:
+                target = alexInternalText;
+                break;
+            case DialogueLine.SpeakerType.Boyet:
+                target = boyetText;
+                break;
             case DialogueLine.SpeakerType.Notification:
                 target = notifText;
                 break;
@@ -545,7 +712,6 @@ public class DialogueController : MonoBehaviour
             if (nextIndicator != null) nextIndicator.SetActive(true);
         }
     }
-
     private void AdvanceDialogue()
     {
         do
@@ -597,5 +763,31 @@ public class DialogueController : MonoBehaviour
         waitingForButton = false;
         canAdvance = false;
         AdvanceDialogue();
+    }
+
+    private void ApplyExpression(DialogueLine.SpeakerType speaker, DialogueLine.ExpressionType expression)
+    {
+        switch (speaker)
+        {
+            case DialogueLine.SpeakerType.Alex:
+                if (alexPortraitImage != null && alexPortraits != null)
+                    alexPortraitImage.sprite = alexPortraits.GetSprite(expression);
+                break;
+
+            case DialogueLine.SpeakerType.AlexInternal:
+                if (alexInternalPortraitImage != null && alexInternalPortraits != null)
+                    alexInternalPortraitImage.sprite = alexInternalPortraits.GetSprite(expression);
+                break;
+
+            case DialogueLine.SpeakerType.Boyet:
+                if (boyetPortraitImage != null && boyetPortraits != null)
+                    boyetPortraitImage.sprite = boyetPortraits.GetSprite(expression);
+                break;
+
+            case DialogueLine.SpeakerType.LolaMom:
+                if (lolaMomPortraitImage != null && lolaMomPortraits != null)
+                    lolaMomPortraitImage.sprite = lolaMomPortraits.GetSprite(expression);
+                break;
+        }
     }
 }

@@ -25,7 +25,7 @@ MonoBehaviour:
     lolaStep: 0
     requiresValidAllocation: 0
   - expression: 0
-    speaker: 3
+    speaker: 5
     text: Apo, days like these may seem unimportant, but they can still have a big
       impact on your savings
     useSpotlight: 0

@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
   m_Name: Day 9 - Mid Dialogue
   m_EditorClassIdentifier: 
-  lines: []
+  lines:
+  - expression: 0
+    speaker: 1
+    text: I wonder what today has in store for me
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

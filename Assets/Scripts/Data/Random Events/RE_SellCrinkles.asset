@@ -19,6 +19,6 @@ MonoBehaviour:
   eligibleDays: 06000000090000000e000000
   oneTimeOnly: 1
   minHappiness: 40
-  maxHappiness: 0
+  maxHappiness: 100
   minSavings: 0
   weight: 1

@@ -75,6 +75,7 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Day3Manager day3Manager;
     [SerializeField] private Day4Manager day4Manager;
     [SerializeField] private Day5Manager day5Manager;
+    [SerializeField] private Day6Manager day6Manager;
     [SerializeField] private Day7Manager day7Manager;
     [SerializeField] private Day8Manager day8Manager;
     [SerializeField] private Day9Manager day9Manager;
@@ -681,6 +682,12 @@ public class SystemScreenController : MonoBehaviour
         if (day5Manager != null)
         {
             day5Manager.CloseFromSystemScreen();
+            return;
+        }
+
+        if (day6Manager != null)
+        {
+            day6Manager.CloseFromSystemScreen();
             return;
         }
 

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
-  m_Name: Day 9 - Accept
+  m_Name: Day 6 - Intro Dialogue
   m_EditorClassIdentifier: 
   lines:
   - expression: 0
-    speaker: 1
-    text: Better happy than sad!
+    speaker: 4
+    text: Allowance Received!
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0

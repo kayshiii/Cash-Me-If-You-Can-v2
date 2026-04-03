@@ -80,6 +80,7 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Day8Manager day8Manager;
     [SerializeField] private Day9Manager day9Manager;
     [SerializeField] private Day10Manager day10Manager;
+    [SerializeField] private Day11Manager day11Manager;
 
     private bool isConfirmed = false;
 
@@ -713,6 +714,12 @@ public class SystemScreenController : MonoBehaviour
         if (day10Manager != null)
         {
             day10Manager.CloseFromSystemScreen();
+            return;
+        }
+
+        if (day11Manager != null)
+        {
+            day11Manager.CloseFromSystemScreen();
             return;
         }
     }

@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
     public bool day8BoughtAntacid = false;
     public int day8AntacidCost = 100;
 
+    [Header("Random Events")]
+    public List<string> usedRandomEvents = new List<string>();
+
     public void SetDay8Decision(bool boughtAntacid)
     {
         day8DecisionMade = true;

@@ -4740,6 +4740,8 @@ MonoBehaviour:
   day7Manager: {fileID: 0}
   day8Manager: {fileID: 0}
   day9Manager: {fileID: 0}
+  day10Manager: {fileID: 0}
+  day11Manager: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -25572,7 +25574,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 5
+  m_text: DAY 6
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}

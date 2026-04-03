@@ -1175,6 +1175,10 @@ MonoBehaviour:
   day3PaidNow: 0
   day3DebtAmount: 500
   day3DebtApplied: 0
+  day8DecisionMade: 0
+  day8BoughtAntacid: 0
+  day8AntacidCost: 100
+  usedRandomEvents: []
 --- !u!224 &104155230
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3252,7 +3256,12 @@ MonoBehaviour:
   day3Manager: {fileID: 0}
   day4Manager: {fileID: 0}
   day5Manager: {fileID: 0}
+  day6Manager: {fileID: 0}
   day7Manager: {fileID: 0}
+  day8Manager: {fileID: 0}
+  day9Manager: {fileID: 0}
+  day10Manager: {fileID: 0}
+  day11Manager: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -16911,6 +16920,12 @@ MonoBehaviour:
   boyetSlideDuration: 0.4
   boyetSlideOffset: 300
   boyetBubblePopDuration: 0.25
+  nurseRect: {fileID: 0}
+  nurseBubbleGroup: {fileID: 0}
+  nurseText: {fileID: 0}
+  nurseSlideDuration: 0.4
+  nurseSlideOffset: 300
+  nurseBubblePopDuration: 0.25
   alexPortraitImage: {fileID: 1751223996}
   alexPortraits:
     defaultSprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
@@ -16942,6 +16957,15 @@ MonoBehaviour:
   lolaMomPortraits:
     defaultSprite: {fileID: 21300000, guid: 04c4ee0b1ef8a9446ba519971d8ebc2e, type: 3}
     happySprite: {fileID: 21300000, guid: 04c4ee0b1ef8a9446ba519971d8ebc2e, type: 3}
+    sadSprite: {fileID: 0}
+    shockedSprite: {fileID: 0}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
+  nursePortraitImage: {fileID: 0}
+  nursePortraits:
+    defaultSprite: {fileID: 0}
+    happySprite: {fileID: 0}
     sadSprite: {fileID: 0}
     shockedSprite: {fileID: 0}
     angrySprite: {fileID: 0}
@@ -22174,7 +22198,7 @@ GameObject:
   - component: {fileID: 1894532131}
   - component: {fileID: 1894532130}
   m_Layer: 5
-  m_Name: Day Title (1)
+  m_Name: saved
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

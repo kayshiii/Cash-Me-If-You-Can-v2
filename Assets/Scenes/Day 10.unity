@@ -1878,7 +1878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dailyAllowance: 800
   currentBudgetType: 1
-  currentDay: 9
+  currentDay: 10
   happiness: 35
   totalSavings: 0
   savingsGoal: 8500
@@ -4561,6 +4561,7 @@ MonoBehaviour:
   day8Manager: {fileID: 0}
   day9Manager: {fileID: 0}
   day10Manager: {fileID: 953021973}
+  day11Manager: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0

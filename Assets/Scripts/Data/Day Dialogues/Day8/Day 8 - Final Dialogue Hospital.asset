@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
+  m_Name: Day 8 - Final Dialogue Hospital
+  m_EditorClassIdentifier: 
+  lines:
+  - expression: 0
+    speaker: 0
+    text: '*Alex stumbles into the University Clinic, clutching her side*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 6
+    text: "Hey, you look like you\u2019re about to collapse. Come take a seat and
+      tell me what you\u2019re feeling"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "Just\u2026 a stomach ache. I think it might be the food I ate earlier\u2026
+      or the drink. I just need a place to lie down for ten minutes before I get
+      to my next class"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: "*The nurse stands up and walks over. She gently tilts Alex\u2019s head
+      back to look at her eyes, then checks the skin on her arms. Her expression
+      shifts from routine boredom to professional alarm.*"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 6
+    text: "How long have your eyes been this yellow? And your skin\u2026 is it itchy?"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "It's just the lighting in here, I\u2019m fine. I just need some rest"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 6
+    text: "This isn\u2019t just \u201Clighting\u201D, nor is it just food poisoning.
+      This is severe. I\u2019m calling you an ambulance to take you to an ER"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "No, don\u2019t. I already have a doctor and I know what this is. It\u2019s
+      stage 4 Pancreatic cancer. I\u2019m not going to the ER to spend money on tests
+      for a result that I already know"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 6
+    text: If you know this, then why are you here? You should be in a hospital
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "For what? So I can spend my last few days hooked up to machines? I\u2019d
+      rather be out here spending time with the people I care about. I just want
+      to live my life to the fullest"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: '*After resting for a few more minutes. Alex slowly stands up with the
+      help of the nurse*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 2
+    text: "Resting for a few minutes was free, but the look on that nurse\u2019s
+      face\u2026 she looks at me like I\u2019m already a ghost. Maybe I am"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

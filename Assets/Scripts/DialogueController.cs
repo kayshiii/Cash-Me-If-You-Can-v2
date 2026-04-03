@@ -79,6 +79,18 @@ public class DialogueController : MonoBehaviour
     private Tween boyetBubbleTween;
     private Vector2 boyetOriginalPos;
 
+    [Header("Nurse UI")]
+    [SerializeField] private RectTransform nurseRect;
+    [SerializeField] private CanvasGroup nurseBubbleGroup;
+    [SerializeField] private TextMeshProUGUI nurseText;
+    [SerializeField] private float nurseSlideDuration = 0.4f;
+    [SerializeField] private float nurseSlideOffset = 300f;
+    [SerializeField] private float nurseBubblePopDuration = 0.25f;
+
+    private Tween nurseMoveTween;
+    private Tween nurseBubbleTween;
+    private Vector2 nurseOriginalPos;
+
     [System.Serializable]
     public class CharacterPortraitSet
     {
@@ -127,6 +139,10 @@ public class DialogueController : MonoBehaviour
     [Header("Lola Mom Portrait")]
     [SerializeField] private Image lolaMomPortraitImage;
     [SerializeField] private CharacterPortraitSet lolaMomPortraits;
+
+    [Header("Nurse Portrait")]
+    [SerializeField] private Image nursePortraitImage;
+    [SerializeField] private CharacterPortraitSet nursePortraits;
 
     [Header("Spotlight")]
     //[SerializeField] private CanvasGroup spotlightBgGroup;
@@ -200,6 +216,19 @@ public class DialogueController : MonoBehaviour
         {
             boyetBubbleGroup.alpha = 0f;
             boyetBubbleGroup.gameObject.SetActive(false);
+        }
+
+        if (nurseRect != null)
+        {
+            nurseRect.gameObject.SetActive(false);
+            nurseOriginalPos = nurseRect.anchoredPosition;
+            nurseRect.anchoredPosition = nurseOriginalPos + new Vector2(nurseSlideOffset, 0f);
+        }
+
+        if (nurseBubbleGroup != null)
+        {
+            nurseBubbleGroup.alpha = 0f;
+            nurseBubbleGroup.gameObject.SetActive(false);
         }
 
         if (notifGroup != null)
@@ -378,6 +407,8 @@ public class DialogueController : MonoBehaviour
         if (notifGroup != null) notifGroup.gameObject.SetActive(false);
         if (lolaMomBubbleGroup != null) lolaMomBubbleGroup.gameObject.SetActive(false);
         if (lolaMomRect != null) lolaMomRect.gameObject.SetActive(false);
+        if (nurseBubbleGroup != null) nurseBubbleGroup.gameObject.SetActive(false);
+        if (nurseRect != null) nurseRect.gameObject.SetActive(false);
 
         // Then show per speaker
         switch (line.speaker)
@@ -399,6 +430,9 @@ public class DialogueController : MonoBehaviour
                 break;
             case DialogueLine.SpeakerType.LolaMom:
                 ShowLolaMomLine(line.text);
+                break;
+            case DialogueLine.SpeakerType.Nurse:
+                ShowNurseLine(line.text);
                 break;
         }
     }
@@ -511,6 +545,35 @@ public class DialogueController : MonoBehaviour
         StartTypewriter(boyetText, text);
     }
 
+    private void ShowNurseLine(string text)
+    {
+        if (nurseRect != null)
+        {
+            nurseMoveTween?.Kill();
+
+            nurseRect.gameObject.SetActive(true);
+            nurseRect.anchoredPosition = nurseOriginalPos + new Vector2(nurseSlideOffset, 0f);
+            nurseMoveTween = nurseRect.DOAnchorPos(nurseOriginalPos, nurseSlideDuration)
+                                      .SetEase(Ease.OutCubic);
+        }
+
+        if (nurseBubbleGroup == null || nurseText == null) return;
+
+        nurseBubbleTween?.Kill();
+
+        nurseBubbleGroup.gameObject.SetActive(true);
+        nurseBubbleGroup.alpha = 0f;
+        nurseText.text = "";
+
+        nurseBubbleGroup.transform.localScale = Vector3.zero;
+        nurseBubbleGroup.transform.localRotation = Quaternion.identity;
+
+        nurseBubbleTween = nurseBubbleGroup.transform.DOScale(1f, nurseBubblePopDuration)
+                                   .SetEase(Ease.OutBack);
+        nurseBubbleGroup.DOFade(1f, nurseBubblePopDuration);
+
+        StartTypewriter(nurseText, text);
+    }
     private void ShowNotificationLine(string text)
     {
         if (notifGroup == null || notifRect == null || notifText == null) return;
@@ -687,6 +750,9 @@ public class DialogueController : MonoBehaviour
             case DialogueLine.SpeakerType.LolaMom:
                 target = lolaMomText;
                 break;
+            case DialogueLine.SpeakerType.Nurse:
+                target = nurseText;
+                break;
         }
 
         if (target != null)
@@ -787,6 +853,10 @@ public class DialogueController : MonoBehaviour
             case DialogueLine.SpeakerType.LolaMom:
                 if (lolaMomPortraitImage != null && lolaMomPortraits != null)
                     lolaMomPortraitImage.sprite = lolaMomPortraits.GetSprite(expression);
+                break;
+            case DialogueLine.SpeakerType.Nurse:
+                if (nursePortraitImage != null && nursePortraits != null)
+                    nursePortraitImage.sprite = nursePortraits.GetSprite(expression);
                 break;
         }
     }

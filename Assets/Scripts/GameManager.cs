@@ -43,6 +43,29 @@ public class GameManager : MonoBehaviour
     public int day3DebtAmount = 500;
     public bool day3DebtApplied = false;
 
+    [Header("Day 8 Choice")]
+    public bool day8DecisionMade = false;
+    public bool day8BoughtAntacid = false;
+    public int day8AntacidCost = 100;
+
+    public void SetDay8Decision(bool boughtAntacid)
+    {
+        day8DecisionMade = true;
+        day8BoughtAntacid = boughtAntacid;
+
+        Debug.Log($"[Day8] Decision stored. Bought antacid = {boughtAntacid}", this);
+    }
+
+    public bool HasDay8Decision()
+    {
+        return day8DecisionMade;
+    }
+
+    public bool DidBuyAntacidDay8()
+    {
+        return day8BoughtAntacid;
+    }
+
     public void SetDay3Decision(bool paidNow)
     {
         day3DecisionMade = true;
@@ -83,6 +106,28 @@ public class GameManager : MonoBehaviour
             $"[Day3] Debt paid from savings. " +
             $"Debt = ₱{amount}, " +
             $"Savings: ₱{beforeSavings} -> ₱{totalSavings}",
+            this
+        );
+    }
+
+    /// <summary>
+    /// Spend from today's allowance (not from savings).
+    /// Clamps todayRemaining at 0, increases todaySpent.
+    /// </summary>
+    public void SpendFromToday(int amount)
+    {
+        if (amount <= 0) return;
+
+        int beforeSpent = todaySpent;
+        int beforeRemaining = todayRemaining;
+
+        todaySpent += amount;
+        todayRemaining = Mathf.Max(0, todayRemaining - amount);
+
+        Debug.Log(
+            $"[SpendToday] Spent ₱{amount}. " +
+            $"todaySpent: {beforeSpent} -> {todaySpent}, " +
+            $"todayRemaining: {beforeRemaining} -> {todayRemaining}",
             this
         );
     }

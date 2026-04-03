@@ -16,7 +16,8 @@ public class DialogueLine
         AlexInternal,
         Boyet,
         Notification,
-        LolaMom
+        LolaMom,
+        Nurse
     }
 
     public enum ExpressionType

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
+  m_Name: Day 10 - Final Dialogue
+  m_EditorClassIdentifier: 
+  lines:
+  - expression: 0
+    speaker: 1
+    text: "I\u2019m still not where I want to be\u2026 but today was a step in the
+      right direction"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 1
+    text: If I keep choosing carefully, I can still make this Valentines special
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

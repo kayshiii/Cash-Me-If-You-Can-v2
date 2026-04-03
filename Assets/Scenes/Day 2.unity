@@ -4144,9 +4144,12 @@ MonoBehaviour:
   confirmNoButton: {fileID: 356946083}
   negativeBudgetPopup: {fileID: 1334846265}
   negativeOkButton: {fileID: 1691200902}
+  dialogueController: {fileID: 1422873601}
   day2Intro: {fileID: 953021973}
   day3Manager: {fileID: 0}
-  dialogueController: {fileID: 1422873601}
+  day4Manager: {fileID: 0}
+  day5Manager: {fileID: 0}
+  day7Manager: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -18273,6 +18276,12 @@ MonoBehaviour:
   alexSlideDuration: 0.4
   alexSlideOffset: -300
   alexBubblePopDuration: 0.25
+  alexInternalRect: {fileID: 0}
+  alexInternalBubbleGroup: {fileID: 0}
+  alexInternalText: {fileID: 0}
+  alexInternalSlideDuration: 0.4
+  alexInternalSlideOffset: 300
+  alexInternalBubblePopDuration: 0.25
   notifGroup: {fileID: 371445329}
   notifRect: {fileID: 371445328}
   notifText: {fileID: 823612013}
@@ -18284,6 +18293,48 @@ MonoBehaviour:
   lolaMomPopDuration: 0.3
   lolaMomSlideDuration: 0.4
   lolaMomSlideOffset: -300
+  boyetRect: {fileID: 0}
+  boyetBubbleGroup: {fileID: 0}
+  boyetText: {fileID: 0}
+  boyetSlideDuration: 0.4
+  boyetSlideOffset: 300
+  boyetBubblePopDuration: 0.25
+  alexPortraitImage: {fileID: 1751223996}
+  alexPortraits:
+    defaultSprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
+    happySprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
+    sadSprite: {fileID: 21300000, guid: abcf4b6d41221414ab198f5d62ceacf3, type: 3}
+    shockedSprite: {fileID: 21300000, guid: 2869c63a059155448bb49cf56d7723d7, type: 3}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
+  alexInternalPortraitImage: {fileID: 0}
+  alexInternalPortraits:
+    defaultSprite: {fileID: 0}
+    happySprite: {fileID: 0}
+    sadSprite: {fileID: 0}
+    shockedSprite: {fileID: 0}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
+  boyetPortraitImage: {fileID: 0}
+  boyetPortraits:
+    defaultSprite: {fileID: 0}
+    happySprite: {fileID: 0}
+    sadSprite: {fileID: 0}
+    shockedSprite: {fileID: 0}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
+  lolaMomPortraitImage: {fileID: 259335930}
+  lolaMomPortraits:
+    defaultSprite: {fileID: 0}
+    happySprite: {fileID: 0}
+    sadSprite: {fileID: 0}
+    shockedSprite: {fileID: 0}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
   spotlightHoles:
   - {fileID: 1986605113}
   - {fileID: 1336637412}

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Day1 - PhoneDia
   m_EditorClassIdentifier: 
   lines:
-  - speaker: 2
+  - expression: 0
+    speaker: 4
     text: daily budget of P800 is inputted!
     useSpotlight: 0
     spotlightIndex: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - expression: 2
-    speaker: 2
+    speaker: 1
     text: "Well that was a tough one. A hopefully responsible choice\u2026"
     useSpotlight: 0
     spotlightIndex: 0

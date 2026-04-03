@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Day 3 - Intro
   m_EditorClassIdentifier: 
   lines:
-  - speaker: 1
+  - expression: 0
+    speaker: 1
     text: "Another day, another budget\u2026 Gotta stay consistent though if I want
       to reach my goal"
     useSpotlight: 0
@@ -23,7 +24,8 @@ MonoBehaviour:
     waitForButton: 0
     lolaStep: 0
     requiresValidAllocation: 0
-  - speaker: 2
+  - expression: 0
+    speaker: 4
     text: Allowance Received!
     useSpotlight: 0
     spotlightIndex: 0

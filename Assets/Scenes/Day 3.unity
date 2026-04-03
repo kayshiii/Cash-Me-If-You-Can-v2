@@ -19445,9 +19445,9 @@ MonoBehaviour:
   alexSlideDuration: 0.4
   alexSlideOffset: -300
   alexBubblePopDuration: 0.25
-  alexInternalRect: {fileID: 0}
-  alexInternalBubbleGroup: {fileID: 0}
-  alexInternalText: {fileID: 0}
+  alexInternalRect: {fileID: 1560739704}
+  alexInternalBubbleGroup: {fileID: 380387}
+  alexInternalText: {fileID: 786990383}
   alexInternalSlideDuration: 0.4
   alexInternalSlideOffset: 300
   alexInternalBubblePopDuration: 0.25

@@ -4462,8 +4462,8 @@ MonoBehaviour:
   dialogueController: {fileID: 1422873601}
   day2Intro: {fileID: 0}
   day3Manager: {fileID: 0}
-  day4Manager: {fileID: 953021973}
-  day5Manager: {fileID: 0}
+  day4Manager: {fileID: 0}
+  day5Manager: {fileID: 953021973}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -6349,7 +6349,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 953021973}
-        m_TargetAssemblyTypeName: Day4Manager, Assembly-CSharp
+        m_TargetAssemblyTypeName: Day5Manager, Assembly-CSharp
         m_MethodName: LoadNextDayScene
         m_Mode: 1
         m_Arguments:
@@ -12066,7 +12066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Allowance received
+  m_text: '*10 minutes pass by*'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
@@ -13271,7 +13271,7 @@ GameObject:
   - component: {fileID: 953021972}
   - component: {fileID: 953021973}
   m_Layer: 5
-  m_Name: Day4 Manager
+  m_Name: Day5 Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13305,7 +13305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 953021971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb53dd0f60f743f4f82d93696fe42918, type: 3}
+  m_Script: {fileID: 11500000, guid: 3501cddb096e86249b2decb577a513d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   introBg: {fileID: 602484765}
@@ -13318,11 +13318,9 @@ MonoBehaviour:
   homeBg: {fileID: 1918254858}
   homeFadeInDuration: 0.6
   delayBeforeHome: 0.1
-  schoolBg: {fileID: 42943341}
-  schoolFadeDuration: 0.5
   dialogueController: {fileID: 1422873601}
-  introDialogue: {fileID: 11400000, guid: 6b2730647d5cf2348ad28366be36c5f9, type: 2}
-  finalDialogue: {fileID: 11400000, guid: 4193ab04490aab643a5bfae374443f4f, type: 2}
+  introDialogue: {fileID: 11400000, guid: 7c45fa6c28889194caff69441434d1aa, type: 2}
+  finalDialogue: {fileID: 11400000, guid: cb8eef8fa6e020a47bea4137178447a5, type: 2}
   phoneGroup: {fileID: 1162331503}
   phoneRect: {fileID: 1162331502}
   phoneEaseDuration: 0.5
@@ -13338,7 +13336,7 @@ MonoBehaviour:
   endOfDayReportUI: {fileID: 253029932}
   nextDayButton: {fileID: 394647199}
   nextDayButtonDelay: 3
-  nextSceneName: Day 4
+  nextSceneName: ONGOING
 --- !u!1 &953977856
 GameObject:
   m_ObjectHideFlags: 0
@@ -24761,7 +24759,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 4
+  m_text: DAY 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
@@ -26854,7 +26852,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 4
+  m_text: DAY 5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}

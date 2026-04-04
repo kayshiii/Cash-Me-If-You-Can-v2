@@ -21020,7 +21020,7 @@ MonoBehaviour:
     itemName: Skip
     category: 2
     cost: 0
-    happiness: 10
+    happiness: -10
     icon: {fileID: 21300000, guid: b56e3aa44de7e2a4d91c0d3043103665, type: 3}
   button: {fileID: 1486910911}
   iconImage: {fileID: 1907447791}

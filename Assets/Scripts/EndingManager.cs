@@ -173,15 +173,12 @@ public class EndingManager : MonoBehaviour
     private void OnNextButtonPressed()
     {
         if (GameManager.Instance != null)
-             {
-                 GameManager.Instance.currentDay = 1;
-                 GameManager.Instance.totalSavings = 0;
-                 GameManager.Instance.happiness = 35;
-                 GameManager.Instance.currentBudgetType = BudgetType.None;
-                 GameManager.Instance.ResetDayValues();
-             }
+        {
+            GameManager.Instance.currentDay = 16;
+            GameManager.Instance.ResetDayValues(); // no allowance usage anyway
+        }
 
-            if (!string.IsNullOrEmpty(nextSceneName))
+        if (!string.IsNullOrEmpty(nextSceneName))
             SceneManager.LoadScene(nextSceneName);
     }
 }

@@ -438,8 +438,8 @@ public class Day15Manager : MonoBehaviour
 
     public void LoadNextDayScene()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.AdvanceDay();
+        /*if (GameManager.Instance != null)
+            GameManager.Instance.AdvanceDay();*/
 
         SceneManager.LoadScene(nextSceneName);
     }

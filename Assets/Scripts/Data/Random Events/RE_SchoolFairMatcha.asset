@@ -16,7 +16,17 @@ MonoBehaviour:
   eventTitle: Matcha Fair
   description: "There\u2019s a School Fair that has Authentic Japanese Iced Matcha"
   eventType: 0
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: 'Buy '
+    resultText: Buy Matcha
+    savingsChange: -220
+    happinessChange: 3
+  choiceB:
+    buttonText: Dont Buy
+    resultText: Don't Buy
+    savingsChange: 0
+    happinessChange: -3
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

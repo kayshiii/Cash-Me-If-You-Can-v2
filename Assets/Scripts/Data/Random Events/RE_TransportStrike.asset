@@ -16,7 +16,17 @@ MonoBehaviour:
   eventTitle: Transport Strike
   description: There's a Transport Strike, what will you do?
   eventType: 0
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Grab
+    resultText: 
+    savingsChange: -450
+    happinessChange: 3
+  choiceB:
+    buttonText: Pasabay
+    resultText: 
+    savingsChange: 0
+    happinessChange: 0
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

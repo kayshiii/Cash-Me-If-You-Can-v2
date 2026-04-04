@@ -16,7 +16,17 @@ MonoBehaviour:
   eventTitle: Sell Cookies
   description: Alex wants to sell cookies but needs P300 for ingredients
   eventType: 1
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: 
+    resultText: 
+    savingsChange: 0
+    happinessChange: 0
+  choiceB:
+    buttonText: 
+    resultText: 
+    savingsChange: 0
+    happinessChange: 0
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 40
   maxHappiness: 100

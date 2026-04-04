@@ -17,7 +17,17 @@ MonoBehaviour:
   description: "Alex\u2019s Friends want to watch a school play, the ticket costs
     P100"
   eventType: 0
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Watch
+    resultText: Watch Play, Spend P100
+    savingsChange: -100
+    happinessChange: 3
+  choiceB:
+    buttonText: Decline
+    resultText: Save
+    savingsChange: 0
+    happinessChange: -3
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

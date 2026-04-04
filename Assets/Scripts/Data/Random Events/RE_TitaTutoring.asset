@@ -18,7 +18,17 @@ MonoBehaviour:
     reaches out to Alex for a tutoring session worth P500 to help her child with
     a test"
   eventType: 1
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Accept
+    resultText: 
+    savingsChange: 300
+    happinessChange: 2
+  choiceB:
+    buttonText: Decline
+    resultText: 
+    savingsChange: 0
+    happinessChange: -5
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

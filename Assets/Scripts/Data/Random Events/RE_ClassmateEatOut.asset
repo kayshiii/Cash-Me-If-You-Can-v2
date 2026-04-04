@@ -16,7 +16,17 @@ MonoBehaviour:
   eventTitle: Eat Out
   description: Classmate suggesting to eat somewhere after class
   eventType: 0
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Accept
+    resultText: Spend P300
+    savingsChange: -300
+    happinessChange: 3
+  choiceB:
+    buttonText: Decline
+    resultText: Decline
+    savingsChange: 0
+    happinessChange: -3
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

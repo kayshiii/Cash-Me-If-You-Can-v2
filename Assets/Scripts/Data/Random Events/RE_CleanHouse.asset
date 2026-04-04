@@ -17,7 +17,17 @@ MonoBehaviour:
   description: "Alex\u2019s mom said that if Alex clean the entire house, She will
     give her an additional P200 to her next allowance"
   eventType: 1
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Accept
+    resultText: Gain Money
+    savingsChange: 200
+    happinessChange: 1
+  choiceB:
+    buttonText: Decline
+    resultText: NAh
+    savingsChange: 0
+    happinessChange: -5
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

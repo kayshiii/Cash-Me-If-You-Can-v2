@@ -196,6 +196,21 @@ public class GameManager : MonoBehaviour
         SetCurrentTotalSavings(totalSavings + amount);
     }
 
+    public void AddSavingsBonus(int amount)
+    {
+        if (amount == 0) return;
+
+        int beforeSavings = totalSavings;
+
+        totalSavings += amount;
+        totalSavings = Mathf.Clamp(totalSavings, 0, savingsGoal);
+
+        Debug.Log(
+            $"[Savings Bonus] Savings changed by ₱{amount}. " +
+            $"Savings: ₱{beforeSavings} -> ₱{totalSavings}",
+            this
+        );
+    }
     public void SetBudgetType(BudgetType type)
     {
         currentBudgetType = type;

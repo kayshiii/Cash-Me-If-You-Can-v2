@@ -103,6 +103,9 @@ public class RandomEventManager : MonoBehaviour
         if (!validDay)
             return false;
 
+        if (!MatchesSpecialDayRules(data, day))
+            return false;
+
         if (GameManager.Instance == null)
             return true;
 
@@ -119,6 +122,21 @@ public class RandomEventManager : MonoBehaviour
             return false;
 
         return true;
+    }
+
+    private bool MatchesSpecialDayRules(RandomEventData data, int day)
+    {
+        if (data == null)
+            return false;
+
+        switch (day)
+        {
+            case 13:
+                return data.eventType == RandomEventType.Income;
+
+            default:
+                return true;
+        }
     }
 
     private RandomEventData GetWeightedRandomEvent(List<RandomEventData> candidates)

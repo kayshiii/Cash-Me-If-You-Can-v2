@@ -17,7 +17,17 @@ MonoBehaviour:
   description: "Alex\u2019s Best friend asks her to go out for dinner for free but
     transportation is up to Alex"
   eventType: 0
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Go
+    resultText: Go to Dinner
+    savingsChange: 0
+    happinessChange: 3
+  choiceB:
+    buttonText: Decline
+    resultText: Save
+    savingsChange: 0
+    happinessChange: -3
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

@@ -16,7 +16,17 @@ MonoBehaviour:
   eventTitle: Pasalubong
   description: "Alex\u2019s Uncle arrived from the US and gave her P500 as pasalubong"
   eventType: 1
-  eligibleDays: 06000000090000000e000000
+  choiceA:
+    buttonText: Accept
+    resultText: 
+    savingsChange: 500
+    happinessChange: 2
+  choiceB:
+    buttonText: 
+    resultText: 
+    savingsChange: 0
+    happinessChange: 0
+  eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 0
   maxHappiness: 100

@@ -82,6 +82,8 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Day10Manager day10Manager;
     [SerializeField] private Day11Manager day11Manager;
 
+    [SerializeField] private HappinessMeter happinessMeter;
+
     private bool isConfirmed = false;
 
     private void Start()
@@ -265,8 +267,21 @@ public class SystemScreenController : MonoBehaviour
                 wantsSpent += slot.CurrentCost;
         }
 
+        int happinessDelta = GetCurrentHappinessDelta();
+
+        Debug.Log(
+            $"[Allocation Confirm] Starting confirm. " +
+            $"Spent = ₱{GetCurrentSpent()}, " +
+            $"NeedsSpent = ₱{needsSpent}, " +
+            $"WantsSpent = ₱{wantsSpent}, " +
+            $"TodaySavings = ₱{todaySavings}, " +
+            $"HappinessDelta = {happinessDelta}",
+            this
+        );
+
         if (GameManager.Instance != null)
         {
+            // ⬇️ This block is your original spend/savings logic – keep it.
             GameManager.Instance.ConfirmTodayAllocation(
                 GetCurrentSpent(),
                 GetCurrentSelectedItemIds()
@@ -275,6 +290,26 @@ public class SystemScreenController : MonoBehaviour
             GameManager.Instance.SetTodayCategorySpent(needsSpent, wantsSpent);
             GameManager.Instance.SetTodaySaved(todaySavings);
             GameManager.Instance.AddSavings(todaySavings);
+
+            // ⬇️ New: apply happiness after.
+            int beforeHappiness = GameManager.Instance.happiness;
+
+            GameManager.Instance.happiness = Mathf.Clamp(
+                GameManager.Instance.happiness + happinessDelta,
+                0,
+                100
+            );
+
+            Debug.Log(
+                $"[Allocation Confirm] Happiness updated: {beforeHappiness} -> {GameManager.Instance.happiness} (delta: {happinessDelta})",
+                this
+            );
+        }
+
+        if (happinessMeter != null)
+        {
+            happinessMeter.UpdateVisual();
+            Debug.Log("[Allocation Confirm] Happiness meter visual refreshed.", this);
         }
 
         if (confirmButton != null) confirmButton.interactable = false;
@@ -285,6 +320,8 @@ public class SystemScreenController : MonoBehaviour
         }
 
         LockAllSlots(true);
+
+        Debug.Log("[Allocation Confirm] Allocation locked and finalized.", this);
     }
 
     private void PlaceIntoSlot(AllocationSlotUI slot, AllocationItemData item)
@@ -347,6 +384,38 @@ public class SystemScreenController : MonoBehaviour
             if (slot != null && slot.HasItem) total += slot.CurrentCost;
         }
 
+        return total;
+    }
+
+    private int GetCurrentHappinessDelta()
+    {
+        int total = 0;
+
+        if (lunchSlot != null && lunchSlot.HasItem && lunchSlot.CurrentItemData != null)
+        {
+            int value = Mathf.RoundToInt(lunchSlot.CurrentItemData.happiness);
+            total += value;
+            Debug.Log($"[Happiness] Lunch '{lunchSlot.CurrentItemData.itemName}' = {value}", this);
+        }
+
+        if (commuteSlot != null && commuteSlot.HasItem && commuteSlot.CurrentItemData != null)
+        {
+            int value = Mathf.RoundToInt(commuteSlot.CurrentItemData.happiness);
+            total += value;
+            Debug.Log($"[Happiness] Commute '{commuteSlot.CurrentItemData.itemName}' = {value}", this);
+        }
+
+        foreach (var slot in wantSlots)
+        {
+            if (slot != null && slot.HasItem && slot.CurrentItemData != null)
+            {
+                int value = Mathf.RoundToInt(slot.CurrentItemData.happiness);
+                total += value;
+                Debug.Log($"[Happiness] Want '{slot.CurrentItemData.itemName}' = {value}", this);
+            }
+        }
+
+        Debug.Log($"[Happiness] Total happiness delta = {total}", this);
         return total;
     }
 

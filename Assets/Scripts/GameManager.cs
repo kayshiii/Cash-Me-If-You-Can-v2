@@ -112,6 +112,20 @@ public class GameManager : MonoBehaviour
             this
         );
     }
+    public float GetHappinessPercent01()
+    {
+        // Clamp to 0–1 in case something goes out of range
+        return Mathf.Clamp01(happiness / 100f);
+    }
+
+    public int GetHappinessPercent()
+    {
+        return Mathf.Clamp(happiness, 0, 100);
+    }
+    public void AddHappiness(int delta)
+    {
+        happiness = Mathf.Clamp(happiness + delta, 0, 100);
+    }
 
     /// <summary>
     /// Spend from today's allowance (not from savings).

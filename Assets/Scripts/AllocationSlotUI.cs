@@ -16,6 +16,7 @@ public class AllocationSlotUI : MonoBehaviour
     public bool HasItem => currentItem != null;
     public string CurrentItemId => currentItem != null ? currentItem.itemId : "";
     public int CurrentCost => currentItem != null ? currentItem.cost : 0;
+    public AllocationItemData CurrentItemData => currentItem;
 
     private void Awake()
     {

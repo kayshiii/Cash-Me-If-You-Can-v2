@@ -1983,6 +1983,10 @@ MonoBehaviour:
   day3PaidNow: 0
   day3DebtAmount: 500
   day3DebtApplied: 0
+  day8DecisionMade: 0
+  day8BoughtAntacid: 0
+  day8AntacidCost: 100
+  usedRandomEvents: []
 --- !u!224 &104155230
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4553,7 +4557,13 @@ MonoBehaviour:
   day3Manager: {fileID: 953021973}
   day4Manager: {fileID: 0}
   day5Manager: {fileID: 0}
+  day6Manager: {fileID: 0}
   day7Manager: {fileID: 0}
+  day8Manager: {fileID: 0}
+  day9Manager: {fileID: 0}
+  day10Manager: {fileID: 0}
+  day11Manager: {fileID: 0}
+  happinessMeter: {fileID: 0}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -12203,6 +12213,98 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 823612011}
   m_CullTransparentMesh: 1
+--- !u!1 &834375999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834376000}
+  - component: {fileID: 834376003}
+  - component: {fileID: 834376002}
+  - component: {fileID: 834376001}
+  m_Layer: 5
+  m_Name: Happiness
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &834376000
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834375999}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1162882549}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -124.99988, y: -105.00006}
+  m_SizeDelta: {x: 250, y: 210}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &834376001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834375999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f299941106c4a6f40a740be02279fef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meterImage: {fileID: 834376002}
+  sadSprite: {fileID: 21300000, guid: 9bbd8b19f6dcec74b8c777c6cbc5fc4c, type: 3}
+  mehSprite: {fileID: 21300000, guid: 1fb040991b35d3d40b53cb9ddabd6f6c, type: 3}
+  happySprite: {fileID: 21300000, guid: 80ea37b7185f40d4888ef32a37d11ef9, type: 3}
+--- !u!114 &834376002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834375999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 80ea37b7185f40d4888ef32a37d11ef9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &834376003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834375999}
+  m_CullTransparentMesh: 1
 --- !u!1 &835298388
 GameObject:
   m_ObjectHideFlags: 0
@@ -15820,6 +15922,7 @@ RectTransform:
   - {fileID: 2014633030}
   - {fileID: 2459437}
   - {fileID: 286028166}
+  - {fileID: 834376000}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19468,6 +19571,12 @@ MonoBehaviour:
   boyetSlideDuration: 0.4
   boyetSlideOffset: 300
   boyetBubblePopDuration: 0.25
+  nurseRect: {fileID: 0}
+  nurseBubbleGroup: {fileID: 0}
+  nurseText: {fileID: 0}
+  nurseSlideDuration: 0.4
+  nurseSlideOffset: 300
+  nurseBubblePopDuration: 0.25
   alexPortraitImage: {fileID: 1751223996}
   alexPortraits:
     defaultSprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
@@ -19497,6 +19606,15 @@ MonoBehaviour:
     embarrassedSprite: {fileID: 0}
   lolaMomPortraitImage: {fileID: 259335930}
   lolaMomPortraits:
+    defaultSprite: {fileID: 0}
+    happySprite: {fileID: 0}
+    sadSprite: {fileID: 0}
+    shockedSprite: {fileID: 0}
+    angrySprite: {fileID: 0}
+    thinkingSprite: {fileID: 0}
+    embarrassedSprite: {fileID: 0}
+  nursePortraitImage: {fileID: 0}
+  nursePortraits:
     defaultSprite: {fileID: 0}
     happySprite: {fileID: 0}
     sadSprite: {fileID: 0}

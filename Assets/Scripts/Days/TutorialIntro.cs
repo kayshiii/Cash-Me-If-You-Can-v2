@@ -101,6 +101,9 @@ public class TutorialIntro : MonoBehaviour
     [Header("Read Indicator")]
     [SerializeField] private GameObject readIndicator;
 
+    [Header("HUD")]
+    [SerializeField] private HappinessMeter happinessMeter;
+
     private Vector3 titleOriginalScale;
     private Vector3 laptopOriginalPos;
 
@@ -207,6 +210,9 @@ public class TutorialIntro : MonoBehaviour
 
     private void Start()
     {
+        if (happinessMeter != null)
+            happinessMeter.UpdateVisual();
+
         PlayIntroAnim();
     }
 

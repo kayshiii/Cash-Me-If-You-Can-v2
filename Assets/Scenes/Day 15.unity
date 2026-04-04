@@ -1244,7 +1244,7 @@ GameObject:
   - component: {fileID: 42943342}
   - component: {fileID: 42943341}
   m_Layer: 5
-  m_Name: schoolBG
+  m_Name: meetingplaceBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1301,7 +1301,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cc9d4f5b7349a1e43aa021c81c7b6e2f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d66fe6a64326f544812a1ca777ac4db, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1878,7 +1878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dailyAllowance: 800
   currentBudgetType: 1
-  currentDay: 14
+  currentDay: 15
   happiness: 35
   totalSavings: 0
   savingsGoal: 8500
@@ -4564,8 +4564,8 @@ MonoBehaviour:
   day11Manager: {fileID: 0}
   day12Manager: {fileID: 0}
   day13Manager: {fileID: 0}
-  day14Manager: {fileID: 953021973}
-  day15Manager: {fileID: 0}
+  day14Manager: {fileID: 0}
+  day15Manager: {fileID: 953021973}
   happinessMeter: {fileID: 1758318871}
 --- !u!225 &282602696
 CanvasGroup:
@@ -6452,7 +6452,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 953021973}
-        m_TargetAssemblyTypeName: Day14Manager, Assembly-CSharp
+        m_TargetAssemblyTypeName: Day15Manager, Assembly-CSharp
         m_MethodName: LoadNextDayScene
         m_Mode: 1
         m_Arguments:
@@ -13732,7 +13732,7 @@ GameObject:
   - component: {fileID: 953021972}
   - component: {fileID: 953021973}
   m_Layer: 5
-  m_Name: Day14 Manager
+  m_Name: Day15 Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13766,7 +13766,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 953021971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babf8822e2eccb94299007c990d4e427, type: 3}
+  m_Script: {fileID: 11500000, guid: ef3843e327653734192e7d7769a0a6d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   introBg: {fileID: 602484765}
@@ -13776,38 +13776,32 @@ MonoBehaviour:
   titleDelayAfterBg: 0.2
   titleFadeOutDuration: 0.3
   bgFadeOutDuration: 0.5
-  homeBg: {fileID: 1918254858}
-  schoolBg: {fileID: 42943341}
-  homeFadeInDuration: 0.6
-  schoolFadeDuration: 0.5
-  delayBeforeHome: 0.1
+  roomBg: {fileID: 1918254858}
+  meetingPlaceBg: {fileID: 42943341}
+  roomFadeInDuration: 0.6
+  backgroundTransitionDuration: 0.5
+  delayBeforeRoom: 0.1
   dialogueController: {fileID: 1422873601}
-  introDialogue: {fileID: 11400000, guid: 66e80bf3d099f0a4b8bb5ef1b09cf630, type: 2}
-  midDialogue: {fileID: 11400000, guid: aadaa2b2eac7f1941abfcc7f4d795d2e, type: 2}
-  acceptDialogue: {fileID: 11400000, guid: 5949ed9b5749ef64495024abaf100b78, type: 2}
-  declineDialogue: {fileID: 11400000, guid: 646516d6e8262ba47bf8a65151745683, type: 2}
+  introDialogue: {fileID: 11400000, guid: bbf7710d25c63c8439732dbd3f47ad59, type: 2}
+  midDialogueBeforePhone: {fileID: 11400000, guid: 8b19b55609621114ca4d216d4a933333, type: 2}
+  midDialogueAfterPhone: {fileID: 11400000, guid: 174b159c56db58142817b9a7674b3402, type: 2}
   phoneGroup: {fileID: 1162331503}
   phoneRect: {fileID: 1162331502}
   phoneEaseDuration: 0.5
   phoneEaseOffsetY: -300
+  phonePreviewDuration: 2
   startScreenGroup: {fileID: 2139464285}
   systemScreenGroup: {fileID: 282602696}
   trackScreenGroup: {fileID: 795518571}
   logExpenseButton: {fileID: 1812716525}
   trackTabButton: {fileID: 1301530378}
   backButton: {fileID: 0}
-  eventPopup: {fileID: 1622493907}
-  eventPanel: {fileID: 1622493906}
-  acceptEventButton: {fileID: 1832198955}
-  declineEventButton: {fileID: 1880610612}
-  eventTitleText: {fileID: 1034284728}
-  eventDescriptionText: {fileID: 1721048182}
   endReportLevelGroup: {fileID: 395910074}
   endReportFadeDuration: 0.4
   endOfDayReportUI: {fileID: 253029932}
   nextDayButton: {fileID: 394647199}
   nextDayButtonDelay: 3
-  nextSceneName: Day 15
+  nextSceneName: ENDING
 --- !u!1 &953977856
 GameObject:
   m_ObjectHideFlags: 0
@@ -26120,7 +26114,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 14
+  m_text: DAY 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
@@ -28363,7 +28357,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 14
+  m_text: DAY 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}

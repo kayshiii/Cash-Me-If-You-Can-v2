@@ -84,6 +84,7 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Day12Manager day12Manager;
     [SerializeField] private Day13Manager day13Manager;
     [SerializeField] private Day14Manager day14Manager;
+    [SerializeField] private Day15Manager day15Manager;
 
     [SerializeField] private HappinessMeter happinessMeter;
 
@@ -810,6 +811,12 @@ public class SystemScreenController : MonoBehaviour
         if (day14Manager != null)
         {
             day14Manager.CloseFromSystemScreen();
+            return;
+        }
+
+        if (day15Manager != null)
+        {
+            day15Manager.CloseFromSystemScreen();
             return;
         }
     }

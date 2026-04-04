@@ -10,23 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
-  m_Name: Day 15 - Mid dialogue after phone
+  m_Name: loseEndingDialogue
   m_EditorClassIdentifier: 
   lines:
   - expression: 0
-    speaker: 2
-    text: "All those choices. Every peso I spent\u2026 or didn\u2019t. There\u2019s
-      no turning back now"
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
     speaker: 0
-    text: '*Alex reaches for the gift and holds it carefully*'
+    text: '*She hesitates, then looks down*'
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0
@@ -35,49 +24,8 @@ MonoBehaviour:
     lolaStep: 0
     requiresValidAllocation: 0
   - expression: 2
-    speaker: 2
-    text: "I don\u2019t know if this is enough but it\u2019s everything I could give.
-      I just hope it makes him happy"
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 0
-    text: '*Alex is walking towards the meeting place*'
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 2
-    text: This might be the last time I get to do something like this
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 0
-    text: '*She stops walking as she sees Boyet in the distance*'
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
     speaker: 1
-    text: "Happy Valentine\u2019s\u2026"
+    text: "I\u2019m sorry. I tried, but\u2026 I just couldn\u2019t make it work"
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0
@@ -85,9 +33,60 @@ MonoBehaviour:
     waitForButton: 0
     lolaStep: 0
     requiresValidAllocation: 0
-  - expression: 1
+  - expression: 0
     speaker: 3
-    text: "Happy Valentine\u2019s Alex"
+    text: "Hey, it\u2019s okay"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "No it\u2019s not just that"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I spent all this time thinking I needed to give you something big\u2026
+      something perfect"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: '*She holds out a small letter*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: But all I had was this. Me. Right now
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "That\u2019s all I ever wanted"
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0

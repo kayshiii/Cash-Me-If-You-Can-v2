@@ -10,64 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
-  m_Name: Day 15 - Mid dialogue after phone
+  m_Name: bestEndingDialogue
   m_EditorClassIdentifier: 
   lines:
   - expression: 0
-    speaker: 2
-    text: "All those choices. Every peso I spent\u2026 or didn\u2019t. There\u2019s
-      no turning back now"
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
     speaker: 0
-    text: '*Alex reaches for the gift and holds it carefully*'
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 2
-    speaker: 2
-    text: "I don\u2019t know if this is enough but it\u2019s everything I could give.
-      I just hope it makes him happy"
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 0
-    text: '*Alex is walking towards the meeting place*'
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 2
-    text: This might be the last time I get to do something like this
-    useSpotlight: 0
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 0
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 0
-    text: '*She stops walking as she sees Boyet in the distance*'
+    text: "*There\u2019s a brief pause before Alex hands him the gift*"
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0
@@ -77,7 +25,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - expression: 0
     speaker: 1
-    text: "Happy Valentine\u2019s\u2026"
+    text: I worked really hard for this
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0
@@ -85,9 +33,79 @@ MonoBehaviour:
     waitForButton: 0
     lolaStep: 0
     requiresValidAllocation: 0
-  - expression: 1
+  - expression: 0
+    speaker: 0
+    text: '*As Boyet opens it slowly, his expression softens*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
     speaker: 3
-    text: "Happy Valentine\u2019s Alex"
+    text: "You did all this? It\u2019s perfect"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 1
+    text: I just wanted it to be special
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "It really is. You don\u2019t have to do all of this alone, you know"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I know. I just wanted to give you something before\u2013"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: '*She stops herself then slightly shakes her head*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 1
+    text: Before today ended
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Then let\u2019s make the most out of it"
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0

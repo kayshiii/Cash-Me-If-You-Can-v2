@@ -13976,8 +13976,8 @@ MonoBehaviour:
   dialogueController: {fileID: 1422873601}
   introDialogue: {fileID: 11400000, guid: 9dfde033db9607f488fc2ecd553b1ae3, type: 2}
   finalDialogue: {fileID: 11400000, guid: a24493c0b87375a4bb1ccb03342dc917, type: 2}
-  phoneGroup: {fileID: 1162331503}
-  phoneRect: {fileID: 1162331502}
+  phoneGroup: {fileID: 1968852519}
+  phoneRect: {fileID: 1968852516}
   phoneEaseDuration: 0.5
   phoneEaseOffsetY: -300
   startScreenGroup: {fileID: 2139464285}
@@ -16390,7 +16390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1162331502
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16425,12 +16425,12 @@ RectTransform:
   - {fileID: 819913066}
   - {fileID: 597129625}
   - {fileID: 940984830}
-  m_Father: {fileID: 1162882549}
-  m_RootOrder: 11
+  m_Father: {fileID: 1968852516}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.87439, y: -1.5050659}
+  m_AnchoredPosition: {x: -16.800018, y: -22.699982}
   m_SizeDelta: {x: 2239.5024, y: 1275.0195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1162331503
@@ -16465,7 +16465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 807c3ca0b9f98e64989a4d013ffb4b1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce8919b728cc7a244ba0604738a6e06a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -16585,7 +16585,7 @@ RectTransform:
   - {fileID: 802648618}
   - {fileID: 652900475}
   - {fileID: 933909592}
-  - {fileID: 1162331502}
+  - {fileID: 1968852516}
   - {fileID: 737252425}
   - {fileID: 779765014}
   - {fileID: 1622493906}
@@ -28587,6 +28587,95 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960917584}
   m_CullTransparentMesh: 1
+--- !u!1 &1968852515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1968852516}
+  - component: {fileID: 1968852518}
+  - component: {fileID: 1968852517}
+  - component: {fileID: 1968852519}
+  m_Layer: 5
+  m_Name: PhoneScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1968852516
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968852515}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1162331502}
+  m_Father: {fileID: 1162882549}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 4.92561, y: 21.19492}
+  m_SizeDelta: {x: 1960, y: 1084}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1968852517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968852515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 44f22dc24d3066747b2dcbf5140376b6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1968852518
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968852515}
+  m_CullTransparentMesh: 1
+--- !u!225 &1968852519
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968852515}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1977930172
 GameObject:
   m_ObjectHideFlags: 0

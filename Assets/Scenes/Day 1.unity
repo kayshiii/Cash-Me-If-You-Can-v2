@@ -4099,6 +4099,95 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 303467080}
   m_CullTransparentMesh: 1
+--- !u!1 &319027919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319027920}
+  - component: {fileID: 319027922}
+  - component: {fileID: 319027921}
+  - component: {fileID: 319027923}
+  m_Layer: 5
+  m_Name: PhoneScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &319027920
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319027919}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1162331502}
+  m_Father: {fileID: 1162882549}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 4.92561, y: 21.19492}
+  m_SizeDelta: {x: 1960, y: 1084}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &319027921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319027919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 44f22dc24d3066747b2dcbf5140376b6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &319027922
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319027919}
+  m_CullTransparentMesh: 1
+--- !u!225 &319027923
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319027919}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &327632437
 GameObject:
   m_ObjectHideFlags: 0
@@ -12485,8 +12574,8 @@ MonoBehaviour:
   screenGroup: {fileID: 121261306}
   screenFadeDelay: 0.2
   screenFadeDuration: 0.5
-  phoneGroup: {fileID: 1162331503}
-  phoneRect: {fileID: 1162331502}
+  phoneGroup: {fileID: 319027923}
+  phoneRect: {fileID: 319027920}
   phoneEaseDuration: 0.5
   phoneEaseOffsetY: -300
   imgSearching: {fileID: 726368498}
@@ -14357,12 +14446,12 @@ RectTransform:
   - {fileID: 1954676367}
   - {fileID: 692238417}
   - {fileID: 982082753}
-  m_Father: {fileID: 1162882549}
-  m_RootOrder: 10
+  m_Father: {fileID: 319027920}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.87439, y: -1.5050659}
+  m_AnchoredPosition: {x: -16.80002, y: -22.69998}
   m_SizeDelta: {x: 2239.5024, y: 1275.0195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1162331503
@@ -14397,7 +14486,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 807c3ca0b9f98e64989a4d013ffb4b1b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce8919b728cc7a244ba0604738a6e06a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -14516,7 +14605,7 @@ RectTransform:
   - {fileID: 652900475}
   - {fileID: 94124892}
   - {fileID: 1684768985}
-  - {fileID: 1162331502}
+  - {fileID: 319027920}
   - {fileID: 737252425}
   - {fileID: 259335929}
   - {fileID: 835298389}

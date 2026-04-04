@@ -403,56 +403,57 @@ public class TutorialIntro : MonoBehaviour
         }
 
         // 3) After 1 sec, show "downloading"
-        if (imgDownloading != null)
-        {
-            seq.AppendInterval(1f);
-            seq.AppendCallback(() =>
-            {
-                SetCanvasGroupVisible(imgDownloading, true);
-            });
-        }
+        //if (imgDownloading != null)
+        //{
+        //    seq.AppendInterval(1f);
+        //    seq.AppendCallback(() =>
+        //    {
+        //        SetCanvasGroupVisible(imgDownloading, true);
+        //    });
+        //}
 
-        // 4) Then home screen
-        if (imgHome != null)
-        {
-            seq.AppendInterval(0.8f);
-            seq.AppendCallback(() =>
-            {
-                SetCanvasGroupVisible(imgSearching, false);
-                SetCanvasGroupVisible(imgDownloading, false);
-                SetCanvasGroupVisible(imgHome, true);
-            });
-        }
+        //// 4) Then home screen
+        //if (imgHome != null)
+        //{
+        //    seq.AppendInterval(0.8f);
+        //    seq.AppendCallback(() =>
+        //    {
+        //        SetCanvasGroupVisible(imgSearching, false);
+        //        SetCanvasGroupVisible(imgDownloading, false);
+        //        SetCanvasGroupVisible(imgHome, true);
+        //    });
+        //}
 
-        // 5) App icon
-        if (imgAppIcon != null)
-        {
-            seq.AppendInterval(0.6f);
-            seq.AppendCallback(() =>
-            {
-                SetCanvasGroupVisible(imgAppIcon, true);
-            });
-        }
+        //// 5) App icon
+        //if (imgAppIcon != null)
+        //{
+        //    seq.AppendInterval(0.6f);
+        //    seq.AppendCallback(() =>
+        //    {
+        //        SetCanvasGroupVisible(imgAppIcon, true);
+        //    });
+        //}
 
-        // 6) App welcome
-        if (imgAppWelcome != null)
-        {
-            seq.AppendInterval(0.5f);
-            seq.AppendCallback(() =>
-            {
-                SetCanvasGroupVisible(imgHome, false);
-                SetCanvasGroupVisible(imgAppIcon, false);
-                SetCanvasGroupVisible(imgAppWelcome, true);
-            });
-        }
+        //// 6) App welcome
+        //if (imgAppWelcome != null)
+        //{
+        //    seq.AppendInterval(0.5f);
+        //    seq.AppendCallback(() =>
+        //    {
+        //        SetCanvasGroupVisible(imgHome, false);
+        //        SetCanvasGroupVisible(imgAppIcon, false);
+        //        SetCanvasGroupVisible(imgAppWelcome, true);
+        //    });
+        //}
 
         // 7) Choose screen
         if (imgChoose != null)
         {
-            seq.AppendInterval(0.5f);
+            seq.AppendInterval(8f);
             seq.AppendCallback(() =>
             {
-                SetCanvasGroupVisible(imgAppWelcome, false);
+                SetCanvasGroupVisible(imgSearching, false);
+                //SetCanvasGroupVisible(imgAppWelcome, false);
                 SetCanvasGroupVisible(imgChoose, true);
             });
         }

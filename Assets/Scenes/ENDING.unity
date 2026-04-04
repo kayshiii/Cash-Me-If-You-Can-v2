@@ -4565,7 +4565,7 @@ MonoBehaviour:
   day12Manager: {fileID: 0}
   day13Manager: {fileID: 0}
   day14Manager: {fileID: 0}
-  day15Manager: {fileID: 953021973}
+  day15Manager: {fileID: 0}
   happinessMeter: {fileID: 1758318871}
 --- !u!225 &282602696
 CanvasGroup:
@@ -6451,7 +6451,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 953021973}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Day15Manager, Assembly-CSharp
         m_MethodName: LoadNextDayScene
         m_Mode: 1
@@ -7664,7 +7664,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY 1
+  m_text: "Alex couldn\u2019t make the money work out, but learned that her presence
+    and honesty mattered more than the perfect gift."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
@@ -7691,8 +7692,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.36
-  m_fontSizeBase: 67.36
+  m_fontSize: 46.01
+  m_fontSizeBase: 46.01
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7757,8 +7758,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 34.593506, y: -30.00003}
-  m_SizeDelta: {x: 1002.4571, y: 130.5696}
+  m_AnchoredPosition: {x: 34.593506, y: -110.63}
+  m_SizeDelta: {x: 1002.4571, y: 221.26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &516464620
 GameObject:
@@ -9080,7 +9081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &602484762
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13732,7 +13733,7 @@ GameObject:
   - component: {fileID: 953021972}
   - component: {fileID: 953021973}
   m_Layer: 5
-  m_Name: Day15 Manager
+  m_Name: Ending Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13766,42 +13767,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 953021971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef3843e327653734192e7d7769a0a6d6, type: 3}
+  m_Script: {fileID: 11500000, guid: a4a9a407cf6579241bad9a4c0c824fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  introBg: {fileID: 602484765}
-  dayTitle: {fileID: 2045926557}
-  bgFadeInDuration: 0.6
-  titlePopDuration: 0.4
-  titleDelayAfterBg: 0.2
-  titleFadeOutDuration: 0.3
-  bgFadeOutDuration: 0.5
-  roomBg: {fileID: 1918254858}
-  meetingPlaceBg: {fileID: 42943341}
-  roomFadeInDuration: 0.6
-  backgroundTransitionDuration: 0.5
-  delayBeforeRoom: 0.1
+  backgroundGroup: {fileID: 42943341}
+  bgFadeInDuration: 0.8
   dialogueController: {fileID: 1422873601}
-  introDialogue: {fileID: 11400000, guid: bbf7710d25c63c8439732dbd3f47ad59, type: 2}
-  midDialogueBeforePhone: {fileID: 11400000, guid: 8b19b55609621114ca4d216d4a933333, type: 2}
-  midDialogueAfterPhone: {fileID: 11400000, guid: 174b159c56db58142817b9a7674b3402, type: 2}
-  phoneGroup: {fileID: 1162331503}
-  phoneRect: {fileID: 1162331502}
-  phoneEaseDuration: 0.5
-  phoneEaseOffsetY: -300
-  phonePreviewDuration: 2
-  startScreenGroup: {fileID: 2139464285}
-  systemScreenGroup: {fileID: 282602696}
-  trackScreenGroup: {fileID: 795518571}
-  logExpenseButton: {fileID: 1812716525}
-  trackTabButton: {fileID: 1301530378}
-  backButton: {fileID: 0}
-  endReportLevelGroup: {fileID: 395910074}
-  endReportFadeDuration: 0.4
-  endOfDayReportUI: {fileID: 253029932}
-  nextDayButton: {fileID: 394647199}
-  nextDayButtonDelay: 3
-  nextSceneName: ENDING
+  bestEndingDialogue: {fileID: 11400000, guid: 9095ae8625f26324192d6190488ff646, type: 2}
+  okayEndingDialogue: {fileID: 11400000, guid: b539e06e3df7ce543aef818f8cf26707, type: 2}
+  loseEndingDialogue: {fileID: 11400000, guid: 2d514e9cf2922da449e9af4dafeb55c8, type: 2}
+  endingUiGroup: {fileID: 395910074}
+  endingUiFadeDuration: 0.4
+  endingTitleText: {fileID: 1847129787}
+  endingDescriptionText: {fileID: 495426300}
+  nextButton: {fileID: 394647199}
+  nextSceneName: MainMenu
 --- !u!1 &953977856
 GameObject:
   m_ObjectHideFlags: 0
@@ -26962,7 +26942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1894532129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30692,7 +30672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2045926557
 RectTransform:
   m_ObjectHideFlags: 0

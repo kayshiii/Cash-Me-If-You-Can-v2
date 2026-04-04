@@ -1,0 +1,194 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85baba632ea3086499e53d211ed4c41a, type: 3}
+  m_Name: Day 12 - Final Dialogue
+  m_EditorClassIdentifier: 
+  lines:
+  - expression: 0
+    speaker: 0
+    text: '*Alex is sitting alone at a secluded bench inside the campus, waiting
+      for Boyet. She looks weak but tries to fix her appearance*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 2
+    text: "Just act normal\u2026 just like any other day"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: '*Boyet approaches with a serious expression on his face*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: Alex, we need to talk. And I need you to be honest with me
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 3
+    speaker: 1
+    text: "Huh? What\u2019s wrong?"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Look at me. What\u2019s happening to you? You\u2019ve been acting weird
+      lately and everytime I see you, you physically look far from your normal self "
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I\u2019m fine, Boyet. I\u2019m just so stressed from all the acads lately,
+      you don\u2019t have to worry about me"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Liar! I ran into the nurse today while I was looking for you. She didn\u2019t
+      mean to tell me, but she asked how your Oncologist appointment went. Oncologist,
+      Alex? That\u2019s for cancer"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 0
+    text: '*Alex stays silent. Visibly holding in her tears*'
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Why didn\u2019t you tell me? You\u2019ve known for months. We were planning
+      our summer and all this time, you knew you were dying?"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I just wanted to protect you. I didn\u2019t want to make you worry"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Protect me? By lying to me for months? You can\u2019t just decide for
+      me what I can and can\u2019t handle. You didn\u2019t even trust me"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I didn\u2019t want things to change"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 3
+    text: "Things have already changed! You were suffering and you didn\u2019t even
+      give me the chance to be there for you. You should\u2019ve told me, Alex"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 1
+    text: "I\u2019m sorry\u2026"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 0
+    text: "*Boyet doesn\u2019t respond. Silence fills the air between them*"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0
+  - expression: 2
+    speaker: 2
+    text: "I knew this would happen\u2026 sooner or later. But it still hurts more
+      than I expected"
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 0
+    requiresValidAllocation: 0

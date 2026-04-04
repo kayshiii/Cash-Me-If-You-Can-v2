@@ -4562,7 +4562,8 @@ MonoBehaviour:
   day9Manager: {fileID: 0}
   day10Manager: {fileID: 953021973}
   day11Manager: {fileID: 0}
-  happinessMeter: {fileID: 0}
+  day12Manager: {fileID: 0}
+  happinessMeter: {fileID: 1517526663}
 --- !u!225 &282602696
 CanvasGroup:
   m_ObjectHideFlags: 0

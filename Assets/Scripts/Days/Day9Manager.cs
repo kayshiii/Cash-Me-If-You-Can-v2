@@ -312,6 +312,12 @@ public class Day9Manager : MonoBehaviour
         currentPhase = Phase.EventPopup;
         decisionMade = false;
 
+        if (dialogueController != null)
+        {
+            dialogueController.SetDialogueActive(false);
+            dialogueController.inputEnabled = false;
+        }
+
         if (currentRandomEvent != null)
         {
             if (eventTitleText != null)
@@ -319,17 +325,47 @@ public class Day9Manager : MonoBehaviour
 
             if (eventDescriptionText != null)
                 eventDescriptionText.text = currentRandomEvent.description;
+
+            if (acceptEventButton != null)
+            {
+                TextMeshProUGUI txt = acceptEventButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (txt != null)
+                    txt.text = currentRandomEvent.choiceA != null ? currentRandomEvent.choiceA.buttonText : "Choice A";
+            }
+
+            if (declineEventButton != null)
+            {
+                TextMeshProUGUI txt = declineEventButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (txt != null)
+                    txt.text = currentRandomEvent.choiceB != null ? currentRandomEvent.choiceB.buttonText : "Choice B";
+            }
         }
         else
         {
             if (eventTitleText != null)
-                eventTitleText.text = "No Event";
+                eventTitleText.text = "Random Event";
 
             if (eventDescriptionText != null)
-                eventDescriptionText.text = "Nothing unusual happened today.";
+                eventDescriptionText.text = "Something unexpected happened today.";
         }
 
         ShowPopup(eventPopup, eventPanel);
+    }
+
+    private void ApplyChoice(RandomEventChoice choice)
+    {
+        if (choice == null || GameManager.Instance == null)
+            return;
+
+        GameManager.Instance.AddSavings(choice.savingsChange);
+        GameManager.Instance.AddHappiness(choice.happinessChange);
+
+        Debug.Log(
+            $"[Random Event] Applied choice '{choice.buttonText}'. " +
+            $"SavingsChange = {choice.savingsChange}, " +
+            $"HappinessChange = {choice.happinessChange}",
+            this
+        );
     }
 
     public void OnAcceptEventPressed()
@@ -337,6 +373,9 @@ public class Day9Manager : MonoBehaviour
         if (decisionMade) return;
         decisionMade = true;
         acceptedEvent = true;
+
+        if (currentRandomEvent != null)
+            ApplyChoice(currentRandomEvent.choiceA);
 
         HidePopup(eventPopup, eventPanel, StartFinalDialogue);
     }
@@ -346,6 +385,9 @@ public class Day9Manager : MonoBehaviour
         if (decisionMade) return;
         decisionMade = true;
         acceptedEvent = false;
+
+        if (currentRandomEvent != null)
+            ApplyChoice(currentRandomEvent.choiceB);
 
         HidePopup(eventPopup, eventPanel, StartFinalDialogue);
     }
@@ -375,13 +417,13 @@ public class Day9Manager : MonoBehaviour
             if (acceptedEvent)
             {
                 endOfDayReportUI.SetSpecialMessage(
-                    "You accepted today’s random event. You chose a bit of happiness and risk over playing it safe."
+                    "You chose the first random event option and lived with its trade-offs."
                 );
             }
             else
             {
                 endOfDayReportUI.SetSpecialMessage(
-                    "You declined today’s random event. You protected your money, but passed up a possible mood boost."
+                    "You chose the second random event option and accepted a different outcome."
                 );
             }
         }
@@ -501,6 +543,9 @@ public class Day9Manager : MonoBehaviour
     {
         if (popup == null || panel == null) return;
 
+        popup.DOKill();
+        panel.DOKill();
+
         popup.gameObject.SetActive(true);
         popup.alpha = 0f;
         popup.interactable = true;
@@ -519,6 +564,9 @@ public class Day9Manager : MonoBehaviour
             onComplete?.Invoke();
             return;
         }
+
+        popup.DOKill();
+        panel.DOKill();
 
         popup.interactable = false;
         popup.blocksRaycasts = false;

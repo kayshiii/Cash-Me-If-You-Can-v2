@@ -170,7 +170,7 @@ public class EndingManager : MonoBehaviour
         }
     }
 
-    private void OnNextButtonPressed()
+    public void OnNextButtonPressed()
     {
         if (GameManager.Instance != null)
         {

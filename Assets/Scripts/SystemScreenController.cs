@@ -311,17 +311,29 @@ public class SystemScreenController : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
-            // ⬇️ This block is your original spend/savings logic – keep it.
             GameManager.Instance.ConfirmTodayAllocation(
                 GetCurrentSpent(),
                 GetCurrentSelectedItemIds()
             );
 
+            // NEW: store final commute choice for later event logic
+            if (commuteSlot != null && commuteSlot.HasItem && commuteSlot.CurrentItemData != null)
+            {
+                GameManager.Instance.RecordCommuteChoice(
+                    commuteSlot.CurrentItemData.itemId,
+                    commuteSlot.CurrentCost
+                );
+
+                Debug.Log(
+                    $"[Allocation Confirm] Commute recorded: {commuteSlot.CurrentItemData.itemId} | Cost = ₱{commuteSlot.CurrentCost}",
+                    this
+                );
+            }
+
             GameManager.Instance.SetTodayCategorySpent(needsSpent, wantsSpent);
             GameManager.Instance.SetTodaySaved(todaySavings);
             GameManager.Instance.AddSavings(todaySavings);
 
-            // ⬇️ New: apply happiness after.
             int beforeHappiness = GameManager.Instance.happiness;
 
             GameManager.Instance.happiness = Mathf.Clamp(

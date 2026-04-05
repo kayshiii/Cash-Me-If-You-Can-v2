@@ -226,34 +226,33 @@ public class Day13Manager : MonoBehaviour
             if (eventDescriptionText != null)
                 eventDescriptionText.text = currentRandomEvent.description;
 
+            // NEW: use resolver to get correct button labels (esp. for special events)
+            RandomEventChoice resolvedA = RandomEventResolver.GetResolvedChoice(currentRandomEvent, true);
+            RandomEventChoice resolvedB = RandomEventResolver.GetResolvedChoice(currentRandomEvent, false);
+
             if (acceptEventButton != null)
             {
                 TextMeshProUGUI txt = acceptEventButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (txt != null)
-                    txt.text = currentRandomEvent.choiceA != null
-                        ? currentRandomEvent.choiceA.buttonText
-                        : "Choice A";
+                    txt.text = !string.IsNullOrEmpty(resolvedA.buttonText) ? resolvedA.buttonText : "Choice A";
             }
 
             if (declineEventButton != null)
             {
                 TextMeshProUGUI txt = declineEventButton.GetComponentInChildren<TextMeshProUGUI>();
                 if (txt != null)
-                    txt.text = currentRandomEvent.choiceB != null
-                        ? currentRandomEvent.choiceB.buttonText
-                        : "Choice B";
+                    txt.text = !string.IsNullOrEmpty(resolvedB.buttonText) ? resolvedB.buttonText : "Choice B";
             }
         }
         else
         {
             if (eventTitleText != null)
-                eventTitleText.text = "Income Event";
+                eventTitleText.text = "Random Event";
 
             if (eventDescriptionText != null)
-                eventDescriptionText.text = "An unexpected opportunity came up today.";
+                eventDescriptionText.text = "Something unexpected happened today.";
         }
 
-        // ⬇️ This was missing
         ShowPopup(eventPopup, eventPanel);
     }
 
@@ -266,7 +265,7 @@ public class Day13Manager : MonoBehaviour
         GameManager.Instance.AddHappiness(choice.happinessChange);
 
         Debug.Log(
-            $"[Random Event] Applied choice '{choice.buttonText}'. " +
+            $"[Random Event] Applied direct choice '{choice.buttonText}'. " +
             $"SavingsChange = {choice.savingsChange}, " +
             $"HappinessChange = {choice.happinessChange}",
             this
@@ -280,7 +279,9 @@ public class Day13Manager : MonoBehaviour
         acceptedEvent = true;
 
         if (currentRandomEvent != null)
-            ApplyChoice(currentRandomEvent.choiceA);
+        {
+            RandomEventResolver.ApplyResolvedChoice(currentRandomEvent, true);
+        }
 
         HidePopup(eventPopup, eventPanel, StartFinalDialogue);
     }
@@ -292,7 +293,9 @@ public class Day13Manager : MonoBehaviour
         acceptedEvent = false;
 
         if (currentRandomEvent != null)
-            ApplyChoice(currentRandomEvent.choiceB);
+        {
+            RandomEventResolver.ApplyResolvedChoice(currentRandomEvent, false);
+        }
 
         HidePopup(eventPopup, eventPanel, StartFinalDialogue);
     }

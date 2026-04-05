@@ -100,4 +100,37 @@ public class RandomEventData : ScriptableObject
         if (minSavings < 0)
             minSavings = 0;
     }
+
+    private static void ResolveSellCookies(bool isChoiceA, ref int savingsDelta, ref int happinessDelta)
+    {
+        // Choice A = "Sell cookies", Choice B = "Decline"
+        if (!isChoiceA)
+        {
+            // Decline: 0 money, -2.5 happiness
+            savingsDelta = 0;
+            happinessDelta = -2;   // if you want integer, round -2.5 to -2 or -3
+            return;
+        }
+
+        int happiness = GameManager.Instance.GetHappinessPercent();
+
+        if (happiness >= 80)
+        {
+            // spend 300, earn 500 => net +200; +3 happiness
+            savingsDelta = +200;
+            happinessDelta = +3;
+        }
+        else if (happiness >= 60)
+        {
+            // spend 300, earn 400 => net +100; +2 happiness
+            savingsDelta = +100;
+            happinessDelta = +2;
+        }
+        else // 40–50
+        {
+            // spend 300, earn 350 => net +50; +1 happiness
+            savingsDelta = +50;
+            happinessDelta = +1;
+        }
+    }
 }

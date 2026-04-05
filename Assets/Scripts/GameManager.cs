@@ -5,8 +5,8 @@ using UnityEngine;
 public enum BudgetType
 {
     None,
-    SeventyThirty,      // 70 / 30
-    FiftyThirtyTwenty   // 50 / 30 / 20
+    SeventyThirty,
+    FiftyThirtyTwenty
 }
 
 public class GameManager : MonoBehaviour
@@ -55,9 +55,13 @@ public class GameManager : MonoBehaviour
     public string lastChosenWantItemId = "";
     public int lastChosenWantDay = -1;
 
+    [Header("Commute History")]
+    public string lastCommuteChoiceId = "";
+    public int lastCommuteCost = 0;
+
     [Header("Special Usage History")]
     public List<int> lutoBaonUseDays = new List<int>();
-    public List<int> pasabayUseDays = new List<int>(); // if you ever want limits here
+    public List<int> pasabayUseDays = new List<int>();
 
     public bool WasWantChosenLastDay(string itemId)
     {
@@ -68,6 +72,14 @@ public class GameManager : MonoBehaviour
     {
         lastChosenWantItemId = itemId;
         lastChosenWantDay = currentDay;
+    }
+
+    public void RecordCommuteChoice(string itemId, int cost)
+    {
+        lastCommuteChoiceId = itemId;
+        lastCommuteCost = Mathf.Max(0, cost);
+
+        Debug.Log($"[GameManager] Recorded commute choice: {itemId}, cost: ₱{lastCommuteCost}", this);
     }
 
     public int CountUsesWithinDays(List<int> useDays, int windowSize)
@@ -133,7 +145,7 @@ public class GameManager : MonoBehaviour
         day3DebtAmount = amount;
         day3DebtApplied = true;
 
-        int beforeSavings = totalSavings;   // replace with your actual accumulated savings variable if named differently
+        int beforeSavings = totalSavings;
 
         totalSavings -= amount;
 
@@ -141,15 +153,13 @@ public class GameManager : MonoBehaviour
             totalSavings = 0;
 
         Debug.Log(
-            $"[Day3] Debt paid from savings. " +
-            $"Debt = ₱{amount}, " +
-            $"Savings: ₱{beforeSavings} -> ₱{totalSavings}",
+            $"[Day3] Debt paid from savings. Debt = ₱{amount}, Savings: ₱{beforeSavings} -> ₱{totalSavings}",
             this
         );
     }
+
     public float GetHappinessPercent01()
     {
-        // Clamp to 0–1 in case something goes out of range
         return Mathf.Clamp01(happiness / 100f);
     }
 
@@ -157,15 +167,12 @@ public class GameManager : MonoBehaviour
     {
         return Mathf.Clamp(happiness, 0, 100);
     }
+
     public void AddHappiness(int delta)
     {
         happiness = Mathf.Clamp(happiness + delta, 0, 100);
     }
 
-    /// <summary>
-    /// Spend from today's allowance (not from savings).
-    /// Clamps todayRemaining at 0, increases todaySpent.
-    /// </summary>
     public void SpendFromToday(int amount)
     {
         if (amount <= 0) return;
@@ -177,11 +184,29 @@ public class GameManager : MonoBehaviour
         todayRemaining = Mathf.Max(0, todayRemaining - amount);
 
         Debug.Log(
-            $"[SpendToday] Spent ₱{amount}. " +
-            $"todaySpent: {beforeSpent} -> {todaySpent}, " +
-            $"todayRemaining: {beforeRemaining} -> {todayRemaining}",
+            $"[SpendToday] Spent ₱{amount}. todaySpent: {beforeSpent} -> {todaySpent}, todayRemaining: {beforeRemaining} -> {todayRemaining}",
             this
         );
+    }
+
+    public void ApplyRandomEventEffects(int savingsDelta, int happinessDelta)
+    {
+        if (savingsDelta != 0)
+        {
+            int beforeSavings = totalSavings;
+            totalSavings += savingsDelta;
+            totalSavings = Mathf.Max(0, totalSavings);
+
+            Debug.Log($"[RandomEvent] Savings: ₱{beforeSavings} -> ₱{totalSavings} (delta {savingsDelta})", this);
+        }
+
+        if (happinessDelta != 0)
+        {
+            int beforeHappiness = happiness;
+            happiness = Mathf.Clamp(happiness + happinessDelta, 0, 100);
+
+            Debug.Log($"[RandomEvent] Happiness: {beforeHappiness} -> {happiness} (delta {happinessDelta})", this);
+        }
     }
 
     private void Awake()
@@ -195,11 +220,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
     public void SetTodayCategorySpent(int needs, int wants)
     {
         todayNeedsSpent = Mathf.Max(0, needs);
         todayWantsSpent = Mathf.Max(0, wants);
     }
+
     public int GetCurrentTotalSavings()
     {
         return totalSavings;
@@ -240,12 +267,9 @@ public class GameManager : MonoBehaviour
         totalSavings += amount;
         totalSavings = Mathf.Clamp(totalSavings, 0, savingsGoal);
 
-        Debug.Log(
-            $"[Savings Bonus] Savings changed by ₱{amount}. " +
-            $"Savings: ₱{beforeSavings} -> ₱{totalSavings}",
-            this
-        );
+        Debug.Log($"[Savings Bonus] Savings changed by ₱{amount}. Savings: ₱{beforeSavings} -> ₱{totalSavings}", this);
     }
+
     public void SetBudgetType(BudgetType type)
     {
         currentBudgetType = type;
@@ -327,6 +351,4 @@ public class GameManager : MonoBehaviour
         currentDay++;
         ResetDayValues();
     }
-
-
 }

@@ -97,7 +97,7 @@ public class DialogueController : MonoBehaviour
         public Sprite defaultSprite;
         public Sprite happySprite;
         public Sprite sadSprite;
-        public Sprite shockedSprite;
+        public Sprite pokerSprite;
         public Sprite angrySprite;
         public Sprite thinkingSprite;
         public Sprite embarrassedSprite;
@@ -111,7 +111,7 @@ public class DialogueController : MonoBehaviour
                 case DialogueLine.ExpressionType.Sad:
                     return sadSprite != null ? sadSprite : defaultSprite;
                 case DialogueLine.ExpressionType.Shocked:
-                    return shockedSprite != null ? shockedSprite : defaultSprite;
+                    return pokerSprite != null ? pokerSprite : defaultSprite;
                 case DialogueLine.ExpressionType.Angry:
                     return angrySprite != null ? angrySprite : defaultSprite;
                 case DialogueLine.ExpressionType.Thinking:

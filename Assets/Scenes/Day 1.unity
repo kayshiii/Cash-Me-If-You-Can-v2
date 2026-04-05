@@ -1168,6 +1168,9 @@ MonoBehaviour:
   happiness: 35
   totalSavings: 0
   savingsGoal: 8500
+  totalConfirmedNeedsSpent: 0
+  totalConfirmedWantsSpent: 0
+  totalConfirmedAllowance: 0
   todayAllocationConfirmed: 0
   todaySpent: 0
   todayRemaining: 800
@@ -1186,6 +1189,8 @@ MonoBehaviour:
   usedRandomEvents: []
   lastChosenWantItemId: 
   lastChosenWantDay: -1
+  lastCommuteChoiceId: 
+  lastCommuteCost: 0
   lutoBaonUseDays: 
   pasabayUseDays: 
 --- !u!224 &104155230
@@ -2777,7 +2782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &259335929
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4219,7 +4224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &319027920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11490,6 +11495,7 @@ MonoBehaviour:
   needsAmountText: {fileID: 0}
   wantsAmountText: {fileID: 0}
   savingsAmountText: {fileID: 0}
+  totalAllowanceText: {fileID: 0}
 --- !u!1 &799116633
 GameObject:
   m_ObjectHideFlags: 0
@@ -18834,10 +18840,10 @@ MonoBehaviour:
   nurseBubblePopDuration: 0.25
   alexPortraitImage: {fileID: 1751223996}
   alexPortraits:
-    defaultSprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
-    happySprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
-    sadSprite: {fileID: 21300000, guid: abcf4b6d41221414ab198f5d62ceacf3, type: 3}
-    shockedSprite: {fileID: 21300000, guid: 2869c63a059155448bb49cf56d7723d7, type: 3}
+    defaultSprite: {fileID: 21300000, guid: df9d9e35d5e835441ae5961bfc99a8f2, type: 3}
+    happySprite: {fileID: 21300000, guid: df9d9e35d5e835441ae5961bfc99a8f2, type: 3}
+    sadSprite: {fileID: 21300000, guid: 554387cdbd9ab7846afe15559a74c9b1, type: 3}
+    pokerSprite: {fileID: 0}
     angrySprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
@@ -18846,7 +18852,7 @@ MonoBehaviour:
     defaultSprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
     happySprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
     sadSprite: {fileID: 21300000, guid: abcf4b6d41221414ab198f5d62ceacf3, type: 3}
-    shockedSprite: {fileID: 21300000, guid: 2869c63a059155448bb49cf56d7723d7, type: 3}
+    pokerSprite: {fileID: 0}
     angrySprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
@@ -18855,7 +18861,7 @@ MonoBehaviour:
     defaultSprite: {fileID: 0}
     happySprite: {fileID: 0}
     sadSprite: {fileID: 0}
-    shockedSprite: {fileID: 0}
+    pokerSprite: {fileID: 0}
     angrySprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
@@ -18864,7 +18870,7 @@ MonoBehaviour:
     defaultSprite: {fileID: 21300000, guid: 04c4ee0b1ef8a9446ba519971d8ebc2e, type: 3}
     happySprite: {fileID: 21300000, guid: 04c4ee0b1ef8a9446ba519971d8ebc2e, type: 3}
     sadSprite: {fileID: 0}
-    shockedSprite: {fileID: 0}
+    pokerSprite: {fileID: 0}
     angrySprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
@@ -18873,7 +18879,7 @@ MonoBehaviour:
     defaultSprite: {fileID: 0}
     happySprite: {fileID: 0}
     sadSprite: {fileID: 0}
-    shockedSprite: {fileID: 0}
+    pokerSprite: {fileID: 0}
     angrySprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
@@ -21212,7 +21218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1599775596
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23187,8 +23193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 67, y: -270}
-  m_SizeDelta: {x: 2160, y: 1620}
+  m_AnchoredPosition: {x: 23.402, y: -330.09}
+  m_SizeDelta: {x: 2247.2, y: 1667.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1751223996
 MonoBehaviour:
@@ -23210,7 +23216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 75dc3715a6155fd44832392273718246, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df9d9e35d5e835441ae5961bfc99a8f2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -25845,7 +25851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1986605112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27303,7 +27309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: abcf4b6d41221414ab198f5d62ceacf3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: df9d9e35d5e835441ae5961bfc99a8f2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -27337,8 +27343,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 67.00006, y: -270}
-  m_SizeDelta: {x: 2160, y: 1620}
+  m_AnchoredPosition: {x: 23.4017, y: -419}
+  m_SizeDelta: {x: 2247.1963, y: 1845.685}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2057376735
 GameObject:

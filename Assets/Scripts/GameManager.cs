@@ -51,6 +51,41 @@ public class GameManager : MonoBehaviour
     [Header("Random Events")]
     public List<string> usedRandomEvents = new List<string>();
 
+    [Header("Choice History")]
+    public string lastChosenWantItemId = "";
+    public int lastChosenWantDay = -1;
+
+    [Header("Special Usage History")]
+    public List<int> lutoBaonUseDays = new List<int>();
+    public List<int> pasabayUseDays = new List<int>(); // if you ever want limits here
+
+    public bool WasWantChosenLastDay(string itemId)
+    {
+        return lastChosenWantItemId == itemId && lastChosenWantDay == currentDay - 1;
+    }
+
+    public void RecordWantChoice(string itemId)
+    {
+        lastChosenWantItemId = itemId;
+        lastChosenWantDay = currentDay;
+    }
+
+    public int CountUsesWithinDays(List<int> useDays, int windowSize)
+    {
+        int count = 0;
+        for (int i = 0; i < useDays.Count; i++)
+        {
+            if (currentDay - useDays[i] < windowSize)
+                count++;
+        }
+        return count;
+    }
+
+    public void RecordLutoBaonUse()
+    {
+        lutoBaonUseDays.Add(currentDay);
+    }
+
     public void SetDay8Decision(bool boughtAntacid)
     {
         day8DecisionMade = true;

@@ -69,6 +69,16 @@ public class SystemScreenController : MonoBehaviour
 
     private bool isBudgetNegative = false;
 
+    public struct ChoiceEvaluation
+    {
+        public bool isAvailable;
+        public int finalCost;
+        public float happinessDelta;
+
+        public string baseName;
+        public string variantLabel;
+    }
+
     [Header("Scripts")]
     [SerializeField] private DialogueController dialogueController;
     [SerializeField] private Day2Intro day2Intro;
@@ -174,6 +184,11 @@ public class SystemScreenController : MonoBehaviour
     {
         if (isConfirmed) return;
 
+        // Evaluate rules
+        ChoiceEvaluation eval = EvaluateChoice(item);
+        if (!eval.isAvailable) return; // locked by happiness / usage
+
+        // If item is already placed, remove it
         if (IsItemPlaced(item.itemId))
         {
             RemoveItem(item.itemId);
@@ -183,6 +198,7 @@ public class SystemScreenController : MonoBehaviour
             return;
         }
 
+        // Place into slots
         switch (item.category)
         {
             case AllocationCategory.NeedLunch:
@@ -195,7 +211,17 @@ public class SystemScreenController : MonoBehaviour
 
             case AllocationCategory.Want:
                 PlaceIntoFirstEmptyWantSlot(item);
+
+                // Record last want choice for repeat behavior
+                if (GameManager.Instance != null)
+                    GameManager.Instance.RecordWantChoice(item.itemId);
                 break;
+        }
+
+        // Luto Baon special usage tracking
+        if (item.itemId == "luto_baon" && GameManager.Instance != null)
+        {
+            GameManager.Instance.RecordLutoBaonUse();
         }
 
         RefreshBudgetUI();
@@ -393,34 +419,47 @@ public class SystemScreenController : MonoBehaviour
 
     private int GetCurrentHappinessDelta()
     {
-        int total = 0;
+        float total = 0f;
 
+        // Base happiness from items
         if (lunchSlot != null && lunchSlot.HasItem && lunchSlot.CurrentItemData != null)
-        {
-            int value = Mathf.RoundToInt(lunchSlot.CurrentItemData.happiness);
-            total += value;
-            Debug.Log($"[Happiness] Lunch '{lunchSlot.CurrentItemData.itemName}' = {value}", this);
-        }
+            total += EvaluateChoice(lunchSlot.CurrentItemData).happinessDelta;
 
         if (commuteSlot != null && commuteSlot.HasItem && commuteSlot.CurrentItemData != null)
-        {
-            int value = Mathf.RoundToInt(commuteSlot.CurrentItemData.happiness);
-            total += value;
-            Debug.Log($"[Happiness] Commute '{commuteSlot.CurrentItemData.itemName}' = {value}", this);
-        }
+            total += EvaluateChoice(commuteSlot.CurrentItemData).happinessDelta;
+
+        int wantsSpent = 0;
 
         foreach (var slot in wantSlots)
         {
             if (slot != null && slot.HasItem && slot.CurrentItemData != null)
             {
-                int value = Mathf.RoundToInt(slot.CurrentItemData.happiness);
-                total += value;
-                Debug.Log($"[Happiness] Want '{slot.CurrentItemData.itemName}' = {value}", this);
+                var eval = EvaluateChoice(slot.CurrentItemData);
+                total += eval.happinessDelta;
+                wantsSpent += eval.finalCost;
             }
         }
 
-        Debug.Log($"[Happiness] Total happiness delta = {total}", this);
-        return total;
+        // Wants threshold rule
+        var gm = GameManager.Instance;
+        if (gm != null && wantsSpent > 0)
+        {
+            int allowance = gm.GetTodaySpendableMoney();
+            int wantsBudget = Mathf.RoundToInt(allowance * 0.3f);
+
+            if (wantsSpent <= wantsBudget)
+            {
+                total += 1f;  // within wants threshold
+            }
+            else
+            {
+                total -= 10f; // overspent wants
+            }
+        }
+
+        int rounded = Mathf.RoundToInt(total);
+        Debug.Log($"[Happiness] Total happiness delta (rounded) = {rounded}", this);
+        return rounded;
     }
 
     private List<string> GetCurrentSelectedItemIds()
@@ -594,6 +633,8 @@ public class SystemScreenController : MonoBehaviour
         {
             if (btn == null) continue;
 
+            btn.RefreshVisual();
+
             bool placed = IsItemPlaced(btn.ItemId);
             btn.SetPlacedState(placed, isConfirmed);
         }
@@ -732,7 +773,174 @@ public class SystemScreenController : MonoBehaviour
     {
         HidePopup(allocateWarningPopup, allocateWarningPanel);
     }
+    public ChoiceEvaluation EvaluateChoice(AllocationItemData item)
+    {
+        ChoiceEvaluation result = new ChoiceEvaluation
+        {
+            isAvailable = true,
+            finalCost = item.cost,
+            happinessDelta = item.happiness,
+            baseName = item.itemName,
+            variantLabel = ""
+        };
 
+        var gm = GameManager.Instance;
+        int currentHappiness = gm != null ? gm.happiness : 0;
+
+        // NEED LUNCH
+        if (item.category == AllocationCategory.NeedLunch)
+        {
+            switch (item.itemId)
+            {
+                case "shoemai_rice":
+                    result.baseName = "Shoemai Rice";
+                    result.finalCost = 60;
+                    result.happinessDelta = 1f;
+                    break;
+
+                case "baks_itlog":
+                    result.baseName = "Baks Itlog";
+                    result.finalCost = 110;
+                    result.happinessDelta = 2f;
+                    break;
+
+                case "chimken_23":
+                    result.baseName = "23Chimken";
+                    result.finalCost = 180;
+                    result.happinessDelta = 3f;
+                    break;
+
+                case "luto_baon":
+                    result.baseName = "Luto Baon";
+                    result.finalCost = 0;
+                    result.happinessDelta = -2f;
+
+                    if (currentHappiness < 50)
+                    {
+                        result.isAvailable = false;
+                        return result;
+                    }
+
+                    if (gm != null)
+                    {
+                        int recentUses = gm.CountUsesWithinDays(gm.lutoBaonUseDays, 5);
+                        if (recentUses >= 2)
+                        {
+                            result.isAvailable = false;
+                            return result;
+                        }
+                    }
+                    break;
+
+                case "skip_lunch":
+                    result.baseName = "Skip Lunch";
+                    result.finalCost = 0;
+                    result.happinessDelta = -20f;
+                    break;
+            }
+
+            return result;
+        }
+
+        // NEED COMMUTE
+        if (item.category == AllocationCategory.NeedCommute)
+        {
+            switch (item.itemId)
+            {
+                case "dalawang_sakay":
+                    result.baseName = "Dalawang Sakay";
+                    result.finalCost = 50;
+                    result.happinessDelta = 0f;
+                    break;
+
+                case "joykasit":
+                    result.baseName = "Joykasit";
+                    result.finalCost = 150;
+                    result.happinessDelta = 2f;
+                    break;
+
+                case "oober":
+                    result.baseName = "OOBER";
+                    result.finalCost = 350;
+                    result.happinessDelta = 5f;
+                    break;
+
+                case "pasabay":
+                    result.baseName = "Pasabay";
+                    result.finalCost = 0;
+                    result.happinessDelta = 0f;
+
+                    if (currentHappiness < 75)
+                    {
+                        result.isAvailable = false;
+                        return result;
+                    }
+                    break;
+            }
+
+            return result;
+        }
+
+        // WANTS
+        if (item.category == AllocationCategory.Want)
+        {
+            switch (item.itemId)
+            {
+                case "milk_tea":
+                    result.baseName = "Milk tea";
+                    result.variantLabel = "Regular";
+                    result.finalCost = 150;
+                    result.happinessDelta = 3f;
+
+                    if (gm != null && gm.WasWantChosenLastDay("milk_tea"))
+                    {
+                        result.variantLabel = "Extra Sinkers";
+                        result.finalCost = 180;
+                        result.happinessDelta = 1f;
+                    }
+                    break;
+
+                case "coffee":
+                    result.baseName = "Coffee";
+                    result.variantLabel = "Grande";
+                    result.finalCost = 180;
+                    result.happinessDelta = 4f;
+
+                    if (gm != null && gm.WasWantChosenLastDay("coffee"))
+                    {
+                        result.variantLabel = "Venti";
+                        result.finalCost = 220;
+                        result.happinessDelta = 1.5f;
+                    }
+                    break;
+
+                case "sorbetes":
+                    result.baseName = "Sorbetes";
+                    result.variantLabel = "Small Cone";
+                    result.finalCost = 20;
+                    result.happinessDelta = 1f;
+
+                    if (gm != null && gm.WasWantChosenLastDay("sorbetes"))
+                    {
+                        result.variantLabel = "Big Cone";
+                        result.finalCost = 35;
+                        result.happinessDelta = 0f;
+                    }
+                    break;
+
+                case "want_skip":
+                    result.baseName = "Skip";
+                    result.variantLabel = "";
+                    result.finalCost = 0;
+                    result.happinessDelta = -10f;
+                    break;
+            }
+
+            return result;
+        }
+
+        return result;
+    }
     private void ProceedExitFlow()
     {
 

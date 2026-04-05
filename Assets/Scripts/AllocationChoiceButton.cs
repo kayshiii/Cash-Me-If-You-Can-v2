@@ -9,6 +9,12 @@ public class AllocationChoiceButton : MonoBehaviour
     [SerializeField] private Image iconImage;
     [SerializeField] private GameObject placedMark;
 
+    [Header("UI Labels")]
+    [SerializeField] private TextMeshProUGUI itemNameText;
+    [SerializeField] private TextMeshProUGUI variantText;
+    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private GameObject lockedMark;
+
     private SystemScreenController owner;
 
     public string ItemId => itemData != null ? itemData.itemId : "";
@@ -25,14 +31,51 @@ public class AllocationChoiceButton : MonoBehaviour
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(OnClicked);
         }
+
+        RefreshVisual();
     }
 
     private void OnClicked()
     {
-        Debug.Log("Clicked choice: " + itemData.itemName);
-
         if (owner == null || itemData == null) return;
         owner.OnChoiceClicked(itemData);
+    }
+
+    public void RefreshVisual()
+    {
+        if (itemData == null) return;
+
+        string baseName = itemData.itemName;
+        string variant = "";
+        int displayCost = itemData.cost;
+        bool available = true;
+
+        if (owner != null)
+        {
+            var eval = owner.EvaluateChoice(itemData);
+            baseName = eval.baseName;
+            variant = eval.variantLabel;
+            displayCost = eval.finalCost;
+            available = eval.isAvailable;
+        }
+
+        if (itemNameText != null)
+            itemNameText.text = baseName;
+
+        if (variantText != null)
+        {
+            variantText.text = variant;
+            variantText.gameObject.SetActive(!string.IsNullOrEmpty(variant));
+        }
+
+        if (priceText != null)
+            priceText.text = displayCost <= 0 ? "FREE" : $"₱{displayCost}";
+
+        if (lockedMark != null)
+            lockedMark.SetActive(!available);
+
+        if (button != null)
+            button.interactable = available;
     }
 
     public void SetPlacedState(bool placed, bool locked)
@@ -40,12 +83,21 @@ public class AllocationChoiceButton : MonoBehaviour
         if (placedMark != null)
             placedMark.SetActive(placed);
 
+        bool available = true;
+        if (owner != null && itemData != null)
+            available = owner.EvaluateChoice(itemData).isAvailable;
+
         if (button != null)
-            button.interactable = !locked;
+            button.interactable = !locked && available;
     }
 
     public void SetLocked(bool locked)
     {
-        if (button != null) button.interactable = !locked;
+        bool available = true;
+        if (owner != null && itemData != null)
+            available = owner.EvaluateChoice(itemData).isAvailable;
+
+        if (button != null)
+            button.interactable = !locked && available;
     }
 }

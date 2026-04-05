@@ -68,7 +68,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 70/30'
     useSpotlight: 1
     spotlightIndex: 4
     dependsOnBudget: 0
@@ -191,17 +191,6 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: "Watch out for Alex\u2019s Happiness Meter so stress doesn't take over
-      Alex\u2019s decision making, make sure it doesn't drop below 30%!"
-    useSpotlight: 1
-    spotlightIndex: 0
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 10
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 5
     text: Go ahead and click the back button for now.
     useSpotlight: 1
     spotlightIndex: 0
@@ -209,6 +198,38 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 10
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 5
+    text: Now that you know how the app works and how to track your budget, here
+      is your happiness meter.
+    useSpotlight: 1
+    spotlightIndex: 9
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 1
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 5
+    text: "Watch out for Alex\u2019s Happiness Meter so stress doesn't take over
+      Alex\u2019s decision making, make sure it doesn't drop below 30%!"
+    useSpotlight: 1
+    spotlightIndex: 9
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 1
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 5
+    text: Simply just hover it to see your standing!
+    useSpotlight: 1
+    spotlightIndex: 9
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 11
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5

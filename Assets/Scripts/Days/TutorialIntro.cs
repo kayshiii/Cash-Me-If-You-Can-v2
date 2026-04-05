@@ -51,6 +51,17 @@ public class TutorialIntro : MonoBehaviour
     [SerializeField] private CanvasGroup imgAppWelcome;
     [SerializeField] private CanvasGroup imgChoose;
 
+    [Header("Strategy Preview")]
+    [SerializeField] private CanvasGroup img7030Preview;
+    [SerializeField] private CanvasGroup img503020Preview;
+    [SerializeField] private Button selectStrategyButton;
+
+    [Header("Strategy Confirm Popup")]
+    [SerializeField] private RectTransform strategyConfirmPanel;
+    [SerializeField] private CanvasGroup strategyConfirmPopup;
+    [SerializeField] private Button strategyConfirmYesButton;
+    [SerializeField] private Button strategyConfirmNoButton;
+
     [Header("Phone Buttons")]
     [SerializeField] private GameObject btnOptionA;
     [SerializeField] private GameObject btnOptionB;
@@ -115,6 +126,15 @@ public class TutorialIntro : MonoBehaviour
     private enum Phase { IntroAnim, IntroDialogue, LaptopScene, MidDialogue, PhoneScene, WaitingForPhoneChoice, AfterPhoneDialogue, LolaMomDialogue, Done }
     private Phase currentPhase = Phase.IntroAnim;
 
+    private enum PendingStrategy
+    {
+        None,
+        SeventyThirty,
+        FiftyThirtyTwenty
+    }
+
+    private PendingStrategy pendingStrategy = PendingStrategy.None;
+
     private void Awake()
     {
         if (tutorialBg != null) tutorialBg.alpha = 0f;
@@ -156,6 +176,17 @@ public class TutorialIntro : MonoBehaviour
             phoneGroup.alpha = 0f;
             phoneGroup.gameObject.SetActive(false);
         }
+
+        SetCanvasGroupVisible(img7030Preview, false);
+        SetCanvasGroupVisible(img503020Preview, false);
+
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.gameObject.SetActive(false);
+            selectStrategyButton.interactable = false;
+        }
+
+        SetPopupStateInstant(strategyConfirmPopup, false);
 
         if (startScreenGroup != null)
         {
@@ -208,10 +239,75 @@ public class TutorialIntro : MonoBehaviour
         cg.alpha = visible ? 1f : 0f;
     }
 
+    private void SetPopupStateInstant(CanvasGroup popup, bool visible)
+    {
+        if (popup == null) return;
+
+        popup.DOKill();
+        popup.alpha = visible ? 1f : 0f;
+        popup.interactable = visible;
+        popup.blocksRaycasts = visible;
+        popup.gameObject.SetActive(visible);
+    }
+
+    private void ShowPopup(CanvasGroup popup, RectTransform panel)
+    {
+        if (popup == null || panel == null) return;
+
+        popup.DOKill();
+        panel.DOKill();
+
+        popup.gameObject.SetActive(true);
+        popup.alpha = 0f;
+        popup.interactable = true;
+        popup.blocksRaycasts = true;
+
+        panel.localScale = Vector3.one * 0.8f;
+
+        popup.DOFade(1f, 0.2f).SetEase(Ease.OutCubic);
+        panel.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+    }
+
+    private void HidePopup(CanvasGroup popup, RectTransform panel)
+    {
+        if (popup == null || panel == null) return;
+
+        popup.DOKill();
+        panel.DOKill();
+
+        popup.interactable = false;
+        popup.blocksRaycasts = false;
+
+        popup.DOFade(0f, 0.18f).SetEase(Ease.InCubic);
+        panel.DOScale(0.85f, 0.18f).SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                popup.gameObject.SetActive(false);
+            });
+    }
+
     private void Start()
     {
         if (happinessMeter != null)
             happinessMeter.UpdateVisual();
+
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.onClick.RemoveAllListeners();
+            selectStrategyButton.onClick.AddListener(OnSelectStrategyPressed);
+        }
+
+        if (strategyConfirmYesButton != null)
+        {
+            strategyConfirmYesButton.onClick.RemoveAllListeners();
+            strategyConfirmYesButton.onClick.AddListener(OnStrategyConfirmYesPressed);
+        }
+
+        if (strategyConfirmNoButton != null)
+        {
+            strategyConfirmNoButton.onClick.RemoveAllListeners();
+            strategyConfirmNoButton.onClick.AddListener(OnStrategyConfirmNoPressed);
+        }
 
         PlayIntroAnim();
     }
@@ -390,6 +486,17 @@ public class TutorialIntro : MonoBehaviour
         if (btnOptionA != null) btnOptionA.SetActive(false);
         if (btnOptionB != null) btnOptionB.SetActive(false);
 
+        SetCanvasGroupVisible(img7030Preview, false);
+        SetCanvasGroupVisible(img503020Preview, false);
+
+        pendingStrategy = PendingStrategy.None;
+
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.gameObject.SetActive(false);
+            selectStrategyButton.interactable = false;
+        }
+
         Sequence seq = DOTween.Sequence();
 
         // 1) Phone ease in
@@ -498,29 +605,96 @@ public class TutorialIntro : MonoBehaviour
     {
         if (currentPhase != Phase.WaitingForPhoneChoice) return;
 
-        phoneChoiceMade = true;
+        pendingStrategy = PendingStrategy.SeventyThirty;
+        ShowStrategyPreview(img7030Preview);
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.SetBudgetType(BudgetType.SeventyThirty);
-
-        StartPhoneDialogue();
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.gameObject.SetActive(true);
+            selectStrategyButton.interactable = true;
+        }
     }
 
     public void OnPhoneChoice503020()
     {
         if (currentPhase != Phase.WaitingForPhoneChoice) return;
 
+        pendingStrategy = PendingStrategy.FiftyThirtyTwenty;
+        ShowStrategyPreview(img503020Preview);
+
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.gameObject.SetActive(true);
+            selectStrategyButton.interactable = true;
+        }
+    }
+
+    public void OnSelectStrategyPressed()
+    {
+        if (currentPhase != Phase.WaitingForPhoneChoice) return;
+        if (pendingStrategy == PendingStrategy.None) return;
+
+        ShowPopup(strategyConfirmPopup, strategyConfirmPanel);
+    }
+
+    public void OnStrategyConfirmYesPressed()
+    {
+        HidePopup(strategyConfirmPopup, strategyConfirmPanel);
+
         phoneChoiceMade = true;
 
         if (GameManager.Instance != null)
-            GameManager.Instance.SetBudgetType(BudgetType.FiftyThirtyTwenty);
+        {
+            switch (pendingStrategy)
+            {
+                case PendingStrategy.SeventyThirty:
+                    GameManager.Instance.SetBudgetType(BudgetType.SeventyThirty);
+                    break;
+
+                case PendingStrategy.FiftyThirtyTwenty:
+                    GameManager.Instance.SetBudgetType(BudgetType.FiftyThirtyTwenty);
+                    break;
+            }
+        }
 
         StartPhoneDialogue();
+    }
+    private void ShowStrategyPreview(CanvasGroup target)
+    {
+        if (target == null) return;
+
+        SetCanvasGroupVisible(img7030Preview, false);
+        SetCanvasGroupVisible(img503020Preview, false);
+
+        target.gameObject.SetActive(true);
+        target.alpha = 0f;
+
+        RectTransform rt = target.GetComponent<RectTransform>();
+        if (rt != null)
+            rt.localScale = Vector3.one * 0.9f;
+
+        target.DOFade(1f, 0.25f).SetEase(Ease.OutCubic);
+
+        if (rt != null)
+            rt.DOScale(1f, 0.25f).SetEase(Ease.OutBack);
+    }
+    public void OnStrategyConfirmNoPressed()
+    {
+        HidePopup(strategyConfirmPopup, strategyConfirmPanel);
     }
 
     private void StartPhoneDialogue()
     {
         currentPhase = Phase.AfterPhoneDialogue;
+
+        SetCanvasGroupVisible(img7030Preview, false);
+        SetCanvasGroupVisible(img503020Preview, false);
+
+        if (selectStrategyButton != null)
+        {
+            selectStrategyButton.gameObject.SetActive(false);
+            selectStrategyButton.interactable = false;
+        }
 
         if (btnOptionA != null) btnOptionA.SetActive(false);
         if (btnOptionB != null) btnOptionB.SetActive(false);
@@ -535,7 +709,6 @@ public class TutorialIntro : MonoBehaviour
                 phoneGroup.gameObject.SetActive(false);
             });
         }
-
 
         if (dialogueController != null && phoneDialogue != null)
         {

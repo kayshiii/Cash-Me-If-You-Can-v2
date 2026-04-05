@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +19,9 @@ public class TrackerScreenController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI wantsAmountText;
     [SerializeField] private TextMeshProUGUI savingsAmountText;
 
+    [Header("Optional Total Allowance Text")]
+    [SerializeField] private TextMeshProUGUI totalAllowanceText;
+
     private void OnEnable()
     {
         RefreshTracker();
@@ -30,10 +31,10 @@ public class TrackerScreenController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        int accumulatedAllowance = Mathf.Max(1, GameManager.Instance.dailyAllowance * GameManager.Instance.currentDay);
+        int accumulatedAllowance = Mathf.Max(1, GameManager.Instance.totalConfirmedAllowance);
 
-        int needsSpent = Mathf.Max(0, GameManager.Instance.todayNeedsSpent);
-        int wantsSpent = Mathf.Max(0, GameManager.Instance.todayWantsSpent);
+        int needsSpent = Mathf.Max(0, GameManager.Instance.totalConfirmedNeedsSpent);
+        int wantsSpent = Mathf.Max(0, GameManager.Instance.totalConfirmedWantsSpent);
         int savingsSaved = Mathf.Max(0, GameManager.Instance.GetCurrentTotalSavings());
 
         float needsRatio = Mathf.Clamp01((float)needsSpent / accumulatedAllowance);
@@ -55,5 +56,8 @@ public class TrackerScreenController : MonoBehaviour
         if (needsAmountText != null) needsAmountText.text = "₱" + needsSpent;
         if (wantsAmountText != null) wantsAmountText.text = "₱" + wantsSpent;
         if (savingsAmountText != null) savingsAmountText.text = "₱" + savingsSaved;
+
+        if (totalAllowanceText != null)
+            totalAllowanceText.text = "Accumulated Allowance: ₱" + accumulatedAllowance;
     }
 }

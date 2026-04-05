@@ -22,7 +22,7 @@ MonoBehaviour:
     savingsChange: -200
     happinessChange: 2
   choiceB:
-    buttonText: Dont Treat
+    buttonText: Don't Treat
     resultText: Save
     savingsChange: 0
     happinessChange: -2

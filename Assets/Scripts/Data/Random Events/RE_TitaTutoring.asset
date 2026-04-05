@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventId: 9
   eventTitle: Tutoring
-  description: "The child of Alex\u2019s Tita is having struggles with school, She
-    reaches out to Alex for a tutoring session worth P500 to help her child with
-    a test"
+  description: "Alex\u2019s aunt asked him for a P300 tutoring session to help her
+    child with a test"
   eventType: 1
   choiceA:
     buttonText: Accept

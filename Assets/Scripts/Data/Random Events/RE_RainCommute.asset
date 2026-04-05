@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fed7bfef03a21848a91badcf201e51f, type: 3}
   m_Name: RE_RainCommute
   m_EditorClassIdentifier: 
-  eventId: 0
+  eventId: 2
   eventTitle: Unpredictable Weather
   description: Rain possibly affecting transportation choices
   eventType: 0
   choiceA:
-    buttonText: 
+    buttonText: Continue Commute
     resultText: 
     savingsChange: 0
-    happinessChange: 0
+    happinessChange: -3
   choiceB:
-    buttonText: 
+    buttonText: Grab
     resultText: 
-    savingsChange: 0
+    savingsChange: -450
     happinessChange: 0
   eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1

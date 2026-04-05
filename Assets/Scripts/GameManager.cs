@@ -63,6 +63,11 @@ public class GameManager : MonoBehaviour
     public List<int> lutoBaonUseDays = new List<int>();
     public List<int> pasabayUseDays = new List<int>();
 
+    [Header("Tracker Totals")]
+    public int totalConfirmedNeedsSpent = 0;
+    public int totalConfirmedWantsSpent = 0;
+    public int totalConfirmedAllowance = 0;
+
     public bool WasWantChosenLastDay(string itemId)
     {
         return lastChosenWantItemId == itemId && lastChosenWantDay == currentDay - 1;

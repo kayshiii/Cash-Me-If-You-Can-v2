@@ -17,15 +17,15 @@ MonoBehaviour:
   description: Alex wants to sell crinkles but needs P200 for ingredients
   eventType: 1
   choiceA:
-    buttonText: 
+    buttonText: Sell
     resultText: 
     savingsChange: 0
     happinessChange: 0
   choiceB:
-    buttonText: 
+    buttonText: Decline
     resultText: 
     savingsChange: 0
-    happinessChange: 0
+    happinessChange: -3
   eligibleDays: 06000000090000000e0000000d000000
   oneTimeOnly: 1
   minHappiness: 40

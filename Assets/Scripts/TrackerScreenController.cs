@@ -31,15 +31,15 @@ public class TrackerScreenController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        int accumulatedAllowance = Mathf.Max(1, GameManager.Instance.totalConfirmedAllowance);
+        int accumulatedAllowance = GameManager.Instance.totalConfirmedAllowance;
 
         int needsSpent = Mathf.Max(0, GameManager.Instance.totalConfirmedNeedsSpent);
         int wantsSpent = Mathf.Max(0, GameManager.Instance.totalConfirmedWantsSpent);
         int savingsSaved = Mathf.Max(0, GameManager.Instance.GetCurrentTotalSavings());
 
-        float needsRatio = Mathf.Clamp01((float)needsSpent / accumulatedAllowance);
-        float wantsRatio = Mathf.Clamp01((float)wantsSpent / accumulatedAllowance);
-        float savingsRatio = Mathf.Clamp01((float)savingsSaved / accumulatedAllowance);
+        float needsRatio = accumulatedAllowance > 0 ? Mathf.Clamp01((float)needsSpent / accumulatedAllowance) : 0f;
+        float wantsRatio = accumulatedAllowance > 0 ? Mathf.Clamp01((float)wantsSpent / accumulatedAllowance) : 0f;
+        float savingsRatio = accumulatedAllowance > 0 ? Mathf.Clamp01((float)savingsSaved / accumulatedAllowance) : 0f;
 
         float needsPercent = needsRatio * 100f;
         float wantsPercent = wantsRatio * 100f;

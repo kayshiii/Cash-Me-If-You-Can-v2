@@ -316,7 +316,6 @@ public class SystemScreenController : MonoBehaviour
                 GetCurrentSelectedItemIds()
             );
 
-            // NEW: store final commute choice for later event logic
             if (commuteSlot != null && commuteSlot.HasItem && commuteSlot.CurrentItemData != null)
             {
                 GameManager.Instance.RecordCommuteChoice(
@@ -333,6 +332,11 @@ public class SystemScreenController : MonoBehaviour
             GameManager.Instance.SetTodayCategorySpent(needsSpent, wantsSpent);
             GameManager.Instance.SetTodaySaved(todaySavings);
             GameManager.Instance.AddSavings(todaySavings);
+
+            // NEW: cumulative tracker totals
+            GameManager.Instance.totalConfirmedNeedsSpent += needsSpent;
+            GameManager.Instance.totalConfirmedWantsSpent += wantsSpent;
+            GameManager.Instance.totalConfirmedAllowance += GameManager.Instance.dailyAllowance;
 
             int beforeHappiness = GameManager.Instance.happiness;
 

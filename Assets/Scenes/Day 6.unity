@@ -2021,6 +2021,9 @@ MonoBehaviour:
   happiness: 35
   totalSavings: 0
   savingsGoal: 8500
+  totalConfirmedNeedsSpent: 0
+  totalConfirmedWantsSpent: 0
+  totalConfirmedAllowance: 0
   todayAllocationConfirmed: 0
   todaySpent: 0
   todayRemaining: 800
@@ -8829,7 +8832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00033238926}
+  m_AnchoredPosition: {x: 0, y: 0.0004895207}
   m_SizeDelta: {x: 0, y: 227.64}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &584481525
@@ -12391,6 +12394,7 @@ MonoBehaviour:
   needsAmountText: {fileID: 0}
   wantsAmountText: {fileID: 0}
   savingsAmountText: {fileID: 0}
+  totalAllowanceText: {fileID: 0}
 --- !u!1 &798147960
 GameObject:
   m_ObjectHideFlags: 0
@@ -16149,7 +16153,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Day 4
+  m_text: Day 6
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
@@ -23339,7 +23343,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 334308124}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99968076
+  m_Size: 0.99848986
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

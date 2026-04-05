@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
     [Header("Savings Goal")]
     public int savingsGoal = 8500;
 
+    [Header("Tracker Totals")]
+    public int totalConfirmedNeedsSpent = 0;
+    public int totalConfirmedWantsSpent = 0;
+    public int totalConfirmedAllowance = 0;
+
     [Header("Today State")]
     public bool todayAllocationConfirmed = false;
     public int todaySpent = 0;
@@ -62,11 +67,6 @@ public class GameManager : MonoBehaviour
     [Header("Special Usage History")]
     public List<int> lutoBaonUseDays = new List<int>();
     public List<int> pasabayUseDays = new List<int>();
-
-    [Header("Tracker Totals")]
-    public int totalConfirmedNeedsSpent = 0;
-    public int totalConfirmedWantsSpent = 0;
-    public int totalConfirmedAllowance = 0;
 
     public bool WasWantChosenLastDay(string itemId)
     {

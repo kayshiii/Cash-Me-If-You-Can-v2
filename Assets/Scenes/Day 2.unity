@@ -12596,8 +12596,8 @@ MonoBehaviour:
   dialogueController: {fileID: 1422873601}
   openingDialogue: {fileID: 11400000, guid: 57a9a663bdcc5b1458b5435a6ac121b2, type: 2}
   finalDialogue: {fileID: 11400000, guid: f1e94c855c9ad764fad1a02f47536f09, type: 2}
-  phoneGroup: {fileID: 1162331503}
-  phoneRect: {fileID: 1162331502}
+  phoneGroup: {fileID: 515971019}
+  phoneRect: {fileID: 515971016}
   phoneEaseDuration: 0.5
   phoneEaseOffsetY: -300
   startScreenGroup: {fileID: 2139464285}

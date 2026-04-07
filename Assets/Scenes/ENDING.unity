@@ -1881,7 +1881,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dailyAllowance: 800
-  currentBudgetType: 1
+  currentBudgetType: 0
   currentDay: 15
   happiness: 35
   totalSavings: 0

@@ -98,6 +98,8 @@ public class SystemScreenController : MonoBehaviour
 
     [SerializeField] private HappinessMeter happinessMeter;
 
+    const float lowHappinessWantsPriceMultiplier = 1.2f;
+
     private bool isConfirmed = false;
 
     private void Start()
@@ -950,6 +952,15 @@ public class SystemScreenController : MonoBehaviour
                     result.finalCost = 0;
                     result.happinessDelta = -10f;
                     break;
+            }
+
+            // NEW: if happiness is lower than 30, wants get more expensive
+            if (gm != null && gm.happiness < 30 && item.itemId != "want_skip")
+            {
+                result.finalCost = Mathf.RoundToInt(result.finalCost * 1.2f);
+                result.variantLabel = string.IsNullOrEmpty(result.variantLabel)
+                    ? "Low Mood Price"
+                    : result.variantLabel + " (Low Mood Price)";
             }
 
             return result;

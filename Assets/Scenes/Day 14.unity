@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dailyAllowance: 800
-  currentBudgetType: 1
+  currentBudgetType: 0
   currentDay: 14
   happiness: 35
   totalSavings: 0
@@ -20877,7 +20877,7 @@ MonoBehaviour:
     happySprite: {fileID: 0}
     sadSprite: {fileID: 21300000, guid: 554387cdbd9ab7846afe15559a74c9b1, type: 3}
     pokerSprite: {fileID: 0}
-    angrySprite: {fileID: 0}
+    sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
   alexInternalPortraitImage: {fileID: 449390202}
@@ -20886,7 +20886,7 @@ MonoBehaviour:
     happySprite: {fileID: 21300000, guid: df9d9e35d5e835441ae5961bfc99a8f2, type: 3}
     sadSprite: {fileID: 21300000, guid: 554387cdbd9ab7846afe15559a74c9b1, type: 3}
     pokerSprite: {fileID: 0}
-    angrySprite: {fileID: 0}
+    sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
   boyetPortraitImage: {fileID: 1705768587}
@@ -20895,7 +20895,7 @@ MonoBehaviour:
     happySprite: {fileID: 21300000, guid: 0cb47b20f1dafc942a29ad62ac0cd0c4, type: 3}
     sadSprite: {fileID: 0}
     pokerSprite: {fileID: 0}
-    angrySprite: {fileID: 0}
+    sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
   lolaMomPortraitImage: {fileID: 259335930}
@@ -20904,7 +20904,7 @@ MonoBehaviour:
     happySprite: {fileID: 0}
     sadSprite: {fileID: 0}
     pokerSprite: {fileID: 0}
-    angrySprite: {fileID: 0}
+    sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
   nursePortraitImage: {fileID: 1350282280}
@@ -20913,7 +20913,7 @@ MonoBehaviour:
     happySprite: {fileID: 0}
     sadSprite: {fileID: 0}
     pokerSprite: {fileID: 0}
-    angrySprite: {fileID: 0}
+    sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
   spotlightHoles:

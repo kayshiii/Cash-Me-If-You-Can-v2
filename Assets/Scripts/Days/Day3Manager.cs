@@ -436,7 +436,16 @@ public class Day3Manager : MonoBehaviour
         chosePayNow = true;
 
         if (GameManager.Instance != null)
+        {
             GameManager.Instance.SetDay3Decision(true);
+
+            // Apply debt immediately from current savings
+            GameManager.Instance.ApplyDay3DebtNow(debtAmount);
+
+            // Clear any delayed debt in case this was previously set
+            GameManager.Instance.hasPendingFinalDebt = false;
+            GameManager.Instance.pendingFinalDebtAmount = 0;
+        }
 
         HidePopup(decisionPopup, decisionPanel, () =>
         {
@@ -451,7 +460,13 @@ public class Day3Manager : MonoBehaviour
         chosePayNow = false;
 
         if (GameManager.Instance != null)
+        {
             GameManager.Instance.SetDay3Decision(false);
+
+            // Store debt to be deducted from final savings later
+            GameManager.Instance.hasPendingFinalDebt = true;
+            GameManager.Instance.pendingFinalDebtAmount = debtAmount;
+        }
 
         HidePopup(decisionPopup, decisionPanel, () =>
         {
@@ -479,11 +494,6 @@ public class Day3Manager : MonoBehaviour
 
     private void OnFinalChoiceDialogueFinished()
     {
-        if (GameManager.Instance != null && chosePayNow)
-        {
-            GameManager.Instance.ApplyDay3DebtNow(debtAmount);
-        }
-
         StartEndingDialogue();
     }
 

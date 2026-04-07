@@ -174,8 +174,7 @@ public class EndingManager : MonoBehaviour
     {
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.currentDay = 16;
-            GameManager.Instance.ResetDayValues(); // no allowance usage anyway
+            GameManager.Instance.ResetWholeGame();
         }
 
         if (!string.IsNullOrEmpty(nextSceneName))

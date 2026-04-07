@@ -13,6 +13,7 @@ public class AllocationChoiceButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI variantText;
     [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private TextMeshProUGUI lowMoodPriceText;
     [SerializeField] private GameObject lockedMark;
 
     private SystemScreenController owner;
@@ -50,6 +51,9 @@ public class AllocationChoiceButton : MonoBehaviour
         int displayCost = itemData.cost;
         bool available = true;
 
+        bool showLowMoodText = false;
+        string lowMoodLabel = "";
+
         if (owner != null)
         {
             var eval = owner.EvaluateChoice(itemData);
@@ -57,6 +61,9 @@ public class AllocationChoiceButton : MonoBehaviour
             variant = eval.variantLabel;
             displayCost = eval.finalCost;
             available = eval.isAvailable;
+
+            showLowMoodText = eval.showLowMoodPriceText;
+            lowMoodLabel = eval.lowMoodPriceLabel;
         }
 
         if (itemNameText != null)
@@ -70,6 +77,12 @@ public class AllocationChoiceButton : MonoBehaviour
 
         if (priceText != null)
             priceText.text = displayCost <= 0 ? "FREE" : $"₱{displayCost}";
+
+        if (lowMoodPriceText != null)
+        {
+            lowMoodPriceText.text = lowMoodLabel;
+            lowMoodPriceText.gameObject.SetActive(showLowMoodText);
+        }
 
         if (lockedMark != null)
             lockedMark.SetActive(!available);

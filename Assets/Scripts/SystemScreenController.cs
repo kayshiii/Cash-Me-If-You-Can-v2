@@ -77,6 +77,9 @@ public class SystemScreenController : MonoBehaviour
 
         public string baseName;
         public string variantLabel;
+
+        public bool showLowMoodPriceText;
+        public string lowMoodPriceLabel;
     }
 
     [Header("Scripts")]
@@ -799,7 +802,9 @@ public class SystemScreenController : MonoBehaviour
             finalCost = item.cost,
             happinessDelta = item.happiness,
             baseName = item.itemName,
-            variantLabel = ""
+            variantLabel = "",
+            showLowMoodPriceText = false,
+            lowMoodPriceLabel = ""
         };
 
         var gm = GameManager.Instance;
@@ -954,13 +959,11 @@ public class SystemScreenController : MonoBehaviour
                     break;
             }
 
-            // NEW: if happiness is lower than 30, wants get more expensive
             if (gm != null && gm.happiness < 30 && item.itemId != "want_skip")
             {
-                result.finalCost = Mathf.RoundToInt(result.finalCost * 1.2f);
-                result.variantLabel = string.IsNullOrEmpty(result.variantLabel)
-                    ? "Low Mood Price"
-                    : result.variantLabel + " (Low Mood Price)";
+                result.finalCost = Mathf.RoundToInt(result.finalCost * lowHappinessWantsPriceMultiplier);
+                result.showLowMoodPriceText = true;
+                result.lowMoodPriceLabel = "Low Mood Price";
             }
 
             return result;

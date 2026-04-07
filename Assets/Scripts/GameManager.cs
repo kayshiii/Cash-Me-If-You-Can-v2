@@ -48,6 +48,11 @@ public class GameManager : MonoBehaviour
     public int day3DebtAmount = 500;
     public bool day3DebtApplied = false;
 
+    [Header("Final Debt (Day 3)")]
+    public bool hasPendingFinalDebt = false;
+    public int pendingFinalDebtAmount = 0;
+    public bool finalDebtApplied = false;
+
     [Header("Day 8 Choice")]
     public bool day8DecisionMade = false;
     public bool day8BoughtAntacid = false;
@@ -355,5 +360,54 @@ public class GameManager : MonoBehaviour
     {
         currentDay++;
         ResetDayValues();
+    }
+
+    public void ResetWholeGame()
+    {
+        currentDay = 1;
+        currentBudgetType = BudgetType.None;
+
+        happiness = 35;
+        totalSavings = 0;
+
+        totalConfirmedNeedsSpent = 0;
+        totalConfirmedWantsSpent = 0;
+        totalConfirmedAllowance = 0;
+
+        todayAllocationConfirmed = false;
+        todaySpent = 0;
+        todayRemaining = dailyAllowance;
+        todaySaved = 0;
+        todayNeedsSpent = 0;
+        todayWantsSpent = 0;
+
+        draftSelectedItemIds.Clear();
+        confirmedSelectedItemIds.Clear();
+
+        day3DecisionMade = false;
+        day3PaidNow = false;
+        day3DebtAmount = 500;
+        day3DebtApplied = false;
+
+        hasPendingFinalDebt = false;
+        pendingFinalDebtAmount = 0;
+        finalDebtApplied = false;
+
+        day8DecisionMade = false;
+        day8BoughtAntacid = false;
+        day8AntacidCost = 100;
+
+        usedRandomEvents.Clear();
+
+        lastChosenWantItemId = "";
+        lastChosenWantDay = -1;
+
+        lastCommuteChoiceId = "";
+        lastCommuteCost = 0;
+
+        lutoBaonUseDays.Clear();
+        pasabayUseDays.Clear();
+
+        Debug.Log("[GameManager] Full game state reset.", this);
     }
 }

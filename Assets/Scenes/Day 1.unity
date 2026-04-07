@@ -4224,7 +4224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &319027920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12020,7 +12020,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Allowance received
+  m_text: P800 ALLOWANCE RECEIVED
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}
   m_sharedMaterial: {fileID: -3019939458498422853, guid: acf599fc455b1f54585c2e6bdca21fe3, type: 2}

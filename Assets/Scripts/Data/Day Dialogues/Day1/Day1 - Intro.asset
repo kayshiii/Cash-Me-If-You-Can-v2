@@ -38,7 +38,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - expression: 0
     speaker: 4
-    text: Allowance Received!
+    text: P800 ALLOWANCE RECEIVED
     useSpotlight: 0
     spotlightIndex: 0
     dependsOnBudget: 0

@@ -1,5 +1,5 @@
 # Cash Me If You Can v2
-A narrative-driven financial simulation game where players manage daily expenses while working toward a meaningful goal.
+A narrative-driven financial simulation game where players manage daily expenses while working toward a meaningful goal. [This is a Capstone Project]
 Valentines Version
 
 ## Overview

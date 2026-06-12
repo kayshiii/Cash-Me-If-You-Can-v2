@@ -20730,13 +20730,13 @@ MonoBehaviour:
   narratorGroup: {fileID: 536576626}
   narratorText: {fileID: 450938407}
   narratorPopDuration: 0.3
-  alexRect: {fileID: 0}
+  alexRect: {fileID: 2093265267}
   alexBubbleGroup: {fileID: 536576626}
   alexText: {fileID: 450938407}
   alexSlideDuration: 0.4
   alexSlideOffset: -300
   alexBubblePopDuration: 0.25
-  alexInternalRect: {fileID: 0}
+  alexInternalRect: {fileID: 1067424728}
   alexInternalBubbleGroup: {fileID: 717408870}
   alexInternalText: {fileID: 1699696772}
   alexInternalSlideDuration: 0.4

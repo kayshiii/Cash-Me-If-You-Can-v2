@@ -18,6 +18,8 @@ public class Day8Manager : MonoBehaviour
     [Header("Backgrounds")]
     [SerializeField] private CanvasGroup roomBg;
     [SerializeField] private CanvasGroup classroomBg;
+    [SerializeField] private CanvasGroup convenienceStoreBg;
+    [SerializeField] private CanvasGroup hospitalBg;
     [SerializeField] private float bgFadeDuration = 0.6f;
     [SerializeField] private float delayBeforeRoom = 0.1f;
 
@@ -112,6 +114,12 @@ public class Day8Manager : MonoBehaviour
 
         if (classroomBg != null)
             classroomBg.alpha = 0f;
+
+        if (convenienceStoreBg != null)
+            convenienceStoreBg.alpha = 0f;
+
+        if (hospitalBg != null)
+            hospitalBg.alpha = 0f;
 
         if (phoneRect != null)
         {
@@ -430,7 +438,7 @@ public class Day8Manager : MonoBehaviour
             GameManager.Instance.SetDay8Decision(true);
         }
 
-        HidePopup(decisionPopup, decisionPanel, StartFinalDialogue);
+        HidePopup(decisionPopup, decisionPanel, SwitchToConvenienceStore);
     }
 
     public void OnGoClinicPressed()
@@ -442,7 +450,33 @@ public class Day8Manager : MonoBehaviour
         if (GameManager.Instance != null)
             GameManager.Instance.SetDay8Decision(false);
 
-        HidePopup(decisionPopup, decisionPanel, StartFinalDialogue);
+        HidePopup(decisionPopup, decisionPanel, SwitchToHospital);
+    }
+
+    private void SwitchToConvenienceStore()
+    {
+        Sequence seq = DOTween.Sequence();
+
+        if (classroomBg != null)
+            seq.Append(classroomBg.DOFade(0f, bgFadeDuration).SetEase(Ease.InOutCubic));
+
+        if (convenienceStoreBg != null)
+            seq.Join(convenienceStoreBg.DOFade(1f, bgFadeDuration).SetEase(Ease.InOutCubic));
+
+        seq.OnComplete(StartFinalDialogue);
+    }
+
+    private void SwitchToHospital()
+    {
+        Sequence seq = DOTween.Sequence();
+
+        if (classroomBg != null)
+            seq.Append(classroomBg.DOFade(0f, bgFadeDuration).SetEase(Ease.InOutCubic));
+
+        if (hospitalBg != null)
+            seq.Join(hospitalBg.DOFade(1f, bgFadeDuration).SetEase(Ease.InOutCubic));
+
+        seq.OnComplete(StartFinalDialogue);
     }
 
     private void StartFinalDialogue()

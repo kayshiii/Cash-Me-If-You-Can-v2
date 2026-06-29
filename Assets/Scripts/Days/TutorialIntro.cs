@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class TutorialIntro : MonoBehaviour
 {
     [Header("Intro BG / Title")]
-    [SerializeField] private CanvasGroup tutorialBg;
+    [SerializeField] private CanvasGroup blackBg;
     [SerializeField] private RectTransform tutorialTitle;
     [SerializeField] private float bgFadeInDuration = 0.6f;
     [SerializeField] private float titlePopDuration = 0.4f;
@@ -137,7 +137,7 @@ public class TutorialIntro : MonoBehaviour
 
     private void Awake()
     {
-        if (tutorialBg != null) tutorialBg.alpha = 0f;
+        if (blackBg != null) blackBg.alpha = 0f;
 
         if (tutorialTitle != null)
         {
@@ -330,34 +330,44 @@ public class TutorialIntro : MonoBehaviour
 
         Sequence seq = DOTween.Sequence();
 
-        if (tutorialBg != null)
+        // Home bg is fully visible from the start
+        if (homeBg != null)
         {
-            seq.Append(tutorialBg.DOFade(1f, bgFadeInDuration).SetEase(Ease.OutCubic));
+            homeBg.alpha = 1f;
+            homeBg.gameObject.SetActive(true);
         }
 
+        // Black bg starts half‑dimmed on top of home
+        if (blackBg != null)
+        {
+            blackBg.alpha = 0.5f;                    // half transparency
+            blackBg.gameObject.SetActive(true);
+        }
+
+        // Title pops while black bg is at 0.5
         if (tutorialTitle != null)
         {
+            // extra fixed delay
+            seq.AppendInterval(0.3f);
+
             seq.AppendInterval(titleDelayAfterBg);
             tutorialTitle.localScale = Vector3.zero;
             seq.Append(tutorialTitle.DOScale(1f, titlePopDuration).SetEase(Ease.OutBack));
         }
 
-        if (tutorialTitle != null || tutorialBg != null)
+        // Small pause, then fade out title + black bg (0.5 -> 0)
+        if (tutorialTitle != null || blackBg != null)
         {
             seq.AppendInterval(0.3f);
 
             if (tutorialTitle != null)
                 seq.Append(tutorialTitle.DOScale(0f, titleFadeOutDuration).SetEase(Ease.InBack));
 
-            if (tutorialBg != null)
-                seq.Join(tutorialBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
+            if (blackBg != null)
+                seq.Join(blackBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
         }
 
-        if (homeBg != null)
-        {
-            seq.AppendInterval(delayBeforeHome);
-            seq.Append(homeBg.DOFade(1f, homeFadeInDuration).SetEase(Ease.OutCubic));
-        }
+        // No need to re‑fade homeBg; it’s already at alpha 1
 
         seq.OnComplete(() =>
         {

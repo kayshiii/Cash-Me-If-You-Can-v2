@@ -17,6 +17,7 @@ public class Day7Manager : MonoBehaviour
 
     [Header("Background")]
     [SerializeField] private CanvasGroup bathroomBg;
+    [SerializeField] private CanvasGroup homeBg;
     [SerializeField] private float bathroomFadeInDuration = 0.6f;
     [SerializeField] private float delayBeforeBathroom = 0.1f;
 
@@ -152,10 +153,10 @@ public class Day7Manager : MonoBehaviour
         if (introBg != null)
             seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
 
-        if (bathroomBg != null)
+        if (homeBg != null)
         {
             seq.AppendInterval(delayBeforeBathroom);
-            seq.Append(bathroomBg.DOFade(1f, bathroomFadeInDuration).SetEase(Ease.OutCubic));
+            seq.Append(homeBg.DOFade(1f, bathroomFadeInDuration).SetEase(Ease.OutCubic));
         }
 
         seq.OnComplete(StartOpeningDialogue);
@@ -248,6 +249,19 @@ public class Day7Manager : MonoBehaviour
     private void StartFinalDialogue()
     {
         currentPhase = Phase.FinalDialogue;
+
+        if (homeBg != null)
+        {
+            homeBg.alpha = 0f;
+            homeBg.gameObject.SetActive(false);
+        }
+
+        if (bathroomBg != null)
+        {
+            bathroomBg.gameObject.SetActive(true);
+            bathroomBg.alpha = 1f;
+            yellowTintOverlay.DOFade(yellowTintAlpha, yellowTintFadeDuration).SetEase(Ease.OutCubic);
+        }
 
         if (yellowTintOverlay != null)
         {

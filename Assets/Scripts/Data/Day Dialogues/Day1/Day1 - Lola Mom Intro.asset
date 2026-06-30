@@ -63,7 +63,7 @@ MonoBehaviour:
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 70/30'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0

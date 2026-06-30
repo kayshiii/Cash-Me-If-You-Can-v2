@@ -12,14 +12,11 @@ public class TutorialIntro : MonoBehaviour
     [Header("Intro BG / Title")]
     [SerializeField] private CanvasGroup blackBg;
     [SerializeField] private RectTransform tutorialTitle;
-    [SerializeField] private float bgFadeInDuration = 0.6f;
     [SerializeField] private float titlePopDuration = 0.4f;
     [SerializeField] private float titleDelayAfterBg = 0.2f;
     [SerializeField] private float titleFadeOutDuration = 0.3f;
     [SerializeField] private float bgFadeOutDuration = 0.5f;
     [SerializeField] private CanvasGroup homeBg;
-    [SerializeField] private float homeFadeInDuration = 0.6f;
-    [SerializeField] private float delayBeforeHome = 0.1f;
 
     [Header("Dialogue")]
     [SerializeField] private DialogueController dialogueController;
@@ -73,7 +70,6 @@ public class TutorialIntro : MonoBehaviour
     [SerializeField] private CanvasGroup systemScreenGroup;
     [SerializeField] private CanvasGroup trackScreenGroup;
     [SerializeField] private float systemScreenFadeDuration = 0.4f;
-    [SerializeField] private float startScreenFadeDuration = 0.4f;
 
     [Header("System Components")]
     [SerializeField] private GameObject savingsOBJ;

@@ -14,12 +14,6 @@ public class SystemScreenController : MonoBehaviour
 
     private AllocationSlotUI currentTargetSlot;
 
-/*    [Header("Tab Visuals")]
-    [SerializeField] private Image needsButtonImage;
-    [SerializeField] private Image wantsButtonImage;
-    [SerializeField] private Color activeTabColor = Color.green;
-    [SerializeField] private Color inactiveTabColor = Color.white;*/
-
     [Header("Tab Buttons")]
     [SerializeField] private Button confirmButton;
 
@@ -31,7 +25,10 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private AllocationSlotUI[] wantSlots;
 
     [Header("Budget Info UI")]
-    [SerializeField] private TextMeshProUGUI budgetMethodText;
+    [SerializeField] private Image budgetMethodImage;
+    [SerializeField] private Sprite fiftyThirtyTwentySprite;
+    [SerializeField] private Sprite seventyThirtySprite;
+    [SerializeField] private Sprite noBudgetMethodSprite;
     [SerializeField] private TextMeshProUGUI budgetBudgetText;
 
     [Header("Savings UI")]
@@ -416,9 +413,19 @@ public class SystemScreenController : MonoBehaviour
             GameManager.Instance.SetTodaySaved(todaySavings);
             GameManager.Instance.AddSavings(todaySavings);
 
+            Debug.Log("[Tracker Check] needsSpent = " + needsSpent, this);
+            Debug.Log("[Tracker Check] wantsSpent = " + wantsSpent, this);
+            Debug.Log("[Tracker Check] totalConfirmedNeedsSpent BEFORE = " + GameManager.Instance.totalConfirmedNeedsSpent, this);
+            Debug.Log("[Tracker Check] totalConfirmedWantsSpent BEFORE = " + GameManager.Instance.totalConfirmedWantsSpent, this);
+            Debug.Log("[Tracker Check] totalConfirmedAllowance BEFORE = " + GameManager.Instance.totalConfirmedAllowance, this);
+
             GameManager.Instance.totalConfirmedNeedsSpent += needsSpent;
             GameManager.Instance.totalConfirmedWantsSpent += wantsSpent;
             GameManager.Instance.totalConfirmedAllowance += GameManager.Instance.dailyAllowance;
+
+            Debug.Log("[Tracker Check] totalConfirmedNeedsSpent AFTER = " + GameManager.Instance.totalConfirmedNeedsSpent, this);
+            Debug.Log("[Tracker Check] totalConfirmedWantsSpent AFTER = " + GameManager.Instance.totalConfirmedWantsSpent, this);
+            Debug.Log("[Tracker Check] totalConfirmedAllowance AFTER = " + GameManager.Instance.totalConfirmedAllowance, this);
 
             int beforeHappiness = GameManager.Instance.happiness;
 
@@ -560,6 +567,25 @@ public class SystemScreenController : MonoBehaviour
 
         return ids;
     }
+    private void UpdateBudgetMethodSprite(BudgetType type)
+    {
+        if (budgetMethodImage == null) return;
+
+        switch (type)
+        {
+            case BudgetType.FiftyThirtyTwenty:
+                budgetMethodImage.sprite = fiftyThirtyTwentySprite;
+                break;
+
+            case BudgetType.SeventyThirty:
+                budgetMethodImage.sprite = seventyThirtySprite;
+                break;
+
+            default:
+                budgetMethodImage.sprite = noBudgetMethodSprite;
+                break;
+        }
+    }
 
     private void RefreshBudgetUI()
     {
@@ -583,6 +609,7 @@ public class SystemScreenController : MonoBehaviour
         }
 
         var type = GameManager.Instance.currentBudgetType;
+        UpdateBudgetMethodSprite(type);
 
         todaySavings = 0;
 
@@ -595,8 +622,7 @@ public class SystemScreenController : MonoBehaviour
             int needsRemainingRaw = needsMax - needsSpent;
             int wantsRemainingRaw = wantsMax - wantsSpent;
 
-            if (budgetMethodText != null)
-                budgetMethodText.text = "Budget Method: 50/30/20";
+            UpdateBudgetMethodSprite(type);
 
             if (budgetBudgetText != null)
             {
@@ -637,8 +663,7 @@ public class SystemScreenController : MonoBehaviour
             int sharedSpent = needsSpent + wantsSpent;
             int sharedRemainingRaw = sharedMax - sharedSpent;
 
-            if (budgetMethodText != null)
-                budgetMethodText.text = "Budget Method: 70/30";
+            UpdateBudgetMethodSprite(type);
 
             if (budgetBudgetText != null)
             {
@@ -672,8 +697,7 @@ public class SystemScreenController : MonoBehaviour
         }
         else
         {
-            if (budgetMethodText != null)
-                budgetMethodText.text = "Budget Method: None";
+            UpdateBudgetMethodSprite(type);
 
             if (budgetBudgetText != null)
                 budgetBudgetText.text = "Budget: --";

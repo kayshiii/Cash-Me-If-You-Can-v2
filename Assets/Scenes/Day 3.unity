@@ -5880,7 +5880,10 @@ MonoBehaviour:
   commuteSlot: {fileID: 445317887}
   wantSlots:
   - {fileID: 543631146}
-  budgetMethodText: {fileID: 1213179800}
+  budgetMethodImage: {fileID: 0}
+  fiftyThirtyTwentySprite: {fileID: 0}
+  seventyThirtySprite: {fileID: 0}
+  noBudgetMethodSprite: {fileID: 0}
   budgetBudgetText: {fileID: 1339249720}
   savingsText: {fileID: 1979208638}
   savingsMeterImage: {fileID: 0}
@@ -18269,7 +18272,10 @@ MonoBehaviour:
   commuteSlot: {fileID: 1165578212}
   wantSlots:
   - {fileID: 435468547}
-  budgetMethodText: {fileID: 0}
+  budgetMethodImage: {fileID: 1915823615}
+  fiftyThirtyTwentySprite: {fileID: 21300000, guid: d453966c60ecdc44daa429f85e55fca8, type: 3}
+  seventyThirtySprite: {fileID: 21300000, guid: 14da73810104d4d49a4c91eb9269936e, type: 3}
+  noBudgetMethodSprite: {fileID: 0}
   budgetBudgetText: {fileID: 216732578}
   savingsText: {fileID: 223183113}
   savingsMeterImage: {fileID: 1485440464}

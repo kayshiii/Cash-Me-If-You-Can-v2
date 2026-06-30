@@ -5590,7 +5590,10 @@ MonoBehaviour:
   commuteSlot: {fileID: 445317887}
   wantSlots:
   - {fileID: 543631146}
-  budgetMethodText: {fileID: 1213179800}
+  budgetMethodImage: {fileID: 0}
+  fiftyThirtyTwentySprite: {fileID: 0}
+  seventyThirtySprite: {fileID: 0}
+  noBudgetMethodSprite: {fileID: 0}
   budgetBudgetText: {fileID: 1339249720}
   savingsText: {fileID: 1979208638}
   savingsMeterImage: {fileID: 0}
@@ -23503,7 +23506,10 @@ MonoBehaviour:
   commuteSlot: {fileID: 111312165}
   wantSlots:
   - {fileID: 1906117454}
-  budgetMethodText: {fileID: 0}
+  budgetMethodImage: {fileID: 1331193028}
+  fiftyThirtyTwentySprite: {fileID: 21300000, guid: d453966c60ecdc44daa429f85e55fca8, type: 3}
+  seventyThirtySprite: {fileID: 21300000, guid: 14da73810104d4d49a4c91eb9269936e, type: 3}
+  noBudgetMethodSprite: {fileID: 0}
   budgetBudgetText: {fileID: 826827496}
   savingsText: {fileID: 1197069584}
   savingsMeterImage: {fileID: 1186492327}
@@ -25511,16 +25517,6 @@ MonoBehaviour:
     sickSprite: {fileID: 0}
     thinkingSprite: {fileID: 0}
     embarrassedSprite: {fileID: 0}
-  spotlightHoles:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   charDelay: 0.03
   nextIndicator: {fileID: 964755261}
   tutorialIntro: {fileID: 0}

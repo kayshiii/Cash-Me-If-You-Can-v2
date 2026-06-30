@@ -137,8 +137,8 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private Image nursePortraitImage;
     [SerializeField] private CharacterPortraitSet nursePortraits;
 
-    [Header("Spotlight")]
-    [SerializeField] private CanvasGroup[] spotlightHoles;
+/*    [Header("Spotlight")]
+    [SerializeField] private CanvasGroup[] spotlightHoles;*/
 
     [Header("Typewriter")]
     [SerializeField] private float charDelay = 0.03f;
@@ -247,7 +247,7 @@ public class DialogueController : MonoBehaviour
             lolaMomBubbleGroup.gameObject.SetActive(false);
         }
 
-        if (spotlightHoles != null)
+/*        if (spotlightHoles != null)
         {
             foreach (var cg in spotlightHoles)
             {
@@ -255,7 +255,7 @@ public class DialogueController : MonoBehaviour
                 cg.alpha = 0f;
                 cg.gameObject.SetActive(false);
             }
-        }
+        }*/
 
         if (nextIndicator != null)
             nextIndicator.SetActive(false);

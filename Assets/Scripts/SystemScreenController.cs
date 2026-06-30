@@ -6,11 +6,13 @@ using UnityEngine.UI;
 
 public class SystemScreenController : MonoBehaviour
 {
-    [Header("Tabs")]
-    [SerializeField] private GameObject needsSubTab;
-    [SerializeField] private GameObject wantsSubTab;
-    [SerializeField] private GameObject needsChoicesRoot;
-    [SerializeField] private GameObject wantsChoicesRoot;
+
+    [Header("Choice Panels")]
+    [SerializeField] private GameObject lunchChoicePanel;
+    [SerializeField] private GameObject commuteChoicePanel;
+    [SerializeField] private GameObject wantsChoicePanel;
+
+    private AllocationSlotUI currentTargetSlot;
 
     [Header("Tab Visuals")]
     [SerializeField] private Image needsButtonImage;
@@ -19,8 +21,6 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Color inactiveTabColor = Color.white;
 
     [Header("Tab Buttons")]
-    [SerializeField] private Button needsButton;
-    [SerializeField] private Button wantsButton;
     [SerializeField] private Button confirmButton;
 
     [Header("Need Slots")]
@@ -32,11 +32,16 @@ public class SystemScreenController : MonoBehaviour
 
     [Header("Budget Info UI")]
     [SerializeField] private TextMeshProUGUI budgetMethodText;
-    [SerializeField] private TextMeshProUGUI budgetBudgetText;   // single budget text
+    [SerializeField] private TextMeshProUGUI budgetBudgetText;
 
     [Header("Savings UI")]
     [SerializeField] private TextMeshProUGUI savingsText;
-    [SerializeField] private Slider savingsSlider;
+    [SerializeField] private Image savingsMeterImage;
+    [SerializeField] private Sprite savingsEmptySprite;
+    [SerializeField] private Sprite savingsAlmostFullSprite;
+    [SerializeField] private Sprite savingsHalfFilledSprite;
+    [SerializeField] private Sprite savingsSemiFilledSprite;
+    [SerializeField] private Sprite savingsFullSprite;
     [SerializeField] private int savingsGoal = 8500;
     private int todaySavings = 0;
 
@@ -68,6 +73,7 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Button negativeOkButton;
 
     private bool isBudgetNegative = false;
+    private bool isConfirmed = false;
 
     public struct ChoiceEvaluation
     {
@@ -103,14 +109,22 @@ public class SystemScreenController : MonoBehaviour
 
     const float lowHappinessWantsPriceMultiplier = 1.2f;
 
-    private bool isConfirmed = false;
-
     private void Start()
     {
         foreach (var btn in choiceButtons)
         {
             if (btn != null) btn.Setup(this);
         }
+
+        if (lunchSlot != null) lunchSlot.SetOwner(this);
+        if (commuteSlot != null) commuteSlot.SetOwner(this);
+
+        foreach (var slot in wantSlots)
+        {
+            if (slot != null) slot.SetOwner(this);
+        }
+
+        CloseAllChoicePanels();
 
         SetPopupStateInstant(exitConfirmPopup, false);
         SetPopupStateInstant(allocateWarningPopup, false);
@@ -156,23 +170,56 @@ public class SystemScreenController : MonoBehaviour
     {
         HidePopup(negativeBudgetPopup, negativeBudgetPanel);
     }
+
+    private void UpdateSavingsMeterSprite(int currentSavings)
+    {
+        if (savingsMeterImage == null || savingsGoal <= 0) return;
+
+        float ratio = Mathf.Clamp01((float)currentSavings / savingsGoal);
+
+        if (ratio <= 0.10f)
+        {
+            savingsMeterImage.sprite = savingsEmptySprite;
+        }
+        else if (ratio <= 0.30f)
+        {
+            savingsMeterImage.sprite = savingsAlmostFullSprite;
+        }
+        else if (ratio <= 0.55f)
+        {
+            savingsMeterImage.sprite = savingsHalfFilledSprite;
+        }
+        else if (ratio <= 0.85f)
+        {
+            savingsMeterImage.sprite = savingsSemiFilledSprite;
+        }
+        else
+        {
+            savingsMeterImage.sprite = savingsFullSprite;
+        }
+    }
+
     public void OpenNeedsTab()
     {
-        if (needsSubTab != null) needsSubTab.SetActive(true);
-        if (wantsSubTab != null) wantsSubTab.SetActive(false);
-        if (needsChoicesRoot != null) needsChoicesRoot.SetActive(true);
-        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);
+        /*if (needsSubTab != null) needsSubTab.SetActive(true);
+        if (wantsSubTab != null) wantsSubTab.SetActive(false);*/
 
+        /*if (needsChoicesRoot != null) needsChoicesRoot.SetActive(false);
+        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
+
+        CloseAllChoicePanels();
         UpdateTabVisuals(true);
     }
 
     public void OpenWantsTab()
     {
-        if (needsSubTab != null) needsSubTab.SetActive(false);
-        if (wantsSubTab != null) wantsSubTab.SetActive(true);
-        if (needsChoicesRoot != null) needsChoicesRoot.SetActive(false);
-        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(true);
+        /*if (needsSubTab != null) needsSubTab.SetActive(false);
+        if (wantsSubTab != null) wantsSubTab.SetActive(true);*/
 
+        /*if (needsChoicesRoot != null) needsChoicesRoot.SetActive(false);
+        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
+
+        CloseAllChoicePanels();
         UpdateTabVisuals(false);
     }
 
@@ -185,57 +232,88 @@ public class SystemScreenController : MonoBehaviour
             wantsButtonImage.color = needsActive ? inactiveTabColor : activeTabColor;
     }
 
+    public void OnSlotPressed(AllocationSlotUI slot)
+    {
+        if (isConfirmed || slot == null) return;
+
+        currentTargetSlot = slot;
+        CloseAllChoicePanels();
+
+        switch (slot.Type)
+        {
+            case AllocationSlotUI.SlotType.Lunch:
+                if (lunchChoicePanel != null) lunchChoicePanel.SetActive(true);
+                break;
+
+            case AllocationSlotUI.SlotType.Commute:
+                if (commuteChoicePanel != null) commuteChoicePanel.SetActive(true);
+                break;
+
+            case AllocationSlotUI.SlotType.Want:
+                if (wantsChoicePanel != null) wantsChoicePanel.SetActive(true);
+                break;
+        }
+    }
+
+    public void CloseChoicePanels()
+    {
+        currentTargetSlot = null;
+        CloseAllChoicePanels();
+    }
+
+    private void CloseAllChoicePanels()
+    {
+        if (lunchChoicePanel != null) lunchChoicePanel.SetActive(false);
+        if (commuteChoicePanel != null) commuteChoicePanel.SetActive(false);
+        if (wantsChoicePanel != null) wantsChoicePanel.SetActive(false);
+    }
+
     public void OnChoiceClicked(AllocationItemData item)
     {
-        if (isConfirmed) return;
+        if (isConfirmed || item == null) return;
+        if (currentTargetSlot == null) return;
 
-        // Evaluate rules
         ChoiceEvaluation eval = EvaluateChoice(item);
-        if (!eval.isAvailable) return; // locked by happiness / usage
+        if (!eval.isAvailable) return;
 
-        // If item is already placed, remove it
-        if (IsItemPlaced(item.itemId))
-        {
-            RemoveItem(item.itemId);
-            RefreshBudgetUI();
-            RefreshAllChoices();
-            SaveTodayAllocation();
+        if (currentTargetSlot.Type == AllocationSlotUI.SlotType.Lunch &&
+            item.category != AllocationCategory.NeedLunch)
             return;
-        }
 
-        // Place into slots
-        switch (item.category)
+        if (currentTargetSlot.Type == AllocationSlotUI.SlotType.Commute &&
+            item.category != AllocationCategory.NeedCommute)
+            return;
+
+        if (currentTargetSlot.Type == AllocationSlotUI.SlotType.Want &&
+            item.category != AllocationCategory.Want)
+            return;
+
+        currentTargetSlot.SetItem(item, this);
+
+        if (item.category == AllocationCategory.Want && GameManager.Instance != null)
         {
-            case AllocationCategory.NeedLunch:
-                PlaceIntoSlot(lunchSlot, item);
-                break;
-
-            case AllocationCategory.NeedCommute:
-                PlaceIntoSlot(commuteSlot, item);
-                break;
-
-            case AllocationCategory.Want:
-                PlaceIntoFirstEmptyWantSlot(item);
-
-                // Record last want choice for repeat behavior
-                if (GameManager.Instance != null)
-                    GameManager.Instance.RecordWantChoice(item.itemId);
-                break;
+            GameManager.Instance.RecordWantChoice(item.itemId);
         }
 
-        // Luto Baon special usage tracking
         if (item.itemId == "luto_baon" && GameManager.Instance != null)
         {
             GameManager.Instance.RecordLutoBaonUse();
         }
 
+        CloseAllChoicePanels();
+        currentTargetSlot = null;
+
         RefreshBudgetUI();
-        RefreshAllChoices();
         SaveTodayAllocation();
+
+        Debug.Log("Lunch selected: " + (lunchSlot != null && lunchSlot.HasItem));
+        Debug.Log("Commute selected: " + (commuteSlot != null && commuteSlot.HasItem));
+        Debug.Log("HasRequiredTutorialSelections: " + HasRequiredTutorialSelections());
+        Debug.Log("DialogueController ref exists: " + (dialogueController != null));
 
         if (HasRequiredTutorialSelections() && dialogueController != null)
         {
-            dialogueController.ContinueFromButton();
+            dialogueController.ContinueFromAllocationChoices();
         }
     }
 
@@ -338,7 +416,6 @@ public class SystemScreenController : MonoBehaviour
             GameManager.Instance.SetTodaySaved(todaySavings);
             GameManager.Instance.AddSavings(todaySavings);
 
-            // NEW: cumulative tracker totals
             GameManager.Instance.totalConfirmedNeedsSpent += needsSpent;
             GameManager.Instance.totalConfirmedWantsSpent += wantsSpent;
             GameManager.Instance.totalConfirmedAllowance += GameManager.Instance.dailyAllowance;
@@ -371,6 +448,7 @@ public class SystemScreenController : MonoBehaviour
         }
 
         LockAllSlots(true);
+        CloseAllChoicePanels();
 
         Debug.Log("[Allocation Confirm] Allocation locked and finalized.", this);
     }
@@ -380,19 +458,6 @@ public class SystemScreenController : MonoBehaviour
         if (slot == null) return;
         slot.SetItem(item, this);
         RefreshAllChoices();
-    }
-
-    private void PlaceIntoFirstEmptyWantSlot(AllocationItemData item)
-    {
-        foreach (var slot in wantSlots)
-        {
-            if (slot != null && slot.IsEmpty)
-            {
-                slot.SetItem(item, this);
-                RefreshAllChoices();
-                return;
-            }
-        }
     }
 
     private void RemoveItem(string itemId)
@@ -442,7 +507,6 @@ public class SystemScreenController : MonoBehaviour
     {
         float total = 0f;
 
-        // Base happiness from items
         if (lunchSlot != null && lunchSlot.HasItem && lunchSlot.CurrentItemData != null)
             total += EvaluateChoice(lunchSlot.CurrentItemData).happinessDelta;
 
@@ -461,7 +525,6 @@ public class SystemScreenController : MonoBehaviour
             }
         }
 
-        // Wants threshold rule
         var gm = GameManager.Instance;
         if (gm != null && wantsSpent > 0)
         {
@@ -470,11 +533,11 @@ public class SystemScreenController : MonoBehaviour
 
             if (wantsSpent <= wantsBudget)
             {
-                total += 1f;  // within wants threshold
+                total += 1f;
             }
             else
             {
-                total -= 10f; // overspent wants
+                total -= 10f;
             }
         }
 
@@ -523,7 +586,7 @@ public class SystemScreenController : MonoBehaviour
 
         todaySavings = 0;
 
-        if (type == BudgetType.FiftyThirtyTwenty) // 50/30/20
+        if (type == BudgetType.FiftyThirtyTwenty)
         {
             int needsMax = Mathf.RoundToInt(allowance * 0.5f);
             int wantsMax = Mathf.RoundToInt(allowance * 0.3f);
@@ -539,7 +602,7 @@ public class SystemScreenController : MonoBehaviour
             {
                 string sign = needsRemainingRaw < 0 ? "-" : "";
                 int absValue = Mathf.Abs(needsRemainingRaw);
-                budgetBudgetText.text = $"Needs Budget: {sign}₱{absValue}";
+                budgetBudgetText.text = $"{sign}₱{absValue}";
             }
 
             isBudgetNegative = (needsRemainingRaw < 0 || wantsRemainingRaw < 0);
@@ -566,8 +629,7 @@ public class SystemScreenController : MonoBehaviour
 
             todaySavings = fixedSavings + extraSavings;
         }
-
-        else if (type == BudgetType.SeventyThirty) // 70/30
+        else if (type == BudgetType.SeventyThirty)
         {
             int sharedMax = Mathf.RoundToInt(allowance * 0.7f);
             int fixedSavings = allowance - sharedMax;
@@ -582,7 +644,7 @@ public class SystemScreenController : MonoBehaviour
             {
                 string sign = sharedRemainingRaw < 0 ? "-" : "";
                 int absValue = Mathf.Abs(sharedRemainingRaw);
-                budgetBudgetText.text = $"Needs + Wants Budget: {sign}₱{absValue}";
+                budgetBudgetText.text = $"{sign}₱{absValue}";
             }
 
             isBudgetNegative = (sharedRemainingRaw < 0);
@@ -631,11 +693,13 @@ public class SystemScreenController : MonoBehaviour
         if (savingsText != null)
             savingsText.text = "₱" + totalSavings + " / ₱" + savingsGoal;
 
-        if (savingsSlider != null)
+        /*if (savingsSlider != null)
         {
             savingsSlider.maxValue = savingsGoal;
             savingsSlider.value = totalSavings;
-        }
+        }*/
+
+        UpdateSavingsMeterSprite(totalSavings);
     }
 
     public bool HasAnyWantSelected()
@@ -653,11 +717,7 @@ public class SystemScreenController : MonoBehaviour
         foreach (var btn in choiceButtons)
         {
             if (btn == null) continue;
-
-            btn.RefreshVisual();
-
-            bool placed = IsItemPlaced(btn.ItemId);
-            btn.SetPlacedState(placed, isConfirmed);
+            btn.SetLocked(isConfirmed);
         }
     }
 
@@ -689,8 +749,8 @@ public class SystemScreenController : MonoBehaviour
             isConfirmed = true;
 
             if (confirmButton != null) confirmButton.interactable = false;
-            if (needsButton != null) needsButton.interactable = false;
-            if (wantsButton != null) wantsButton.interactable = false;
+            /*if (needsButton != null) needsButton.interactable = false;
+            if (wantsButton != null) wantsButton.interactable = false;*/
 
             LockAllSlots(true);
         }
@@ -717,6 +777,7 @@ public class SystemScreenController : MonoBehaviour
 
         return lunchEmpty || commuteEmpty;
     }
+
     private void SetPopupStateInstant(CanvasGroup popup, bool visible)
     {
         if (popup == null) return;
@@ -772,9 +833,9 @@ public class SystemScreenController : MonoBehaviour
 
     public void OnExitYesPressed()
     {
-        bool isConfirmed = GameManager.Instance != null && GameManager.Instance.IsTodayConfirmed();
+        bool alreadyConfirmed = GameManager.Instance != null && GameManager.Instance.IsTodayConfirmed();
 
-        if (!isConfirmed)
+        if (!alreadyConfirmed)
         {
             HidePopup(exitConfirmPopup, exitConfirmPanel);
             ShowPopup(allocateWarningPopup, allocateWarningPanel);
@@ -794,6 +855,7 @@ public class SystemScreenController : MonoBehaviour
     {
         HidePopup(allocateWarningPopup, allocateWarningPanel);
     }
+
     public ChoiceEvaluation EvaluateChoice(AllocationItemData item)
     {
         ChoiceEvaluation result = new ChoiceEvaluation
@@ -810,7 +872,6 @@ public class SystemScreenController : MonoBehaviour
         var gm = GameManager.Instance;
         int currentHappiness = gm != null ? gm.happiness : 0;
 
-        // NEED LUNCH
         if (item.category == AllocationCategory.NeedLunch)
         {
             switch (item.itemId)
@@ -865,7 +926,6 @@ public class SystemScreenController : MonoBehaviour
             return result;
         }
 
-        // NEED COMMUTE
         if (item.category == AllocationCategory.NeedCommute)
         {
             switch (item.itemId)
@@ -904,7 +964,6 @@ public class SystemScreenController : MonoBehaviour
             return result;
         }
 
-        // WANTS
         if (item.category == AllocationCategory.Want)
         {
             switch (item.itemId)
@@ -971,9 +1030,9 @@ public class SystemScreenController : MonoBehaviour
 
         return result;
     }
+
     private void ProceedExitFlow()
     {
-
         if (day2Intro != null)
         {
             day2Intro.CloseFromSystemScreen();

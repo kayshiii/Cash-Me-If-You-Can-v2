@@ -310,18 +310,29 @@ public class DialogueController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        // Keep keyboard shortcut
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (waitingForButton) return;
+            HandleAdvanceInput();
+        }
+    }
 
-            if (isTyping)
-            {
-                CompleteCurrentTyping();
-            }
-            else if (canAdvance)
-            {
-                AdvanceDialogue();
-            }
+    public void OnDialogueNextButtonPressed()
+    {
+        HandleAdvanceInput();
+    }
+
+    private void HandleAdvanceInput()
+    {
+        if (waitingForButton) return;
+
+        if (isTyping)
+        {
+            CompleteCurrentTyping();
+        }
+        else if (canAdvance)
+        {
+            AdvanceDialogue();
         }
     }
 
@@ -380,6 +391,7 @@ public class DialogueController : MonoBehaviour
         if (line.speaker == DialogueLine.SpeakerType.LolaMom && tutorialIntro != null)
         {
             tutorialIntro.OnLolaStepStarted(line);
+            tutorialIntro.OnLolaShowUI(line);
         }
 
         waitingForButton = line.waitForButton;
@@ -388,7 +400,7 @@ public class DialogueController : MonoBehaviour
         if (nextIndicator != null)
             nextIndicator.SetActive(!waitingForButton);
 
-        UpdateSpotlightForLine(line);
+        /*UpdateSpotlightForLine(line);*/
 
         if (speakerChanged)
         {
@@ -705,7 +717,7 @@ public class DialogueController : MonoBehaviour
         StartTypewriter(lolaMomText, text);
     }
 
-    private void UpdateSpotlightForLine(DialogueLine line)
+    /*private void UpdateSpotlightForLine(DialogueLine line)
     {
         if (!line.useSpotlight || spotlightHoles == null)
         {
@@ -731,7 +743,7 @@ public class DialogueController : MonoBehaviour
             targetHole.gameObject.SetActive(true);
             targetHole.DOFade(1f, 0.3f);
         }
-    }
+    }*/
 
     private bool IsLineValidForBudget(DialogueLine line)
     {
@@ -905,8 +917,7 @@ public class DialogueController : MonoBehaviour
 
         if (line.lolaStep == DialogueLine.LolaStep.ExplainChoices)
         {
-            if (systemScreenController == null || !systemScreenController.HasRequiredTutorialSelections())
-                return;
+            return;
         }
 
         if (line.lolaStep == DialogueLine.LolaStep.WantsChoices)
@@ -914,6 +925,18 @@ public class DialogueController : MonoBehaviour
             if (systemScreenController == null || !systemScreenController.HasAnyWantSelected())
                 return;
         }
+
+        waitingForButton = false;
+        canAdvance = false;
+        AdvanceDialogue();
+    }
+
+    public void ContinueFromAllocationChoices()
+    {
+        if (!waitingForButton) return;
+
+        DialogueLine line = dialogueData.lines[currentIndex];
+        if (line.lolaStep != DialogueLine.LolaStep.ExplainChoices) return;
 
         waitingForButton = false;
         canAdvance = false;

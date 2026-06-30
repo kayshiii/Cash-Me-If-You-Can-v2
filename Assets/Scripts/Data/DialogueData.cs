@@ -37,9 +37,6 @@ public class DialogueLine
     public SpeakerType speaker;
     [TextArea] public string text;
 
-    [Header("Optional spotlight")]
-    public bool useSpotlight;
-    public int spotlightIndex;
 
     [Header("Optional budget condition")]
     public bool dependsOnBudget;
@@ -53,8 +50,6 @@ public class DialogueLine
         None,
         ShowStartIntro,
         ExplainLogExpense,
-        //ExplainSavings,
-        //ExplainDayCounter,
         SystemScreen,
         ExplainChoices,
         WantsSelection,
@@ -65,8 +60,22 @@ public class DialogueLine
         ExplainTrack,
         ExitApp
     }
+    public enum LolaShowUI
+    {
+        None,
+        ShowSavings,
+        ShowDay,
+        ShowBudgetMethod,
+        ShowCurrentMoney,
+        ShowNeeds,
+        ShowWants,
+        ShowCon,
+        ShowHappiness,
+    }
+
     [Header("Optional Lola step")]
     public LolaStep lolaStep = LolaStep.None;
+    public LolaShowUI lolaUI = LolaShowUI.None;
 
     [Header("Optional selection requirement")]
     public bool requiresValidAllocation;

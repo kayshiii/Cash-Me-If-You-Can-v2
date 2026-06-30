@@ -6,11 +6,12 @@ using DG.Tweening;
 
 public class HappinessMeter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [Header("Meter Image")]
-    [SerializeField] private Image meterImage;
-    [SerializeField] private Sprite sadSprite;
-    [SerializeField] private Sprite mehSprite;
-    [SerializeField] private Sprite happySprite;
+    [Header("Meter Pointer")]
+    [SerializeField] private RectTransform pointer;   // arrow icon
+    [SerializeField] private float minX = -180f;      // position at 0%
+    [SerializeField] private float maxX = 190f;       // position at 100%
+    [SerializeField] private float moveDuration = 0.25f;
+    [SerializeField] private Ease moveEase = Ease.OutCubic;
 
     [Header("Hover UI")]
     [SerializeField] private CanvasGroup hoverInfoGroup;
@@ -26,12 +27,11 @@ public class HappinessMeter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private bool isHovering = false;
     private Tween hoverFadeTween;
     private Tween hoverScaleTween;
+    private Tween pointerTween;
 
     private void Awake()
     {
-        if (meterImage == null)
-            meterImage = GetComponent<Image>();
-
+        // Pointer is assigned via Inspector; no Image sprite needed anymore
         SetHoverStateInstant(false);
     }
 
@@ -50,6 +50,7 @@ public class HappinessMeter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         hoverFadeTween?.Kill();
         hoverScaleTween?.Kill();
+        pointerTween?.Kill();
     }
 
     private void Update()
@@ -67,34 +68,33 @@ public class HappinessMeter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void UpdateVisual()
     {
-        if (meterImage == null)
-        {
-            Debug.LogWarning("[HappinessMeter] meterImage is not assigned.", this);
-            return;
-        }
-
         if (GameManager.Instance == null)
         {
             Debug.LogWarning("[HappinessMeter] GameManager.Instance is null.", this);
             return;
         }
 
+        if (pointer == null)
+        {
+            Debug.LogWarning("[HappinessMeter] pointer is not assigned.", this);
+            return;
+        }
+
         int happiness = GameManager.Instance.GetHappinessPercent();
         lastHappiness = happiness;
 
-        if (happiness <= 30)
-        {
-            meterImage.sprite = sadSprite;
-        }
-        else if (happiness <= 70)
-        {
-            meterImage.sprite = mehSprite;
-        }
-        else
-        {
-            meterImage.sprite = happySprite;
-        }
+        // Clamp 0–100, convert to 0–1
+        float t = Mathf.Clamp01(happiness / 100f);
 
+        // Lerp between minX and maxX
+        float targetX = Mathf.Lerp(minX, maxX, t);
+
+        // Animate pointer
+        pointerTween?.Kill();
+        pointerTween = pointer.DOAnchorPosX(targetX, moveDuration)
+                              .SetEase(moveEase);
+
+        // Update hover percentage text
         if (percentageText != null)
             percentageText.text = happiness + "%";
     }

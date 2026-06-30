@@ -1,18 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class AllocationSlotUI : MonoBehaviour
 {
-    [SerializeField] private Image iconImage;
-    [SerializeField] private Button slotButton;
-    [SerializeField] private GameObject filledVisual;
-    [SerializeField] private GameObject emptyVisual;
+    public enum SlotType
+    {
+        Lunch,
+        Commute,
+        Want
+    }
+
+    [SerializeField] private SlotType slotType;
+    [SerializeField] private Image displayImage;
+    [SerializeField] private Sprite emptySprite;
 
     private AllocationItemData currentItem;
     private SystemScreenController owner;
+    private Button slotButton;
     private bool isLocked = false;
 
-    public bool IsEmpty => currentItem == null;
+    public SlotType Type => slotType;
     public bool HasItem => currentItem != null;
     public string CurrentItemId => currentItem != null ? currentItem.itemId : "";
     public int CurrentCost => currentItem != null ? currentItem.cost : 0;
@@ -20,13 +28,20 @@ public class AllocationSlotUI : MonoBehaviour
 
     private void Awake()
     {
-        SetIconAlpha(0f);
+        slotButton = GetComponent<Button>();
 
-        if (filledVisual != null)
-            filledVisual.SetActive(false);
+        if (slotButton != null)
+        {
+            slotButton.onClick.RemoveAllListeners();
+            slotButton.onClick.AddListener(OnSlotClicked);
+        }
 
-        if (emptyVisual != null)
-            emptyVisual.SetActive(true);
+        ShowEmpty();
+    }
+
+    public void SetOwner(SystemScreenController screen)
+    {
+        owner = screen;
     }
 
     public void SetItem(AllocationItemData item, SystemScreenController screen)
@@ -34,44 +49,24 @@ public class AllocationSlotUI : MonoBehaviour
         currentItem = item;
         owner = screen;
 
-        if (iconImage != null)
+        Debug.Log("SetItem called for slot: " + slotType + " | item: " + item.itemId, this);
+        Debug.Log("Sprite assigned: " + (item.icon != null ? item.icon.name : "NULL"), this);
+
+        if (displayImage != null)
         {
-            iconImage.sprite = item.icon;
-            SetIconAlpha(1f);
+            displayImage.sprite = item.icon;
+            displayImage.SetNativeSize(); // optional, only if you want to confirm visual change
         }
-
-        if (filledVisual != null)
-            filledVisual.SetActive(true);
-
-        if (emptyVisual != null)
-            emptyVisual.SetActive(false);
-
-        if (slotButton != null)
+        else
         {
-            slotButton.onClick.RemoveAllListeners();
-            slotButton.onClick.AddListener(OnSlotClicked);
+            Debug.LogWarning("Display Image is not assigned on slot: " + slotType, this);
         }
     }
 
     public void ClearSlot()
     {
         currentItem = null;
-
-        if (iconImage != null)
-        {
-            SetIconAlpha(0f);
-        }
-
-        if (filledVisual != null)
-            filledVisual.SetActive(false);
-
-        if (emptyVisual != null)
-            emptyVisual.SetActive(true);
-
-        if (slotButton != null)
-        {
-            slotButton.onClick.RemoveAllListeners();
-        }
+        ShowEmpty();
     }
 
     public void SetLocked(bool locked)
@@ -84,16 +79,13 @@ public class AllocationSlotUI : MonoBehaviour
 
     private void OnSlotClicked()
     {
-        if (isLocked || currentItem == null || owner == null) return;
-        owner.OnPlacedItemClicked(currentItem.itemId);
+        if (isLocked || owner == null) return;
+        owner.OnSlotPressed(this);
     }
 
-    private void SetIconAlpha(float alpha)
+    private void ShowEmpty()
     {
-        if (iconImage == null) return;
-
-        Color c = iconImage.color;
-        c.a = alpha;
-        iconImage.color = c;
+        if (displayImage != null)
+            displayImage.sprite = emptySprite;
     }
 }

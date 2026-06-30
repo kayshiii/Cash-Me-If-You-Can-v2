@@ -45,10 +45,6 @@ public class TutorialIntro : MonoBehaviour
 
     [Header("Phone Screens")]
     [SerializeField] private CanvasGroup imgSearching;
-    [SerializeField] private CanvasGroup imgDownloading;
-    [SerializeField] private CanvasGroup imgHome;
-    [SerializeField] private CanvasGroup imgAppIcon;
-    [SerializeField] private CanvasGroup imgAppWelcome;
     [SerializeField] private CanvasGroup imgChoose;
 
     [Header("Strategy Preview")]
@@ -79,14 +75,24 @@ public class TutorialIntro : MonoBehaviour
     [SerializeField] private float systemScreenFadeDuration = 0.4f;
     [SerializeField] private float startScreenFadeDuration = 0.4f;
 
+    [Header("System Components")]
+    [SerializeField] private GameObject savingsOBJ;
+    [SerializeField] private GameObject dayOBJ;
+    [SerializeField] private GameObject budgetOBJ;
+    [SerializeField] private GameObject currMonOBJ;
+    [SerializeField] private GameObject needsOBJ;
+    [SerializeField] private GameObject wantsOBJ;
+    [SerializeField] private GameObject confirmOBJ;
+    [SerializeField] private GameObject happyOBJ;
+
     [Header("Lola/Mom Spotlight")]
-    [SerializeField] private CanvasGroup spotlightGroup;
     [SerializeField] private DialogueData lolaMomIntroDialogue;
 
     [Header("Tutorial Controlled Buttons")]
     [SerializeField] private Button logExpenseButton;
     [SerializeField] private Button trackTabButton;
-    [SerializeField] private Button needsTabButton;
+    [SerializeField] private Button needsTabButton1;
+    [SerializeField] private Button needsTabButton2;
     [SerializeField] private Button wantsTabButton;
     [SerializeField] private Button BackButton;
     [SerializeField] private Button confirmAllocationButton;
@@ -200,6 +206,15 @@ public class TutorialIntro : MonoBehaviour
             systemScreenGroup.gameObject.SetActive(false);
         }
 
+        savingsOBJ.SetActive(false);
+        dayOBJ.SetActive(false);
+        budgetOBJ.SetActive(false);
+        currMonOBJ.SetActive(false);
+        needsOBJ.SetActive(false);
+        wantsOBJ.SetActive(false);
+        confirmOBJ.SetActive(false);
+        happyOBJ.SetActive(false);
+
         if (trackScreenGroup != null)
         {
             trackScreenGroup.alpha = 0f;
@@ -218,10 +233,6 @@ public class TutorialIntro : MonoBehaviour
         }
 
         SetCanvasGroupVisible(imgSearching, false);
-        SetCanvasGroupVisible(imgDownloading, false);
-        SetCanvasGroupVisible(imgHome, false);
-        SetCanvasGroupVisible(imgAppIcon, false);
-        SetCanvasGroupVisible(imgAppWelcome, false);
         SetCanvasGroupVisible(imgChoose, false);
 
         if (btnOptionA != null) btnOptionA.SetActive(false);
@@ -488,10 +499,6 @@ public class TutorialIntro : MonoBehaviour
 
         // Reset all screens
         SetCanvasGroupVisible(imgSearching, false);
-        SetCanvasGroupVisible(imgDownloading, false);
-        SetCanvasGroupVisible(imgHome, false);
-        SetCanvasGroupVisible(imgAppIcon, false);
-        SetCanvasGroupVisible(imgAppWelcome, false);
         SetCanvasGroupVisible(imgChoose, false);
         if (btnOptionA != null) btnOptionA.SetActive(false);
         if (btnOptionB != null) btnOptionB.SetActive(false);
@@ -519,50 +526,6 @@ public class TutorialIntro : MonoBehaviour
             seq.AppendCallback(() => SetCanvasGroupVisible(imgSearching, true));
         }
 
-        // 3) After 1 sec, show "downloading"
-        //if (imgDownloading != null)
-        //{
-        //    seq.AppendInterval(1f);
-        //    seq.AppendCallback(() =>
-        //    {
-        //        SetCanvasGroupVisible(imgDownloading, true);
-        //    });
-        //}
-
-        //// 4) Then home screen
-        //if (imgHome != null)
-        //{
-        //    seq.AppendInterval(0.8f);
-        //    seq.AppendCallback(() =>
-        //    {
-        //        SetCanvasGroupVisible(imgSearching, false);
-        //        SetCanvasGroupVisible(imgDownloading, false);
-        //        SetCanvasGroupVisible(imgHome, true);
-        //    });
-        //}
-
-        //// 5) App icon
-        //if (imgAppIcon != null)
-        //{
-        //    seq.AppendInterval(0.6f);
-        //    seq.AppendCallback(() =>
-        //    {
-        //        SetCanvasGroupVisible(imgAppIcon, true);
-        //    });
-        //}
-
-        //// 6) App welcome
-        //if (imgAppWelcome != null)
-        //{
-        //    seq.AppendInterval(0.5f);
-        //    seq.AppendCallback(() =>
-        //    {
-        //        SetCanvasGroupVisible(imgHome, false);
-        //        SetCanvasGroupVisible(imgAppIcon, false);
-        //        SetCanvasGroupVisible(imgAppWelcome, true);
-        //    });
-        //}
-
         // 7) Choose screen
         if (imgChoose != null)
         {
@@ -570,7 +533,6 @@ public class TutorialIntro : MonoBehaviour
             seq.AppendCallback(() =>
             {
                 SetCanvasGroupVisible(imgSearching, false);
-                //SetCanvasGroupVisible(imgAppWelcome, false);
                 SetCanvasGroupVisible(imgChoose, true);
             });
         }
@@ -802,12 +764,6 @@ public class TutorialIntro : MonoBehaviour
             dialogueController.inputEnabled = false;
 
             if (readIndicator != null) readIndicator.SetActive(false);
-
-            if (spotlightGroup != null)
-            {
-                spotlightGroup.alpha = 0f;
-                spotlightGroup.gameObject.SetActive(false);
-            }
         }
 
         if (phoneGroup != null)
@@ -852,7 +808,8 @@ public class TutorialIntro : MonoBehaviour
     {
         SetButtonState(logExpenseButton, false);
         SetButtonState(trackTabButton, false);
-        SetButtonState(needsTabButton, false);
+        SetButtonState(needsTabButton1, false);
+        SetButtonState(needsTabButton2, false);
         SetButtonState(wantsTabButton, false);
         SetButtonState(confirmAllocationButton, false);
 
@@ -872,6 +829,45 @@ public class TutorialIntro : MonoBehaviour
             SetButtonState(btn, true);
         }
     }
+
+    public void OnLolaShowUI(DialogueLine line)
+    {
+        switch (line.lolaUI)
+        {
+            case LolaShowUI.ShowSavings:
+                savingsOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowDay:
+                dayOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowBudgetMethod:
+                budgetOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowCurrentMoney:
+                currMonOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowNeeds:
+                needsOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowWants:
+                wantsOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowCon:
+                confirmOBJ.SetActive(true);
+                break;
+
+            case LolaShowUI.ShowHappiness:
+                happyOBJ.SetActive(true);
+                break;
+        }
+    }
+
     public void OnLolaStepStarted(DialogueLine line)
     {
         switch (line.lolaStep)
@@ -898,7 +894,6 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.WantsSelection:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                //SetButtonState(wantsTabButton, true);
                 break;
 
             case LolaStep.WantsChoices:
@@ -909,7 +904,6 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.Confirm:
                 ShowSystemScreen();
                 DisableAllTutorialButtons();
-                SetButtonState(confirmAllocationButton, true);
                 break;
 
             case LolaStep.BackToStart:
@@ -920,7 +914,6 @@ public class TutorialIntro : MonoBehaviour
             case LolaStep.ExplainTrack:
                 ShowTrackScreen();
                 DisableAllTutorialButtons();
-                //EnableOnly(BackButton);
                 break;
 
             case LolaStep.ExitApp:
@@ -943,13 +936,21 @@ public class TutorialIntro : MonoBehaviour
                 break;
 
             case DialogueLine.LolaStep.ExplainChoices:
-                DisableAllTutorialButtons();
+                EnableOnly(needsTabButton1);
+                EnableOnly(needsTabButton2);
+                EnableOnly(lunchChoiceButtons);
+                EnableOnly(commuteChoiceButtons);
+                SetButtonState(needsTabButton1, true);
+                SetButtonState(needsTabButton2, true);
                 SetButtonState(lunchChoiceButtons, true);
                 SetButtonState(commuteChoiceButtons, true);
                 break;
 
             case DialogueLine.LolaStep.WantsSelection:
                 EnableOnly(wantsTabButton);
+                EnableOnly(wantChoiceButtons);
+                SetButtonState(wantsTabButton, true);
+                SetButtonState(wantChoiceButtons, true);
                 break;
 
             case DialogueLine.LolaStep.WantsChoices:
@@ -959,6 +960,7 @@ public class TutorialIntro : MonoBehaviour
 
             case DialogueLine.LolaStep.Confirm:
                 EnableOnly(confirmAllocationButton);
+                SetButtonState(confirmAllocationButton, true);
                 break;
 
             case DialogueLine.LolaStep.BackToStart:
@@ -1094,12 +1096,6 @@ public class TutorialIntro : MonoBehaviour
         }
 
         if (readIndicator != null) readIndicator.SetActive(false);
-
-        if (spotlightGroup != null)
-        {
-            spotlightGroup.alpha = 0f;
-            spotlightGroup.gameObject.SetActive(false);
-        }
     }
 
     private void StartFinalDialogue()

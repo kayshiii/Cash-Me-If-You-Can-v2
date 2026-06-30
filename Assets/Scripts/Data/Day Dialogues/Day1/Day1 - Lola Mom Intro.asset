@@ -22,6 +22,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 1
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -33,6 +34,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 1
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -44,6 +46,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 2
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -55,6 +58,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 1
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -65,37 +69,65 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 2
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: [METHOD]'
+    text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 70/30'
     useSpotlight: 1
     spotlightIndex: 4
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 3
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: 'Now, this is your expense tab:'
+    text: And here is your current budget
+    useSpotlight: 0
+    spotlightIndex: 0
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 0
+    lolaStep: 3
+    lolaUI: 4
+    requiresValidAllocation: 0
+  - expression: 0
+    speaker: 5
+    text: 'Now, this is your needs tab:'
     useSpotlight: 1
     spotlightIndex: 5
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 5
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
-    text: Both your needs and wants are in one tab.
+    text: 'Here, your Lunch and Commute are separated into 2 buttons, less confusion
+      but still try not to over spend! '
     useSpotlight: 1
     spotlightIndex: 5
     dependsOnBudget: 1
-    requiredBudget: 1
+    requiredBudget: 2
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 0
     requiresValidAllocation: 0
+  - expression: 0
+    speaker: 5
+    text: Now, simply tap the Lunch or Commute button, and the choices will be shown,
+      So go ahead and select your Needs!
+    useSpotlight: 1
+    spotlightIndex: 6
+    dependsOnBudget: 0
+    requiredBudget: 0
+    waitForButton: 1
+    lolaStep: 4
+    lolaUI: 0
+    requiresValidAllocation: 1
   - expression: 0
     speaker: 5
     text: "Now be careful! Just because you can spend more on wants doesn\u2019t
@@ -106,38 +138,8 @@ MonoBehaviour:
     requiredBudget: 1
     waitForButton: 0
     lolaStep: 3
+    lolaUI: 0
     requiresValidAllocation: 0
-  - expression: 0
-    speaker: 5
-    text: 'Here, your Needs and Wants are separated into 2 tabs, less confusion but
-      still try not to over spend! '
-    useSpotlight: 1
-    spotlightIndex: 5
-    dependsOnBudget: 1
-    requiredBudget: 2
-    waitForButton: 0
-    lolaStep: 3
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 5
-    text: Down here, are your choices of items to spend on.
-    useSpotlight: 1
-    spotlightIndex: 6
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 0
-    lolaStep: 3
-    requiresValidAllocation: 0
-  - expression: 0
-    speaker: 5
-    text: Now, decide, tap to select for your Needs!
-    useSpotlight: 1
-    spotlightIndex: 6
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 1
-    lolaStep: 4
-    requiresValidAllocation: 1
   - expression: 0
     speaker: 5
     text: Great! Next, is your Wants, go ahead and click the wants button
@@ -147,7 +149,8 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 5
-    requiresValidAllocation: 0
+    lolaUI: 6
+    requiresValidAllocation: 1
   - expression: 0
     speaker: 5
     text: Again, decide, tap to select for your Wants!
@@ -157,6 +160,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 6
+    lolaUI: 0
     requiresValidAllocation: 1
   - expression: 0
     speaker: 5
@@ -167,6 +171,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 7
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -178,6 +183,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 8
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -188,6 +194,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 10
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -198,6 +205,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 10
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -209,6 +217,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 1
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -220,6 +229,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 1
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -230,6 +240,7 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 11
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
@@ -240,4 +251,5 @@ MonoBehaviour:
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 11
+    lolaUI: 0
     requiresValidAllocation: 0

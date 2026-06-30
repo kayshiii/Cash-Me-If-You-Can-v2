@@ -16,8 +16,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: Welcome to Cash Me If You Can!
-    useSpotlight: 1
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -28,8 +26,6 @@ MonoBehaviour:
     speaker: 5
     text: "I am Lola mom, and I am here to guide you through the Cash Me If You Can
       app\r!\n"
-    useSpotlight: 1
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -40,8 +36,6 @@ MonoBehaviour:
     speaker: 5
     text: This is where you log down your expenses. To start, go ahead and click
       the 'Log Expenses'.
-    useSpotlight: 1
-    spotlightIndex: 1
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
@@ -52,8 +46,6 @@ MonoBehaviour:
     speaker: 5
     text: Over here is your Savings Meter. Here you get to see and track how far
       or near you are from your savings goal!
-    useSpotlight: 1
-    spotlightIndex: 2
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -63,8 +55,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: Track each day. Consistency is key!
-    useSpotlight: 1
-    spotlightIndex: 3
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -74,8 +64,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: 'Moving on to your expenses, Shown here is your chosen Budget Method: 70/30'
-    useSpotlight: 1
-    spotlightIndex: 4
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -85,8 +73,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: And here is your current budget
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -96,8 +82,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: 'Now, this is your needs tab:'
-    useSpotlight: 1
-    spotlightIndex: 5
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -108,8 +92,6 @@ MonoBehaviour:
     speaker: 5
     text: 'Here, your Lunch and Commute are separated into 2 buttons, less confusion
       but still try not to over spend! '
-    useSpotlight: 1
-    spotlightIndex: 5
     dependsOnBudget: 1
     requiredBudget: 2
     waitForButton: 0
@@ -120,8 +102,6 @@ MonoBehaviour:
     speaker: 5
     text: Now, simply tap the Lunch or Commute button, and the choices will be shown,
       So go ahead and select your Needs!
-    useSpotlight: 1
-    spotlightIndex: 6
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
@@ -132,8 +112,6 @@ MonoBehaviour:
     speaker: 5
     text: "Now be careful! Just because you can spend more on wants doesn\u2019t
       mean you should! "
-    useSpotlight: 1
-    spotlightIndex: 5
     dependsOnBudget: 1
     requiredBudget: 1
     waitForButton: 0
@@ -143,8 +121,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: Great! Next, is your Wants, go ahead and click the wants button
-    useSpotlight: 1
-    spotlightIndex: 5
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
@@ -153,32 +129,17 @@ MonoBehaviour:
     requiresValidAllocation: 1
   - expression: 0
     speaker: 5
-    text: Again, decide, tap to select for your Wants!
-    useSpotlight: 1
-    spotlightIndex: 6
-    dependsOnBudget: 0
-    requiredBudget: 0
-    waitForButton: 1
-    lolaStep: 6
-    lolaUI: 0
-    requiresValidAllocation: 1
-  - expression: 0
-    speaker: 5
     text: Great! Now, hit confirm and move on with your day, iha!
-    useSpotlight: 1
-    spotlightIndex: 7
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
     lolaStep: 7
-    lolaUI: 0
+    lolaUI: 7
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
     text: One last thing, You can track your expenses here and see where your money
       goes. Go ahead and click the 'Expense Tracker' button
-    useSpotlight: 1
-    spotlightIndex: 8
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
@@ -188,8 +149,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: Only one person to blame when you don't know where it went!
-    useSpotlight: 1
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -199,8 +158,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: Go ahead and click the back button for now.
-    useSpotlight: 1
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 1
@@ -211,31 +168,25 @@ MonoBehaviour:
     speaker: 5
     text: Now that you know how the app works and how to track your budget, here
       is your happiness meter.
-    useSpotlight: 1
-    spotlightIndex: 9
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
-    lolaStep: 1
-    lolaUI: 0
+    lolaStep: 11
+    lolaUI: 8
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
     text: "Watch out for Alex\u2019s Happiness Meter so stress doesn't take over
       Alex\u2019s decision making, make sure it doesn't drop below 30%!"
-    useSpotlight: 1
-    spotlightIndex: 9
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
-    lolaStep: 1
+    lolaStep: 11
     lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 5
     text: Simply just hover it to see your standing!
-    useSpotlight: 1
-    spotlightIndex: 9
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
@@ -245,8 +196,6 @@ MonoBehaviour:
   - expression: 0
     speaker: 5
     text: And that's about it. Goodluck budgeting your expenses!
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0

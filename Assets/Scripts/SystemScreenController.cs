@@ -14,11 +14,11 @@ public class SystemScreenController : MonoBehaviour
 
     private AllocationSlotUI currentTargetSlot;
 
-    [Header("Tab Visuals")]
+/*    [Header("Tab Visuals")]
     [SerializeField] private Image needsButtonImage;
     [SerializeField] private Image wantsButtonImage;
     [SerializeField] private Color activeTabColor = Color.green;
-    [SerializeField] private Color inactiveTabColor = Color.white;
+    [SerializeField] private Color inactiveTabColor = Color.white;*/
 
     [Header("Tab Buttons")]
     [SerializeField] private Button confirmButton;
@@ -208,7 +208,7 @@ public class SystemScreenController : MonoBehaviour
         if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
 
         CloseAllChoicePanels();
-        UpdateTabVisuals(true);
+        /*UpdateTabVisuals(true);*/
     }
 
     public void OpenWantsTab()
@@ -220,17 +220,17 @@ public class SystemScreenController : MonoBehaviour
         if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
 
         CloseAllChoicePanels();
-        UpdateTabVisuals(false);
+        /*UpdateTabVisuals(false);*/
     }
 
-    private void UpdateTabVisuals(bool needsActive)
+/*    private void UpdateTabVisuals(bool needsActive)
     {
         if (needsButtonImage != null)
             needsButtonImage.color = needsActive ? activeTabColor : inactiveTabColor;
 
         if (wantsButtonImage != null)
             wantsButtonImage.color = needsActive ? inactiveTabColor : activeTabColor;
-    }
+    }*/
 
     public void OnSlotPressed(AllocationSlotUI slot)
     {

@@ -16502,11 +16502,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData:
-    itemId: 
-    itemName: 
+    itemId: milk_tea
+    itemName: Milk tea
     category: 2
-    cost: 0
-    happiness: 0
+    cost: 150
+    happiness: 3
     icon: {fileID: 21300000, guid: ba929943ef09983419046eb417f202c2, type: 3}
 --- !u!114 &898509783
 MonoBehaviour:
@@ -30310,7 +30310,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 127833112}
   m_HandleRect: {fileID: 127833111}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

@@ -16,31 +16,28 @@ MonoBehaviour:
   - expression: 0
     speaker: 0
     text: '*Alex is by her desk at home, counting her savings and checking her phone*'
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 1
     text: "Okay, I\u2019m still behind my goal but it\u2019s still possible. I just
       gotta trust myself that I\u2019ll push through until the end"
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
-    speaker: 1
+    speaker: 4
     text: P800 ALLOWANCE RECEIVED
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0

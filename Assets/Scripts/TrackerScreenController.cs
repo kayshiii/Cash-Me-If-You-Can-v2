@@ -45,6 +45,13 @@ public class TrackerScreenController : MonoBehaviour
         float wantsPercent = wantsRatio * 100f;
         float savingsPercent = savingsRatio * 100f;
 
+        Debug.Log(
+            $"[Tracker Updated] Allowance: ₱{accumulatedAllowance}, " +
+            $"Needs: ₱{needsSpent} ({needsPercent:F1}%), " +
+            $"Wants: ₱{wantsSpent} ({wantsPercent:F1}%), " +
+            $"Savings: ₱{savingsSaved} ({savingsPercent:F1}%)"
+        );
+
         if (needsFillImage != null) needsFillImage.fillAmount = needsRatio;
         if (wantsFillImage != null) wantsFillImage.fillAmount = wantsRatio;
         if (savingsFillImage != null) savingsFillImage.fillAmount = savingsRatio;

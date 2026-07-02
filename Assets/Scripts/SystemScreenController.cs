@@ -301,6 +301,7 @@ public class SystemScreenController : MonoBehaviour
         currentTargetSlot = null;
 
         RefreshBudgetUI();
+        RefreshAllChoices();
         SaveTodayAllocation();
 
         Debug.Log("Lunch selected: " + (lunchSlot != null && lunchSlot.HasItem));

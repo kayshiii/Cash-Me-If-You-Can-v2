@@ -17,20 +17,18 @@ MonoBehaviour:
     speaker: 1
     text: "Another day, another budget\u2026 Gotta stay consistent though if I want
       to reach my goal"
-    useSpotlight: 0
-    spotlightIndex: 0
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0
   - expression: 0
     speaker: 4
-    text: P800 ALLOWANCE RECEIVED
-    useSpotlight: 0
-    spotlightIndex: 0
+    text: Allowance Received
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0

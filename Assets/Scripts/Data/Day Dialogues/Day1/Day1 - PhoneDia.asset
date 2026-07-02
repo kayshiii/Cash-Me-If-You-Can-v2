@@ -15,11 +15,10 @@ MonoBehaviour:
   lines:
   - expression: 0
     speaker: 4
-    text: daily budget of P800 is inputted!
-    useSpotlight: 0
-    spotlightIndex: 0
+    text: Daily Budget of P800 is inputted!
     dependsOnBudget: 0
     requiredBudget: 0
     waitForButton: 0
     lolaStep: 0
+    lolaUI: 0
     requiresValidAllocation: 0

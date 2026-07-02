@@ -132,9 +132,21 @@ public class Day15Manager : MonoBehaviour
 
         Sequence seq = DOTween.Sequence();
 
-        if (introBg != null)
-            seq.Append(introBg.DOFade(1f, bgFadeInDuration).SetEase(Ease.OutCubic));
+        // 1) Room background visible from the start
+        if (roomBg != null)
+        {
+            roomBg.alpha = 1f;
+            roomBg.gameObject.SetActive(true);
+        }
 
+        // 2) Intro black bg starts dimmed on top of room
+        if (introBg != null)
+        {
+            introBg.alpha = 0.5f;                  // dim overlay
+            introBg.gameObject.SetActive(true);
+        }
+
+        // 3) Title pops after a short delay, while dim overlay is still there
         if (dayTitle != null)
         {
             seq.AppendInterval(titleDelayAfterBg);
@@ -142,6 +154,7 @@ public class Day15Manager : MonoBehaviour
             seq.Append(dayTitle.DOScale(1f, titlePopDuration).SetEase(Ease.OutBack));
         }
 
+        // 4) Small pause, then fade out title + black overlay
         seq.AppendInterval(0.3f);
 
         if (dayTitle != null)
@@ -150,11 +163,7 @@ public class Day15Manager : MonoBehaviour
         if (introBg != null)
             seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
 
-        if (roomBg != null)
-        {
-            seq.AppendInterval(delayBeforeRoom);
-            seq.Append(roomBg.DOFade(1f, roomFadeInDuration).SetEase(Ease.OutCubic));
-        }
+        // 5) Room bg stays at alpha 1; no extra fade needed
 
         seq.OnComplete(StartIntroDialogue);
     }

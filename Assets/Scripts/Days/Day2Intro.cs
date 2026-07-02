@@ -106,11 +106,6 @@ public class Day2Intro : MonoBehaviour
 
         if (nextDayButton != null)
             nextDayButton.gameObject.SetActive(false);
-
-        /*SetButtonState(logExpenseButton, false);
-        SetButtonState(trackTabButton, false);
-        SetButtonState(backButton, false);
-        SetButtonState(finishDayButton, false);*/
     }
 
     private void Start()
@@ -125,28 +120,35 @@ public class Day2Intro : MonoBehaviour
         cg.alpha = visible ? 1f : 0f;
     }
 
-    private void SetButtonState(Button button, bool enabled)
-    {
-        if (button == null) return;
-        button.interactable = enabled;
-    }
-
     private void PlayIntroAnim()
     {
         currentPhase = Phase.IntroAnim;
 
         Sequence seq = DOTween.Sequence();
 
-        if (introBg != null)
-            seq.Append(introBg.DOFade(1f, bgFadeInDuration).SetEase(Ease.OutCubic));
+        // 1) Classroom bg visible from the start
+        if (classroomBg != null)
+        {
+            classroomBg.alpha = 1f;
+            classroomBg.gameObject.SetActive(true);
+        }
 
+        // 2) Intro black bg starts dimmed on top
+        if (introBg != null)
+        {
+            introBg.alpha = 0.5f;                 // dim overlay
+            introBg.gameObject.SetActive(true);
+        }
+
+        // 3) Title pops after a short delay
         if (dayTitle != null)
         {
-            seq.AppendInterval(titleDelayAfterBg);
+            seq.AppendInterval(titleDelayAfterBg);   // delay before title
             dayTitle.localScale = Vector3.zero;
             seq.Append(dayTitle.DOScale(1f, titlePopDuration).SetEase(Ease.OutBack));
         }
 
+        // 4) Small pause, then fade out title + black overlay
         seq.AppendInterval(0.3f);
 
         if (dayTitle != null)
@@ -155,11 +157,8 @@ public class Day2Intro : MonoBehaviour
         if (introBg != null)
             seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
 
-        if (classroomBg != null)
-        {
-            seq.AppendInterval(delayBeforeClassroom);
-            seq.Append(classroomBg.DOFade(1f, classroomFadeInDuration).SetEase(Ease.OutCubic));
-        }
+        // 5) Classroom bg is already at alpha 1, so no extra fade needed
+        // (You can remove the classroom fade part you had before)
 
         seq.OnComplete(StartOpeningDialogue);
     }

@@ -179,37 +179,46 @@ public class Day3Manager : MonoBehaviour
     }
 
     private void PlayIntroAnim()
+{
+    currentPhase = Phase.IntroAnim;
+
+    Sequence seq = DOTween.Sequence();
+
+    // 1) Home bg visible from the start
+    if (homeBg != null)
     {
-        currentPhase = Phase.IntroAnim;
-
-        Sequence seq = DOTween.Sequence();
-
-        if (introBg != null)
-            seq.Append(introBg.DOFade(1f, bgFadeInDuration).SetEase(Ease.OutCubic));
-
-        if (dayTitle != null)
-        {
-            seq.AppendInterval(titleDelayAfterBg);
-            dayTitle.localScale = Vector3.zero;
-            seq.Append(dayTitle.DOScale(1f, titlePopDuration).SetEase(Ease.OutBack));
-        }
-
-        seq.AppendInterval(0.3f);
-
-        if (dayTitle != null)
-            seq.Append(dayTitle.DOScale(0f, titleFadeOutDuration).SetEase(Ease.InBack));
-
-        if (introBg != null)
-            seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
-
-        if (homeBg != null)
-        {
-            seq.AppendInterval(delayBeforeHome);
-            seq.Append(homeBg.DOFade(1f, homeFadeInDuration).SetEase(Ease.OutCubic));
-        }
-
-        seq.OnComplete(StartHomeIntroDialogue);
+        homeBg.alpha = 1f;
+        homeBg.gameObject.SetActive(true);
     }
+
+    // 2) Intro black bg starts dimmed on top of home
+    if (introBg != null)
+    {
+        introBg.alpha = 0.5f;                  // dim overlay
+        introBg.gameObject.SetActive(true);
+    }
+
+    // 3) Title pops after a short delay, while dim overlay is still there
+    if (dayTitle != null)
+    {
+        seq.AppendInterval(titleDelayAfterBg);
+        dayTitle.localScale = Vector3.zero;
+        seq.Append(dayTitle.DOScale(1f, titlePopDuration).SetEase(Ease.OutBack));
+    }
+
+    // 4) Small pause, then fade out title + black overlay
+    seq.AppendInterval(0.3f);
+
+    if (dayTitle != null)
+        seq.Append(dayTitle.DOScale(0f, titleFadeOutDuration).SetEase(Ease.InBack));
+
+    if (introBg != null)
+        seq.Join(introBg.DOFade(0f, bgFadeOutDuration).SetEase(Ease.InCubic));
+
+    // 5) Home bg is already at alpha 1, so no extra fade needed here
+
+    seq.OnComplete(StartHomeIntroDialogue);
+}
 
     private void StartHomeIntroDialogue()
     {

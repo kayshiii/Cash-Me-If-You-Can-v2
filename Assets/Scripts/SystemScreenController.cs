@@ -2,11 +2,11 @@ using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SystemScreenController : MonoBehaviour
 {
-
     [Header("Choice Panels")]
     [SerializeField] private GameObject lunchChoicePanel;
     [SerializeField] private GameObject commuteChoicePanel;
@@ -30,6 +30,20 @@ public class SystemScreenController : MonoBehaviour
     [SerializeField] private Sprite seventyThirtySprite;
     [SerializeField] private Sprite noBudgetMethodSprite;
     [SerializeField] private TextMeshProUGUI budgetBudgetText;
+
+    [Header("Budget Tooltip UI")]
+    [SerializeField] private CanvasGroup budgetTooltipPopup;
+    [SerializeField] private RectTransform budgetTooltipPanel;
+    [SerializeField] private TextMeshProUGUI budgetTooltipText;
+
+    [SerializeField] private float hoverFadeDuration = 0.18f;
+    [SerializeField] private float hoverPopDuration = 0.22f;
+    [SerializeField] private float hoverStartScale = 0.85f;
+
+    private bool isBudgetHovering = false;
+    private Tween budgetHoverFadeTween;
+    private Tween budgetHoverScaleTween;
+
 
     [Header("Savings UI")]
     [SerializeField] private TextMeshProUGUI savingsText;
@@ -108,6 +122,8 @@ public class SystemScreenController : MonoBehaviour
 
     private void Start()
     {
+        SetBudgetHoverInstant(false);
+
         foreach (var btn in choiceButtons)
         {
             if (btn != null) btn.Setup(this);
@@ -161,6 +177,8 @@ public class SystemScreenController : MonoBehaviour
         RefreshAllChoices();
         RefreshBudgetUI();
         LoadTodayAllocation();
+
+        Debug.Log("[SystemScreen] Start finished, initial budget/savings computed.", this);
     }
 
     private void CloseNegativeWarning()
@@ -198,36 +216,13 @@ public class SystemScreenController : MonoBehaviour
 
     public void OpenNeedsTab()
     {
-        /*if (needsSubTab != null) needsSubTab.SetActive(true);
-        if (wantsSubTab != null) wantsSubTab.SetActive(false);*/
-
-        /*if (needsChoicesRoot != null) needsChoicesRoot.SetActive(false);
-        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
-
         CloseAllChoicePanels();
-        /*UpdateTabVisuals(true);*/
     }
 
     public void OpenWantsTab()
     {
-        /*if (needsSubTab != null) needsSubTab.SetActive(false);
-        if (wantsSubTab != null) wantsSubTab.SetActive(true);*/
-
-        /*if (needsChoicesRoot != null) needsChoicesRoot.SetActive(false);
-        if (wantsChoicesRoot != null) wantsChoicesRoot.SetActive(false);*/
-
         CloseAllChoicePanels();
-        /*UpdateTabVisuals(false);*/
     }
-
-/*    private void UpdateTabVisuals(bool needsActive)
-    {
-        if (needsButtonImage != null)
-            needsButtonImage.color = needsActive ? activeTabColor : inactiveTabColor;
-
-        if (wantsButtonImage != null)
-            wantsButtonImage.color = needsActive ? inactiveTabColor : activeTabColor;
-    }*/
 
     public void OnSlotPressed(AllocationSlotUI slot)
     {
@@ -304,10 +299,10 @@ public class SystemScreenController : MonoBehaviour
         RefreshAllChoices();
         SaveTodayAllocation();
 
-        Debug.Log("Lunch selected: " + (lunchSlot != null && lunchSlot.HasItem));
-        Debug.Log("Commute selected: " + (commuteSlot != null && commuteSlot.HasItem));
-        Debug.Log("HasRequiredTutorialSelections: " + HasRequiredTutorialSelections());
-        Debug.Log("DialogueController ref exists: " + (dialogueController != null));
+        Debug.Log("Lunch selected: " + (lunchSlot != null && lunchSlot.HasItem), this);
+        Debug.Log("Commute selected: " + (commuteSlot != null && commuteSlot.HasItem), this);
+        Debug.Log("HasRequiredTutorialSelections: " + HasRequiredTutorialSelections(), this);
+        Debug.Log("DialogueController ref exists: " + (dialogueController != null), this);
 
         if (HasRequiredTutorialSelections() && dialogueController != null)
         {
@@ -323,6 +318,8 @@ public class SystemScreenController : MonoBehaviour
         RefreshBudgetUI();
         RefreshAllChoices();
         SaveTodayAllocation();
+
+        Debug.Log($"[SystemScreen] Item removed: {itemId}. Recomputed budget/savings.", this);
     }
 
     public void OnConfirmClicked()
@@ -466,6 +463,8 @@ public class SystemScreenController : MonoBehaviour
         if (slot == null) return;
         slot.SetItem(item, this);
         RefreshAllChoices();
+
+        Debug.Log($"[SystemScreen] Item placed: {item.itemId} in {slot.Type}.", this);
     }
 
     private void RemoveItem(string itemId)
@@ -568,6 +567,7 @@ public class SystemScreenController : MonoBehaviour
 
         return ids;
     }
+
     private void UpdateBudgetMethodSprite(BudgetType type)
     {
         if (budgetMethodImage == null) return;
@@ -614,6 +614,8 @@ public class SystemScreenController : MonoBehaviour
 
         todaySavings = 0;
 
+        Debug.Log($"[Budget] Type={type}, allowance=₱{allowance}, needsSpent=₱{needsSpent}, wantsSpent=₱{wantsSpent}", this);
+
         if (type == BudgetType.FiftyThirtyTwenty)
         {
             int needsMax = Mathf.RoundToInt(allowance * 0.5f);
@@ -623,15 +625,36 @@ public class SystemScreenController : MonoBehaviour
             int needsRemainingRaw = needsMax - needsSpent;
             int wantsRemainingRaw = wantsMax - wantsSpent;
 
+            Debug.Log($"[50/30/20] needsMax=₱{needsMax}, wantsMax=₱{wantsMax}, fixedSavings=₱{fixedSavings}", this);
+            Debug.Log($"[50/30/20] needsRemainingRaw=₱{needsRemainingRaw}, wantsRemainingRaw=₱{wantsRemainingRaw}", this);
+
+            // build tooltip breakdown text
+            if (budgetTooltipText != null)
+            {
+                string needsSign = needsRemainingRaw < 0 ? "-" : "";
+                string wantsSign = wantsRemainingRaw < 0 ? "-" : "";
+
+                int needsAbs = Mathf.Abs(needsRemainingRaw);
+                int wantsAbs = Mathf.Abs(wantsRemainingRaw);
+
+                budgetTooltipText.text =
+                    $"Needs budget: {needsSign}₱{needsAbs}\n" +
+                    $"Wants budget: {wantsSign}₱{wantsAbs}";
+            }
+
             UpdateBudgetMethodSprite(type);
+
+            // total remaining across needs + wants
+            int totalRemainingRaw = needsRemainingRaw + wantsRemainingRaw;
 
             if (budgetBudgetText != null)
             {
-                string sign = needsRemainingRaw < 0 ? "-" : "";
-                int absValue = Mathf.Abs(needsRemainingRaw);
+                string sign = totalRemainingRaw < 0 ? "-" : "";
+                int absValue = Mathf.Abs(totalRemainingRaw);
                 budgetBudgetText.text = $"{sign}₱{absValue}";
             }
 
+            // this must be outside the if-block
             isBudgetNegative = (needsRemainingRaw < 0 || wantsRemainingRaw < 0);
 
             int extraSavings = 0;
@@ -649,12 +672,16 @@ public class SystemScreenController : MonoBehaviour
                 }
             }
 
+            Debug.Log($"[50/30/20] hasAnySelection={hasAnySelection}", this);
+
             if (hasAnySelection)
             {
                 extraSavings = Mathf.Max(0, needsRemainingRaw) + Mathf.Max(0, wantsRemainingRaw);
             }
 
             todaySavings = fixedSavings + extraSavings;
+
+            Debug.Log($"[50/30/20] extraSavings=₱{extraSavings}, todaySavings=₱{todaySavings}, isBudgetNegative={isBudgetNegative}", this);
         }
         else if (type == BudgetType.SeventyThirty)
         {
@@ -663,6 +690,9 @@ public class SystemScreenController : MonoBehaviour
 
             int sharedSpent = needsSpent + wantsSpent;
             int sharedRemainingRaw = sharedMax - sharedSpent;
+
+            Debug.Log($"[70/30] sharedMax=₱{sharedMax}, fixedSavings=₱{fixedSavings}", this);
+            Debug.Log($"[70/30] sharedSpent=₱{sharedSpent}, sharedRemainingRaw=₱{sharedRemainingRaw}", this);
 
             UpdateBudgetMethodSprite(type);
 
@@ -689,12 +719,16 @@ public class SystemScreenController : MonoBehaviour
                 }
             }
 
+            Debug.Log($"[70/30] hasAnySelection={hasAnySelection}", this);
+
             if (hasAnySelection)
             {
                 extraSavings = Mathf.Max(0, sharedRemainingRaw);
             }
 
             todaySavings = fixedSavings + extraSavings;
+
+            Debug.Log($"[70/30] extraSavings=₱{extraSavings}, todaySavings=₱{todaySavings}, isBudgetNegative={isBudgetNegative}", this);
         }
         else
         {
@@ -704,6 +738,8 @@ public class SystemScreenController : MonoBehaviour
                 budgetBudgetText.text = "Budget: --";
 
             isBudgetNegative = false;
+
+            Debug.Log("[Budget] No budget method, todaySavings forced to 0.", this);
         }
 
         if (todaySavings < 0)
@@ -712,21 +748,107 @@ public class SystemScreenController : MonoBehaviour
         int baseSavings = GameManager.Instance.GetCurrentTotalSavings();
         int totalSavings = baseSavings + todaySavings;
 
+        Debug.Log($"[Savings] baseSavings=₱{baseSavings}, todaySavings=₱{todaySavings}, totalSavings(before cap)=₱{totalSavings}", this);
+
         if (totalSavings > savingsGoal)
             totalSavings = savingsGoal;
 
         if (savingsText != null)
             savingsText.text = "₱" + totalSavings + " / ₱" + savingsGoal;
 
-        /*if (savingsSlider != null)
-        {
-            savingsSlider.maxValue = savingsGoal;
-            savingsSlider.value = totalSavings;
-        }*/
+        Debug.Log($"[Savings] totalSavings(after cap)=₱{totalSavings}, savingsGoal=₱{savingsGoal}", this);
 
         UpdateSavingsMeterSprite(totalSavings);
     }
 
+    public void OnBudgetHoverEnter()
+    {
+        if (budgetTooltipPopup == null || budgetTooltipPanel == null) return;
+        ShowPopup(budgetTooltipPopup, budgetTooltipPanel);
+    }
+
+    public void OnBudgetHoverExit()
+    {
+        if (budgetTooltipPopup == null || budgetTooltipPanel == null) return;
+        HidePopup(budgetTooltipPopup, budgetTooltipPanel);
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isBudgetHovering = true;
+        ShowBudgetHover();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isBudgetHovering = false;
+        HideBudgetHover();
+    }
+
+    public void ShowBudgetHover()
+    {
+        if (budgetTooltipPopup == null || budgetTooltipPanel == null)
+            return;
+
+        isBudgetHovering = true;
+
+        budgetHoverFadeTween?.Kill();
+        budgetHoverScaleTween?.Kill();
+
+        budgetTooltipPopup.gameObject.SetActive(true);
+        budgetTooltipPopup.interactable = false;
+        budgetTooltipPopup.blocksRaycasts = false;
+        budgetTooltipPopup.alpha = 0f;
+
+        budgetTooltipPanel.localScale = Vector3.one * hoverStartScale;
+
+        budgetHoverFadeTween = budgetTooltipPopup
+            .DOFade(1f, hoverFadeDuration)
+            .SetEase(Ease.OutCubic);
+
+        budgetHoverScaleTween = budgetTooltipPanel
+            .DOScale(1f, hoverPopDuration)
+            .SetEase(Ease.OutBack);
+    }
+
+    public void HideBudgetHover()
+    {
+        if (budgetTooltipPopup == null || budgetTooltipPanel == null)
+            return;
+
+        isBudgetHovering = false;
+
+        budgetHoverFadeTween?.Kill();
+        budgetHoverScaleTween?.Kill();
+
+        budgetHoverFadeTween = budgetTooltipPopup
+            .DOFade(0f, hoverFadeDuration)
+            .SetEase(Ease.InCubic)
+            .OnComplete(() =>
+            {
+                if (!isBudgetHovering)
+                    budgetTooltipPopup.gameObject.SetActive(false);
+            });
+
+        budgetHoverScaleTween = budgetTooltipPanel
+            .DOScale(hoverStartScale, hoverFadeDuration)
+            .SetEase(Ease.InBack);
+    }
+
+    private void SetBudgetHoverInstant(bool visible)
+    {
+        if (budgetTooltipPopup == null || budgetTooltipPanel == null)
+            return;
+
+        budgetHoverFadeTween?.Kill();
+        budgetHoverScaleTween?.Kill();
+
+        budgetTooltipPopup.gameObject.SetActive(visible);
+        budgetTooltipPopup.alpha = visible ? 1f : 0f;
+        budgetTooltipPopup.interactable = false;
+        budgetTooltipPopup.blocksRaycasts = false;
+
+        budgetTooltipPanel.localScale = visible ? Vector3.one : Vector3.one * hoverStartScale;
+    }
     public bool HasAnyWantSelected()
     {
         foreach (var slot in wantSlots)
@@ -761,6 +883,8 @@ public class SystemScreenController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
         GameManager.Instance.SetDraftAllocation(GetCurrentSelectedItemIds(), GetCurrentSpent());
+
+        Debug.Log("[SystemScreen] Draft allocation saved. Spent=₱" + GetCurrentSpent(), this);
     }
 
     private void LoadTodayAllocation()
@@ -774,10 +898,13 @@ public class SystemScreenController : MonoBehaviour
             isConfirmed = true;
 
             if (confirmButton != null) confirmButton.interactable = false;
-            /*if (needsButton != null) needsButton.interactable = false;
-            if (wantsButton != null) wantsButton.interactable = false;*/
-
             LockAllSlots(true);
+
+            Debug.Log("[SystemScreen] Existing confirmed allocation found, locking UI.", this);
+        }
+        else
+        {
+            Debug.Log("[SystemScreen] No confirmed allocation yet, UI remains editable.", this);
         }
     }
 

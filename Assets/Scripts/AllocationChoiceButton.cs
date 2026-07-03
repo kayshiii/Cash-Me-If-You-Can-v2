@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(Button))]
 public class AllocationChoiceButton : MonoBehaviour
 {
     [SerializeField] private AllocationItemData itemData;
     [SerializeField] private GameObject lockObject;
+    [SerializeField] private TMP_Text priceText;
+    [SerializeField] private TMP_Text variantText;
+    [SerializeField] private TMP_Text helperText;
 
     private SystemScreenController owner;
     private Button button;
@@ -48,9 +52,11 @@ public class AllocationChoiceButton : MonoBehaviour
     {
         bool unavailable = false;
 
+        SystemScreenController.ChoiceEvaluation eval = default;
+
         if (owner != null && itemData != null)
         {
-            var eval = owner.EvaluateChoice(itemData);
+            eval = owner.EvaluateChoice(itemData);
             unavailable = !eval.isAvailable;
         }
 
@@ -60,23 +66,27 @@ public class AllocationChoiceButton : MonoBehaviour
             button.interactable = !shouldLock;
 
         if (lockObject != null)
-        {
             lockObject.SetActive(shouldLock);
 
-            RectTransform rt = lockObject.GetComponent<RectTransform>();
-            Debug.Log(
-                $"[ChoiceLock] {itemData?.itemId} " +
-                $"shouldLock={shouldLock}, " +
-                $"activeSelf={lockObject.activeSelf}, " +
-                $"activeInHierarchy={lockObject.activeInHierarchy}, " +
-                $"pos={(rt != null ? rt.anchoredPosition.ToString() : "no RectTransform")}, " +
-                $"size={(rt != null ? rt.sizeDelta.ToString() : "no RectTransform")}",
-                this
-            );
-        }
-        else
+        UpdateVisuals(eval, shouldLock);
+    }
+
+    private void UpdateVisuals(SystemScreenController.ChoiceEvaluation eval, bool shouldLock)
+    {
+        if (priceText != null && itemData != null)
+            priceText.text = "₱" + eval.finalCost.ToString();
+
+        if (variantText != null)
+            variantText.text = string.IsNullOrEmpty(eval.variantLabel) ? "" : eval.variantLabel;
+
+        if (helperText != null)
         {
-            Debug.Log($"[ChoiceLock] {itemData?.itemId} lockObject is NULL", this);
+            if (shouldLock)
+                helperText.text = "Unavailable";
+            else if (eval.showLowMoodPriceText)
+                helperText.text = eval.lowMoodPriceLabel;
+            else
+                helperText.text = "";
         }
     }
 }

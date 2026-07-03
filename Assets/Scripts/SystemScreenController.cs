@@ -44,6 +44,9 @@ public class SystemScreenController : MonoBehaviour
     private Tween budgetHoverFadeTween;
     private Tween budgetHoverScaleTween;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip confirmSfx;
 
     [Header("Savings UI")]
     [SerializeField] private TextMeshProUGUI savingsText;
@@ -456,6 +459,13 @@ public class SystemScreenController : MonoBehaviour
         CloseAllChoicePanels();
 
         Debug.Log("[Allocation Confirm] Allocation locked and finalized.", this);
+
+        // Play confirmation SFX
+        if (sfxSource != null && confirmSfx != null)
+        {
+            sfxSource.PlayOneShot(confirmSfx);
+            Debug.Log("[Allocation Confirm] Confirmation SFX played.", this);
+        }
     }
 
     private void PlaceIntoSlot(AllocationSlotUI slot, AllocationItemData item)

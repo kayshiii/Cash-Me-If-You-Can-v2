@@ -168,6 +168,25 @@ public class GameManager : MonoBehaviour
         );
     }
 
+    public void ApplyPendingFinalDebtIfNeeded()
+    {
+        if (!hasPendingFinalDebt || finalDebtApplied || pendingFinalDebtAmount <= 0)
+            return;
+
+        int beforeSavings = totalSavings;
+
+        totalSavings -= pendingFinalDebtAmount;
+        if (totalSavings < 0)
+            totalSavings = 0;
+
+        finalDebtApplied = true;
+
+        Debug.Log(
+            $"[FinalDebt] Pending debt applied. Debt = ₱{pendingFinalDebtAmount}, Savings: ₱{beforeSavings} -> ₱{totalSavings}",
+            this
+        );
+    }
+
     public float GetHappinessPercent01()
     {
         return Mathf.Clamp01(happiness / 100f);

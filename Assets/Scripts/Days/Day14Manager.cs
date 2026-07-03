@@ -458,6 +458,12 @@ public class Day14Manager : MonoBehaviour
             dialogueController.inputEnabled = false;
         }
 
+        // 1) Apply pending Day 3 debt here (Pay Later consequence)
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ApplyPendingFinalDebtIfNeeded();
+        }
+
         if (endReportLevelGroup != null)
         {
             endReportLevelGroup.gameObject.SetActive(true);
@@ -468,6 +474,22 @@ public class Day14Manager : MonoBehaviour
         if (endOfDayReportUI != null)
         {
             endOfDayReportUI.gameObject.SetActive(true);
+
+            // 2) Decide what special message to show
+            if (GameManager.Instance != null && GameManager.Instance.finalDebtApplied)
+            {
+                // Player had a delayed debt that was just paid
+                endOfDayReportUI.SetSpecialMessage(
+                    "Today, your delayed ₱500 debt from earlier was finally deducted from your savings."
+                );
+            }
+            else
+            {
+                // Keep the random-event message you already set,
+                // or clear if you prefer no extra text
+                // endOfDayReportUI.ClearSpecialMessage(); // optional
+            }
+
             endOfDayReportUI.RefreshUI();
         }
 

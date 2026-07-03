@@ -252,6 +252,9 @@ public class DialogueController : MonoBehaviour
     {
         if (dialogueRoot != null)
             dialogueRoot.SetActive(value);
+
+        if (!value && nextIndicator != null)
+            nextIndicator.SetActive(false);
     }
 
     public void SetLolaMomActive(bool value)

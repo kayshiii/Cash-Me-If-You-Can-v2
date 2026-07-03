@@ -17712,11 +17712,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData:
-    itemId: 
-    itemName: 
+    itemId: skip_lunch
+    itemName: Skip Lunch
     category: 0
-    cost: 5
-    happiness: 5
+    cost: 0
+    happiness: -20
     icon: {fileID: 21300000, guid: b97181f2b8bf5fb44910b62e2ec92e69, type: 3}
   lockObject: {fileID: 0}
   priceText: {fileID: 0}
